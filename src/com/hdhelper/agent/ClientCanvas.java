@@ -67,7 +67,7 @@ public class ClientCanvas extends Canvas {
             W2S.draw3DBox(floor,rx,ry,p.getHeight(),g2);
             Point P = W2S.tileToViewport(p.getStrictX(),p.getStrictY(),floor,p.getHeight());
             if(P.x == -1) continue;
-            g2.drawString(p.getName() + " | Lvl:" + p.getCombatLevel() + " | Anim:" + p.getAnimation() + " | Target:" + p.getTargetIndex(),P.x,P.y);
+            g2.drawString(p.getName() + " | Lvl:" + p.getCombatLevel() + " | Anim:" + p.getAnimation() + " | Target:" + p.getTargetIndex() + "Orintation:" + p.getOrientation(),P.x,P.y);
         }
 
         g2.setColor(Color.BLUE);
@@ -80,7 +80,7 @@ public class ClientCanvas extends Canvas {
             Point P = W2S.tileToViewport(p.getStrictX(), p.getStrictY(), floor, p.getHeight());
             if(P.x == -1) continue;
             RSNpcDefintion def = p.getDef();
-            g2.drawString(def.getName() + " | Anim:" + p.getAnimation() + " | Target:" + p.getTargetIndex(), P.x, P.y);
+            g2.drawString(def.getName() + " | Anim:" + p.getAnimation() + " | Target:" + p.getTargetIndex() + "| Orintation:" + p.getOrientation(), P.x, P.y);
         }
 
 

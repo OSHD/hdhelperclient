@@ -17,12 +17,14 @@ public class CharacterMod extends InjectionModule {
     public static final FieldMember STRICT_Y;
     public static final FieldMember ANIMATION;
     public static final FieldMember TARGET;
+    public static final FieldMember ORIENTATION;
 
     static {
         STRICT_X = new FieldMember(CHARACTER,"i","I",-1453400901);
         STRICT_Y = new FieldMember(CHARACTER,"ah","I",-1718522929);
         ANIMATION = new FieldMember(CHARACTER,"bh","I",-464776311);
         TARGET = new FieldMember(CHARACTER,"at","I",-143123477);
+        ORIENTATION = new FieldMember(CHARACTER,"cy","I",1844861447); //TODO WRONG
     }
 
     @Override
@@ -33,6 +35,7 @@ public class CharacterMod extends InjectionModule {
         cn.methods.add(ASMUtil.mkGetter("getStrictY",STRICT_Y));
         cn.methods.add(ASMUtil.mkGetter("getAnimation", ANIMATION));
         cn.methods.add(ASMUtil.mkGetter("getTargetIndex",TARGET));
+        cn.methods.add(ASMUtil.mkGetter("getOrientation",ORIENTATION));
     }
 
 }

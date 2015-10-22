@@ -6,6 +6,7 @@ public interface RSCharacter extends RSRenderable {
     int getTargetIndex();
     String getOverheadText();
     int getAnimation();
+    int getOrientation();
 
     default int getRegionX() {
         return getStrictX() >> 7;
