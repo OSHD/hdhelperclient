@@ -12,7 +12,7 @@ public class CharacterMod extends InjectionModule {
 
     public static final String CHARACTER = "aq";
     public static final String CHARACTER_DESC = "L" + CHARACTER + ";";
-    
+
 
     public static final FieldMember STRICT_X;
     public static final FieldMember STRICT_Y;
