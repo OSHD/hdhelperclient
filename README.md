@@ -1,4 +1,2 @@
 # Client
 Game Client
-
-Testing
