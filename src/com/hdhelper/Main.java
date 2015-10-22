@@ -22,18 +22,7 @@ public class Main {
 
         MainFrame frame = new MainFrame();
         frame.start();
-/*
-        while (true) {
-
-            if(client != null) {
-                if(client.getMyPlayer()!=null) {
-                    System.out.println(client.getMyPlayer().getName());
-                }
-            }
-
-            Thread.sleep(2000);
-        }*/
-
+        
     }
 
 }
