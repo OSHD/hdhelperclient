@@ -17,6 +17,7 @@ public class Environment {
     public static final File XTEAS = new File(DATA,"xtea");
 
     public static final int WORLD = 2;
+    public static int CLIENT_REVISION = 95;
 
 
 }

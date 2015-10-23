@@ -1,5 +1,6 @@
 package com.hdhelper.agent.mod;
 
+import com.hdhelper.agent.Callback;
 import com.hdhelper.agent.ClientCanvas;
 import com.hdhelper.agent.mod.mem.FieldMember;
 import com.hdhelper.agent.mod.mem.MethodMember;
@@ -45,6 +46,7 @@ public class ClientMod extends InjectionModule {
 
     public static final FieldMember CHUNK_IDS;
     public static final FieldMember KEYS;
+    public static final MethodMember LOOKUP_FILE_ID;
 
     static {
 
@@ -78,6 +80,8 @@ public class ClientMod extends InjectionModule {
 
         CHUNK_IDS = new FieldMember("at","dz","[I",true);
         KEYS = new FieldMember("ag","ds","[[I",true);
+        LOOKUP_FILE_ID = new MethodMember("fs","f",Type.getMethodDescriptor(int.class,String.class,byte.class),0);
+
 
     }
 
@@ -120,11 +124,53 @@ public class ClientMod extends InjectionModule {
 
         hackCanvas(classes);
 
+        xteaDump(classes);
 
     }
 
+
+
     private static void xteaDump(Map<String,ClassNode> classes) {
-        ClassNode client = classes.get("client");
+
+        for(ClassNode cn : classes.values()) {
+            for(MethodNode mn : cn.methods) {
+
+                for(AbstractInsnNode ain : mn.instructions.toArray()) {
+                    if(ain.getOpcode() == INVOKEVIRTUAL) {
+                        MethodInsnNode min = (MethodInsnNode) ain;
+                        if(LOOKUP_FILE_ID.match(min)) {
+
+                            boolean hit = false;
+
+                            AbstractInsnNode cur = ain;
+                            while((cur=cur.getPrevious())!=null) {
+                                if(cur.getOpcode() == LDC) {
+                                    LdcInsnNode ldc = (LdcInsnNode) cur;
+                                    if(ldc.cst.toString().equals("l")) {
+                                        hit = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if(!hit) continue;
+
+                            System.out.println("XTEA @ " + cn.name + "#" + mn.name + "@" + mn.desc);
+
+                            //Copy the array-store index
+                            InsnList stack = new InsnList();
+                            stack.add(new InsnNode(DUP2));
+                            stack.add(new InsnNode(POP));
+                            stack.add(new MethodInsnNode(INVOKESTATIC,Type.getInternalName(Callback.class),"dump","(I)V",false));
+
+                            mn.instructions.insert(ain,stack);
+
+                        }
+                    }
+                }
+
+            }
+        }
 
 
     }
