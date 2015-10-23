@@ -32,4 +32,7 @@ public interface RSClient {
 
     RSDeque[][][] getGroundItems();
 
+    int[] getChunkIds();
+    int[][] getKeys();
+
 }

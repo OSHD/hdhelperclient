@@ -43,6 +43,9 @@ public class ClientMod extends InjectionModule {
 
     public static final FieldMember GROUND_ITEMS;
 
+    public static final FieldMember CHUNK_IDS;
+    public static final FieldMember KEYS;
+
     static {
 
 
@@ -72,6 +75,9 @@ public class ClientMod extends InjectionModule {
         VIEWPORT_HEIGHT = new FieldMember("client","ob","I",516989967,true);
 
         GROUND_ITEMS = new FieldMember("client","hl","[[[" + DequeMod.DEQUE_DESC,true);
+
+        CHUNK_IDS = new FieldMember("at","dz","[I",true);
+        KEYS = new FieldMember("ag","ds","[[I",true);
 
     }
 
@@ -107,10 +113,18 @@ public class ClientMod extends InjectionModule {
         client.methods.add(ASMUtil.mkGetter("getViewportWidth", VIEWPORT_WIDTH));
         client.methods.add(ASMUtil.mkGetter("getViewportHeight",VIEWPORT_HEIGHT));
 
-
         client.methods.add(ASMUtil.mkGetter("getGroundItems",Type.getMethodDescriptor(RSDeque[][][].class), GROUND_ITEMS));
 
+        client.methods.add(ASMUtil.mkGetter("getChunkIds",CHUNK_IDS));
+        client.methods.add(ASMUtil.mkGetter("getKeys",KEYS));
+
         hackCanvas(classes);
+
+
+    }
+
+    private static void xteaDump(Map<String,ClassNode> classes) {
+        ClassNode client = classes.get("client");
 
 
     }

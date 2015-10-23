@@ -23,7 +23,8 @@ public abstract class InjectionModule implements Opcodes {
                 new ObjectDefintionMod(),
                 new PlayerMod(),
                 new RenderableMod(),
-                new GroundItemMod()
+                new GroundItemMod(),
+             //   new RenderMod()
         };
     }
 

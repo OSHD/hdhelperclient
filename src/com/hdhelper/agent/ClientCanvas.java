@@ -6,6 +6,7 @@ import com.hdhelper.peer.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 public class ClientCanvas extends Canvas {
 
@@ -99,7 +100,7 @@ public class ClientCanvas extends Canvas {
                     final int sy = (y << 7) + 64;
                     int id = g.getId();
                     RSItemDefinition def = client.getItemDef(id);
-                    Point P = W2S.tileToViewport(sx,sy,floor,g.getHeight());
+                    Point P = W2S.tileToViewport(sx, sy, floor, g.getHeight());
                     if(P.x == -1) continue;
                     g2.drawString(def.getName() + "(" + id + ") x " + g.getQuantity(),P.x,P.y);
                 }
@@ -109,17 +110,33 @@ public class ClientCanvas extends Canvas {
 
         g2.setColor(Color.GREEN);
 
-        g2.drawString( "Floor:" + client.getFloor(),base_x,base_y + gap * i++) ;
-        g2.drawString( "Pitch:" + client.getPitch(), base_x, base_y + gap * i++);
-        g2.drawString( "Yaw:" + client.getYaw(), base_x, base_y + gap * i++);
+        g2.drawString("Floor:" + client.getFloor(), base_x, base_y + gap * i++) ;
+        i+= 1;
+        g2.drawString("Pitch:" + client.getPitch(), base_x, base_y + gap * i++);
+        g2.drawString("Yaw:" + client.getYaw(), base_x, base_y + gap * i++);
         g2.drawString( "CamX:" + client.getCameraX(), base_x, base_y + gap * i++);
         g2.drawString( "CamY:" + client.getCameraY(), base_x, base_y + gap * i++);
         g2.drawString( "CamZ:" + client.getCameraZ(), base_x, base_y + gap * i++);
+        i+= 1;
         g2.drawString( "Scale:" + client.getViewportScale(), base_x, base_y + gap * i++);
         g2.drawString( "Width:" + client.getViewportWidth(), base_x, base_y + gap * i++);
         g2.drawString( "Height:" + client.getViewportHeight(), base_x, base_y + gap * i++);
+        i+= 1;
 
-
+        // XTEA Debug:
+        int[][] keys = client.getKeys();
+        int[] chunks = client.getChunkIds();
+        if(chunks!=null&&keys!=null) {
+            int num_chunks = keys.length;
+            g2.drawString( "Chunks:" + num_chunks, base_x, base_y + gap * i++);
+            for(int k = 0; k < num_chunks; k++) {
+                int chunkId = chunks[k];
+                int[] key = keys[k];
+                int rx = chunkId >> 8 & 255;
+                int ry = chunkId & 255;
+                g2.drawString( "<" + rx + "_" + ry + "> => " + Arrays.toString(key), base_x, base_y + gap * i++);
+            }
+        }
 
     }
 

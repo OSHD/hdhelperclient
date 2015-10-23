@@ -12,6 +12,10 @@ public class Environment {
     public static final File INJECTED  = new File(BIN,"injected.jar");
     public static final File VERSION = new File(BIN,"version");
 
+    // ROOT/DATA
+    public static final File DATA  = new File(ROOT,"data");
+    public static final File XTEAS = new File(DATA,"xtea");
+
     public static final int WORLD = 2;
 
 
