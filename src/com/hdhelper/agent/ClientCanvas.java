@@ -86,8 +86,6 @@ public class ClientCanvas extends Canvas {
         //Render GroundItems:
         g2.setColor(Color.YELLOW);
         RSDeque[][] items = client.getGroundItems()[floor];
-        final int rx = me.getRegionX();
-        final int ry = me.getRegionY();
         for(int x = 0; x < 104; x++) {
             for(int y = 0; y < 104; y++) {
                 RSDeque pile = items[x][y];

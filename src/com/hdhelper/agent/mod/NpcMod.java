@@ -14,14 +14,14 @@ import java.util.Map;
  */
 public class NpcMod extends InjectionModule {
 
-    public static final String NPC = "ay";
+    public static final String NPC = "ac";
     public static final String NPC_DESC = "L" + NPC + ";";
 
     public static final FieldMember DEF;
 
     static {
 
-        DEF = new FieldMember(NPC,"y",NpcDefintionMod.NPC_DEFINTION_DESC);
+        DEF = new FieldMember(NPC,"i",NpcDefintionMod.NPC_DEFINTION_DESC);
 
     }
 

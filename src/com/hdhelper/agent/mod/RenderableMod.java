@@ -13,14 +13,14 @@ import java.util.Map;
  */
 public class RenderableMod extends InjectionModule {
 
-    public static final String RENDERABLE = "ci";
+    public static final String RENDERABLE = "cy";
     public static final String RENDERABLE_DESC = "L" + RENDERABLE + ";";
 
     public static final FieldMember HEIGHT;
 
     static {
 
-        HEIGHT = new FieldMember(RENDERABLE,"ch","I",-1368624703);
+        HEIGHT = new FieldMember(RENDERABLE,"co","I",-587617995);
 
     }
 

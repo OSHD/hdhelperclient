@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class ItemContainerMod extends InjectionModule {
 
-    public static final String ITEM_CONTAINER = "b";
+    public static final String ITEM_CONTAINER = "l";
     public static final String ITEM_CONTAINER_DESC = "L" + ITEM_CONTAINER + ";";
 
     public static final FieldMember IDS;
@@ -21,8 +21,8 @@ public class ItemContainerMod extends InjectionModule {
 
     static  {
 
-        IDS = new FieldMember(ITEM_CONTAINER,"d","[I");
-        QUANTITIES = new FieldMember(ITEM_CONTAINER,"g","[I");
+        IDS = new FieldMember(ITEM_CONTAINER,"v","[I");
+        QUANTITIES = new FieldMember(ITEM_CONTAINER,"r","[I");
 
     }
 

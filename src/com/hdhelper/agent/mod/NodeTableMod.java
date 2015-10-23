@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class NodeTableMod extends InjectionModule {
 
-    public static final String NODE_TABLE = "gx";
+    public static final String NODE_TABLE = "gd";
     public static final String NODE_TABLE_DESC = "L" + NODE_TABLE+ ";";
 
 
@@ -23,8 +23,8 @@ public class NodeTableMod extends InjectionModule {
 
     static {
 
-        BUCKETS = new FieldMember(NODE_TABLE,"d","[" + NodeMod.NODE_DESC);
-        CAPACITY = new FieldMember(NODE_TABLE,"y","I"); //no-multi
+        BUCKETS = new FieldMember(NODE_TABLE,"v","[" + NodeMod.NODE_DESC);
+        CAPACITY = new FieldMember(NODE_TABLE,"i","I"); //no-multi
 
     }
 

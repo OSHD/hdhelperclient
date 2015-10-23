@@ -21,11 +21,11 @@ public class CharacterMod extends InjectionModule {
     public static final FieldMember ORIENTATION;
 
     static {
-        STRICT_X = new FieldMember(CHARACTER,"i","I",-1453400901);
-        STRICT_Y = new FieldMember(CHARACTER,"ah","I",-1718522929);
-        ANIMATION = new FieldMember(CHARACTER,"bh","I",-464776311);
-        TARGET = new FieldMember(CHARACTER,"at","I",-143123477);
-        ORIENTATION = new FieldMember(CHARACTER,"cy","I",1844861447); //TODO WRONG
+        STRICT_X = new FieldMember(CHARACTER,"w","I",1417283341);
+        STRICT_Y = new FieldMember(CHARACTER,"au","I",-97200345);
+        ANIMATION = new FieldMember(CHARACTER,"bz","I",-677076447);
+        TARGET = new FieldMember(CHARACTER,"ad","I", 896704877);
+        ORIENTATION = new FieldMember(CHARACTER,"ck","I",1006754063); //TODO WRONG
     }
 
     @Override

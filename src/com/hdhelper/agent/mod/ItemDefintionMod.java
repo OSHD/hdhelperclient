@@ -13,14 +13,14 @@ import java.util.Map;
  */
 public class ItemDefintionMod extends InjectionModule {
 
-    public static final String ITEM_DEF = "at";
+    public static final String ITEM_DEF = "ad";
     public static final String ITEM_DEF_DESC = "L" + ITEM_DEF + ";";
 
     public static final FieldMember NAME;
 
     static {
 
-        NAME = new FieldMember(ITEM_DEF,"s", ASMUtil.getDescriptor(String.class));
+        NAME = new FieldMember(ITEM_DEF,"t", ASMUtil.getDescriptor(String.class));
 
     }
     @Override

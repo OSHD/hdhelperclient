@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class DequeMod extends InjectionModule {
 
-    public static final String DEQUE = "ge";
+    public static final String DEQUE = "gb";
     public static final String DEQUE_DESC = "L" + DEQUE + ";";
 
     public static final FieldMember HEAD;
@@ -21,8 +21,8 @@ public class DequeMod extends InjectionModule {
 
     static {
 
-        HEAD = new FieldMember(DEQUE,"y",NodeMod.NODE_DESC);
-        TAIL = new FieldMember(DEQUE,"d",NodeMod.NODE_DESC);
+        HEAD = new FieldMember(DEQUE,"i",NodeMod.NODE_DESC);
+        TAIL = new FieldMember(DEQUE,"v",NodeMod.NODE_DESC);
 
     }
 

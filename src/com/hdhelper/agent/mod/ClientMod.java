@@ -46,30 +46,30 @@ public class ClientMod extends InjectionModule {
     static {
 
 
-        LOCAL = new FieldMember("ao","hb",PlayerMod.PLAYER_DESC,true);
-        PLAYERS = new FieldMember("client","gz","[" + PlayerMod.PLAYER_DESC,true);
-        NPCS = new FieldMember("client","cy","[" + NpcMod.NPC_DESC,true);
+        LOCAL = new FieldMember("ch","hz",PlayerMod.PLAYER_DESC,true);
+        PLAYERS = new FieldMember("client","gr","[" + PlayerMod.PLAYER_DESC,true);
+        NPCS = new FieldMember("client","ck","[" + NpcMod.NPC_DESC,true);
 
-        GET_ITEM_DEF = new MethodMember("v","d","(II)" + ItemDefintionMod.ITEM_DEF_DESC, -1230771441,true);
-        GET_OBJECT_DEF = new MethodMember("dx","y","(II)" + ItemDefintionMod.ITEM_DEF_DESC, 159,true);
+        GET_ITEM_DEF = new MethodMember("v","d","(II)" + ItemDefintionMod.ITEM_DEF_DESC, 1507988354,true);
+        GET_OBJECT_DEF = new MethodMember("dx","y","(II)" + ObjectDefintionMod.OBJECT_DEFINTION_DESC, -28475770,true);
 
-        BASE_X = new FieldMember("ar","cs","I",1997326677,true);
-        BASE_Y = new FieldMember("d","dg","I",832137801,true);
-        FLOOR = new FieldMember("d","gc", "I", 1970135321,true);
+        BASE_X = new FieldMember("bg","cg","I",1741306698,true);
+        BASE_Y = new FieldMember("ad","dj","I",2141073093,true);
+        FLOOR = new FieldMember("bg","gw", "I", 2109755494,true);
 
-        PITCH = new FieldMember("az","fg","I",602192145,true);
-        YAW   = new FieldMember("ah","fh","I",2059944801,true);
+        PITCH = new FieldMember("cd","fy","I",146540893,true);
+        YAW   = new FieldMember("dn","fc","I",-1584182535,true);
 
-        CAM_X = new FieldMember("b","fe","I",2135970033,true);
-        CAM_Y = new FieldMember("z","fi","I",1400779075,true);
-        CAM_Z = new FieldMember("n","fj","I",2108432335,true);
+        CAM_X = new FieldMember("m","fj","I",810483375,true);
+        CAM_Y = new FieldMember("cc","fb","I",312137923,true);
+        CAM_Z = new FieldMember("dd","ff","I",890320763,true);
 
-        TILE_HEIGHTS = new FieldMember("c","y","[[[I",true);
-        RENDER_RULES = new FieldMember("c","d","[[[B",true);
+        TILE_HEIGHTS = new FieldMember("q","i","[[[I",true);
+        RENDER_RULES = new FieldMember("q","v","[[[B",true);
 
-        VIEWPORT_SCALE = new FieldMember("client","oz","I",123737557,true);
-        VIEWPORT_WIDTH = new FieldMember("ee","qr","I",-1382612291,true);
-        VIEWPORT_HEIGHT = new FieldMember("fr","qg","I",-1541523505,true);
+        VIEWPORT_SCALE = new FieldMember("client","ou","I",-12363387,true);
+        VIEWPORT_WIDTH = new FieldMember("client","oq","I",-1476608275,true);
+        VIEWPORT_HEIGHT = new FieldMember("client","ob","I",516989967,true);
 
         GROUND_ITEMS = new FieldMember("client","hl","[[[" + DequeMod.DEQUE_DESC,true);
 
