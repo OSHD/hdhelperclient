@@ -2,10 +2,7 @@ package com.hdhelper.agent;
 
 import com.hdhelper.Main;
 import com.hdhelper.api.W2S;
-import com.hdhelper.peer.RSClient;
-import com.hdhelper.peer.RSNpc;
-import com.hdhelper.peer.RSNpcDefintion;
-import com.hdhelper.peer.RSPlayer;
+import com.hdhelper.peer.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -59,6 +56,7 @@ public class ClientCanvas extends Canvas {
 
         }
 
+        //Render Players:
         g2.setColor(Color.RED);
         for(RSPlayer p : client.getPlayers()) {
             if(p == null) continue;
@@ -70,6 +68,7 @@ public class ClientCanvas extends Canvas {
             g2.drawString(p.getName() + " | Lvl:" + p.getCombatLevel() + " | Anim:" + p.getAnimation() + " | Target:" + p.getTargetIndex() + "Orintation:" + p.getOrientation(),P.x,P.y);
         }
 
+        //Render Npcs:
         g2.setColor(Color.BLUE);
         for(RSNpc p : client.getNpcs()) {
             if(p == null) continue;
@@ -81,6 +80,25 @@ public class ClientCanvas extends Canvas {
             if(P.x == -1) continue;
             RSNpcDefintion def = p.getDef();
             g2.drawString(def.getName() + " | Anim:" + p.getAnimation() + " | Target:" + p.getTargetIndex() + "| Orintation:" + p.getOrientation(), P.x, P.y);
+        }
+
+
+        //Render GroundItems:
+        g2.setColor(Color.YELLOW);
+        RSDeque[][] items = client.getGroundItems()[floor];
+        final int rx = me.getRegionX();
+        final int ry = me.getRegionY();
+        for(int x = 0; x < 104; x++) {
+            for(int y = 0; y < 104; y++) {
+                RSDeque pile = items[x][y];
+                RSNode[] nodes = pile.toArray();
+                for(RSNode node : nodes) {
+                    RSGroundItem g = (RSGroundItem) node;
+/*                    final int sx = (x << 7) + 64;
+                    final int sy = (y << 7) + 64;*/
+                    W2S.draw3DBox(floor,x,y,g.getHeight(),g2);
+                }
+            }
         }
 
 

@@ -30,4 +30,6 @@ public interface RSClient {
 
     int getFloor();
 
+    RSDeque[][][] getGroundItems();
+
 }

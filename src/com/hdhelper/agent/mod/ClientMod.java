@@ -41,6 +41,8 @@ public class ClientMod extends InjectionModule {
     public static final FieldMember VIEWPORT_WIDTH;
     public static final FieldMember VIEWPORT_HEIGHT;
 
+    public static final FieldMember GROUND_ITEMS;
+
     static {
 
 
@@ -68,6 +70,8 @@ public class ClientMod extends InjectionModule {
         VIEWPORT_SCALE = new FieldMember("client","oz","I",123737557,true);
         VIEWPORT_WIDTH = new FieldMember("ee","qr","I",-1382612291,true);
         VIEWPORT_HEIGHT = new FieldMember("fr","qg","I",-1541523505,true);
+
+        GROUND_ITEMS = new FieldMember("client","hl","[[[" + DequeMod.DEQUE_DESC,true);
 
     }
 
@@ -102,6 +106,9 @@ public class ClientMod extends InjectionModule {
         client.methods.add(ASMUtil.mkGetter("getViewportScale", VIEWPORT_SCALE));
         client.methods.add(ASMUtil.mkGetter("getViewportWidth", VIEWPORT_WIDTH));
         client.methods.add(ASMUtil.mkGetter("getViewportHeight",VIEWPORT_HEIGHT));
+
+
+        client.methods.add(ASMUtil.mkGetter("getGroundItems",Type.getMethodDescriptor(RSDeque[][][].class), GROUND_ITEMS));
 
         hackCanvas(classes);
 
