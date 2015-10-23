@@ -1,6 +1,7 @@
 package com.hdhelper.agent;
 
 import com.hdhelper.Main;
+import com.hdhelper.api.Equipment;
 import com.hdhelper.api.W2S;
 import com.hdhelper.peer.*;
 
@@ -111,17 +112,19 @@ public class ClientCanvas extends Canvas {
         g2.setColor(Color.GREEN);
 
         g2.drawString("Floor:" + client.getFloor(), base_x, base_y + gap * i++) ;
-        i+= 1;
+        i += 1;
+
         g2.drawString("Pitch:" + client.getPitch(), base_x, base_y + gap * i++);
         g2.drawString("Yaw:" + client.getYaw(), base_x, base_y + gap * i++);
         g2.drawString( "CamX:" + client.getCameraX(), base_x, base_y + gap * i++);
         g2.drawString( "CamY:" + client.getCameraY(), base_x, base_y + gap * i++);
         g2.drawString( "CamZ:" + client.getCameraZ(), base_x, base_y + gap * i++);
-        i+= 1;
+        i += 1;
+
         g2.drawString( "Scale:" + client.getViewportScale(), base_x, base_y + gap * i++);
         g2.drawString( "Width:" + client.getViewportWidth(), base_x, base_y + gap * i++);
         g2.drawString( "Height:" + client.getViewportHeight(), base_x, base_y + gap * i++);
-        i+= 1;
+        i += 1;
 
         // XTEA Debug:
         int[][] keys = client.getKeys();
@@ -137,6 +140,13 @@ public class ClientCanvas extends Canvas {
                 g2.drawString( "<" + rx + "_" + ry + "> => " + Arrays.toString(key), base_x, base_y + gap * i++);
             }
         }
+        i += 1;
+
+        //Equipment Debug:
+        for(Equipment.Slot s : Equipment.Slot.values()) {
+            g2.drawString(s.name() + ":" + s.get(), base_x, base_y + gap * i++);
+        }
+
 
     }
 
@@ -148,7 +158,7 @@ public class ClientCanvas extends Canvas {
         Graphics2D paint = (Graphics2D) backBuffer.getGraphics();
         paint.clearRect(0, 0, getWidth(), getHeight());
         paint.drawImage(rawImage, 0, 0, null);
-        draw0(paint);
+       // draw0(paint);
         paint.dispose();
         g.drawImage(backBuffer, 0, 0, null);
         backBuffer.flush();

@@ -48,6 +48,8 @@ public class ClientMod extends InjectionModule {
     public static final FieldMember KEYS;
     public static final MethodMember LOOKUP_FILE_ID;
 
+    public static final FieldMember ITEM_TABLES;
+
     static {
 
 
@@ -82,6 +84,7 @@ public class ClientMod extends InjectionModule {
         KEYS = new FieldMember("ag","ds","[[I",true);
         LOOKUP_FILE_ID = new MethodMember("fs","f",Type.getMethodDescriptor(int.class,String.class,byte.class),0);
 
+        ITEM_TABLES = new FieldMember("l","i",NodeTableMod.NODE_TABLE_DESC,true);
 
     }
 
@@ -121,6 +124,8 @@ public class ClientMod extends InjectionModule {
 
         client.methods.add(ASMUtil.mkGetter("getChunkIds",CHUNK_IDS));
         client.methods.add(ASMUtil.mkGetter("getKeys",KEYS));
+
+        client.methods.add(ASMUtil.mkGetter("getItemContainers",Type.getMethodDescriptor(RSNodeTable.class),ITEM_TABLES));
 
         hackCanvas(classes);
 
