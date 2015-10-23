@@ -35,6 +35,8 @@ public class ClientCanvas extends Canvas {
 
         RSClient client = Main.client;
 
+        assert client != null;
+
         final int bx = client.getRegionBaseX();
         final int by = client.getRegionBaseY();
 
@@ -89,12 +91,18 @@ public class ClientCanvas extends Canvas {
         for(int x = 0; x < 104; x++) {
             for(int y = 0; y < 104; y++) {
                 RSDeque pile = items[x][y];
+                if(pile == null) continue;
                 RSNode[] nodes = pile.toArray();
                 for(RSNode node : nodes) {
                     RSGroundItem g = (RSGroundItem) node;
-/*                    final int sx = (x << 7) + 64;
-                    final int sy = (y << 7) + 64;*/
                     W2S.draw3DBox(floor,x,y,g.getHeight(),g2);
+                    final int sx = (x << 7) + 64;
+                    final int sy = (y << 7) + 64;
+                    int id = g.getId();
+                    RSItemDefinition def = client.getItemDef(id);
+                    Point P = W2S.tileToViewport(sx,sy,floor,g.getHeight());
+                    if(P.x == -1) continue;
+                    g2.drawString(def.getName() + "(" + id + ") x " + g.getQuantity(),P.x,P.y);
                 }
             }
         }

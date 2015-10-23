@@ -50,7 +50,7 @@ public class ClientMod extends InjectionModule {
         PLAYERS = new FieldMember("client","gr","[" + PlayerMod.PLAYER_DESC,true);
         NPCS = new FieldMember("client","ck","[" + NpcMod.NPC_DESC,true);
 
-        GET_ITEM_DEF = new MethodMember("v","d","(II)" + ItemDefintionMod.ITEM_DEF_DESC, 1507988354,true);
+        GET_ITEM_DEF = new MethodMember("ak","v","(II)" + ItemDefintionMod.ITEM_DEF_DESC, 1507988354,true);
         GET_OBJECT_DEF = new MethodMember("dx","y","(II)" + ObjectDefintionMod.OBJECT_DEFINTION_DESC, -28475770,true);
 
         BASE_X = new FieldMember("bg","cg","I",1741306698,true);
@@ -62,7 +62,7 @@ public class ClientMod extends InjectionModule {
 
         CAM_X = new FieldMember("m","fj","I",810483375,true);
         CAM_Y = new FieldMember("cc","fb","I",312137923,true);
-        CAM_Z = new FieldMember("dd","ff","I",890320763,true);
+        CAM_Z = new FieldMember("da","ff","I",890320763,true);
 
         TILE_HEIGHTS = new FieldMember("q","i","[[[I",true);
         RENDER_RULES = new FieldMember("q","v","[[[B",true);

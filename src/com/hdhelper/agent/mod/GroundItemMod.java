@@ -20,8 +20,8 @@ public class GroundItemMod extends InjectionModule {
     public static final FieldMember NUM;
 
     static {
-        ID  = new FieldMember(GROUND_ITEM,"I","i",1898835819);
-        NUM = new FieldMember(GROUND_ITEM,"I","v",-824129891);
+        ID  = new FieldMember(GROUND_ITEM,"i","I",1898835819);
+        NUM = new FieldMember(GROUND_ITEM,"v","I",-824129891);
     }
 
     @Override

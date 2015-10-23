@@ -38,7 +38,7 @@ public class NodeMod extends InjectionModule {
 
         cn.methods.add(ASMUtil.mkGetter("getKey", KEY));
         cn.methods.add(ASMUtil.mkGetter("getNext", Type.getMethodDescriptor(RSNode.class),NEXT));
-        cn.methods.add(ASMUtil.mkGetter("getPrev", Type.getMethodDescriptor(RSNode.class),PREV));
+        cn.methods.add(ASMUtil.mkGetter("getPrevious", Type.getMethodDescriptor(RSNode.class),PREV));
 
     }
 }
