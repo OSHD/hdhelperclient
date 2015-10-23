@@ -42,6 +42,7 @@ public class ClientCanvas extends Canvas {
 
         final int floor = client.getFloor();
 
+        //Local debug:
         RSPlayer me = client.getMyPlayer();
         if(me != null) {
 
@@ -52,9 +53,7 @@ public class ClientCanvas extends Canvas {
 
             g2.drawString( "Name:" + me.getName(), base_x, base_y + gap * i++);
             g2.drawString( "X:" + x + "(" + rx + ")", base_x, base_y + gap * i++);
-            g2.drawString("Y:" + y + "(" + ry + ")", base_x, base_y + gap * i++);
-
-
+            g2.drawString( "Y:" + y + "(" + ry + ")", base_x, base_y + gap * i++);
 
         }
 
