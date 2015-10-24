@@ -146,7 +146,7 @@ public class ClientCanvas extends Canvas {
         for(Equipment.Slot s : Equipment.Slot.values()) {
             g2.drawString(s.name() + ":" + s.get(), base_x, base_y + gap * i++);
         }
-
+        g2.drawString(client.getCacheDirectory().toString(), base_x, base_y + gap * i++);
 
     }
 
@@ -158,7 +158,7 @@ public class ClientCanvas extends Canvas {
         Graphics2D paint = (Graphics2D) backBuffer.getGraphics();
         paint.clearRect(0, 0, getWidth(), getHeight());
         paint.drawImage(rawImage, 0, 0, null);
-       // draw0(paint);
+        //draw0(paint);
         paint.dispose();
         g.drawImage(backBuffer, 0, 0, null);
         backBuffer.flush();

@@ -49,6 +49,8 @@ public class ClientMod extends InjectionModule {
     public static final MethodMember LOOKUP_FILE_ID;
 
     public static final FieldMember ITEM_TABLES;
+    
+    public static final FieldMember CACHE_DIR;
 
     static {
 
@@ -85,6 +87,8 @@ public class ClientMod extends InjectionModule {
         LOOKUP_FILE_ID = new MethodMember("fs","f",Type.getMethodDescriptor(int.class,String.class,byte.class),0);
 
         ITEM_TABLES = new FieldMember("l","i",NodeTableMod.NODE_TABLE_DESC,true);
+        
+        CACHE_DIR = new FieldMember("ef", "v", "Ljava/io/File;", true);
 
     }
 
@@ -127,6 +131,8 @@ public class ClientMod extends InjectionModule {
 
         client.methods.add(ASMUtil.mkGetter("getItemContainers",Type.getMethodDescriptor(RSNodeTable.class),ITEM_TABLES));
 
+        client.methods.add(ASMUtil.mkGetter("getCacheDirectory", CACHE_DIR));
+        
         hackCanvas(classes);
 
         xteaDump(classes);
