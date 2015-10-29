@@ -32,6 +32,5 @@ public class PlayerMod extends InjectionModule {
         cn.interfaces.add(Type.getInternalName(RSPlayer.class));
         cn.methods.add(ASMUtil.mkGetter("getCombatLevel",CB_LEVEL));
         cn.methods.add(ASMUtil.mkGetter("getName",NAME));
-
     }
 }

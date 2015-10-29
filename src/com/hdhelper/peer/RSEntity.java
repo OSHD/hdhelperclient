@@ -1,5 +1,5 @@
 package com.hdhelper.peer;
 
-public interface RSRenderable {
+public interface RSEntity {
     int getHeight();
 }

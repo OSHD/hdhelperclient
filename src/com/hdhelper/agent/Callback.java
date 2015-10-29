@@ -4,7 +4,11 @@ import com.hdhelper.Environment;
 import com.hdhelper.Main;
 import com.hdhelper.peer.RSClient;
 
-import java.io.*;
+import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 
 public class Callback {
@@ -37,6 +41,10 @@ public class Callback {
         } catch (IOException e) {
             throw new Error(e);
         }
+    }
+
+    public static void reshape(int[] raster, Image img) {
+        ClientCanvas.reshape(raster,img);
     }
 
 }

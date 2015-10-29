@@ -50,6 +50,8 @@ public class ClientMod extends InjectionModule {
 
     public static final FieldMember ITEM_TABLES;
 
+    public static final FieldMember P12FULL;
+
     static {
 
 
@@ -60,7 +62,7 @@ public class ClientMod extends InjectionModule {
         GET_ITEM_DEF = new MethodMember("ak","v","(II)" + ItemDefintionMod.ITEM_DEF_DESC, 1507988354,true);
         GET_OBJECT_DEF = new MethodMember("dx","y","(II)" + ObjectDefintionMod.OBJECT_DEFINTION_DESC, -28475770,true);
 
-        BASE_X = new FieldMember("bg","cg","I",1741306698,true);
+        BASE_X = new FieldMember("bg","cg","I",1494213157,true);
         BASE_Y = new FieldMember("ad","dj","I",2141073093,true);
         FLOOR = new FieldMember("bg","gw", "I", 2109755494,true);
 
@@ -85,6 +87,8 @@ public class ClientMod extends InjectionModule {
         LOOKUP_FILE_ID = new MethodMember("fs","f",Type.getMethodDescriptor(int.class,String.class,byte.class),0);
 
         ITEM_TABLES = new FieldMember("l","i",NodeTableMod.NODE_TABLE_DESC,true);
+
+        P12FULL = new FieldMember("dz","cx", "Lhy;",true);
 
     }
 
@@ -126,6 +130,8 @@ public class ClientMod extends InjectionModule {
         client.methods.add(ASMUtil.mkGetter("getKeys",KEYS));
 
         client.methods.add(ASMUtil.mkGetter("getItemContainers",Type.getMethodDescriptor(RSNodeTable.class),ITEM_TABLES));
+
+//        client.methods.add(ASMUtil.mkGetter("getP12Full",Type.getMethodDescriptor(RSTextRender.class),P12FULL));
 
         hackCanvas(classes);
 
