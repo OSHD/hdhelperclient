@@ -1,6 +1,7 @@
 package com.hdhelper.peer;
 
-public interface RSCharacter extends RSRenderable {
+public interface RSCharacter extends RSEntity {
+
     int getStrictX();
     int getStrictY();
     int getTargetIndex();

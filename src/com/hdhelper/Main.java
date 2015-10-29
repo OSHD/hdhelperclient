@@ -15,7 +15,8 @@ public class Main {
         System.out.println("Start");
 
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+           UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+          //  UIManager.setLookAndFeel("org.jvnet.substance.skin.SubstanceRavenGraphiteLookAndFeel");
             UIManager.put("PopupMenu.consumeEventOnClose", Boolean.TRUE);
         } catch (final ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException ignored) {
         }

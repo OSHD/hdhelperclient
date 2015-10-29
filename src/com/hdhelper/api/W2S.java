@@ -1,6 +1,7 @@
 package com.hdhelper.api;
 
 import com.hdhelper.Main;
+import com.hdhelper.api.ge.RTGraphics;
 import com.hdhelper.peer.RSClient;
 
 import java.awt.*;
@@ -24,10 +25,84 @@ public class W2S {
         }
     }
 
+//.5
+    public static Point regionToViewport(int x, int y, int floor, int height) {
 
-    public static Point regionToViewport(int rx, int ry, int floor, int height) {
-        return tileToViewport(rx<<7,ry<<7,floor,height);
+        if (x < 0 || y < 0 || x > 102 || y > 102) {
+            return null;
+        }
+
+        final RSClient client = Main.client;
+
+        int h = client.getTileHeights()[floor][x][y];
+        int z = h - height;
+
+        x <<= 7;
+        y <<= 7;
+
+        x -= client.getCameraX();
+        z -= client.getCameraZ();
+        y -= client.getCameraY();
+
+        int sinCurveY = SIN[client.getPitch()];
+        int cosCurveY = COS[client.getPitch()];
+        int sinCurveX = SIN[client.getYaw()];
+        int cosCurveX = COS[client.getYaw()];
+
+        int calculation = sinCurveX * y + cosCurveX * x >> 16;
+        y = y * cosCurveX - x * sinCurveX >> 16;
+        x = calculation;
+
+        calculation = cosCurveY * z - sinCurveY * y >> 16;
+        y = sinCurveY * z + cosCurveY * y >> 16;
+        z = calculation;
+
+        if (y >= 50) {
+
+            int screenX = x * client.getViewportScale() / y + client.getViewportWidth() / 2;
+            int screenY = z * client.getViewportScale() / y + client.getViewportHeight() / 2;
+
+            return new Point(screenX, screenY);
+
+        }
+
+        return null;
+
     }
+
+    public static boolean tileToViewportNULL(int x, int y, final int floor, final int height, Point dest) {
+        final RSClient client = Main.client;
+        if (x < 128 || y < 128 || x > 13056 || y > 13056) {
+            return false;
+        }
+        int z = getTileHeight(floor, x, y) - height;
+        x -= client.getCameraX();
+        z -= client.getCameraZ();
+        y -= client.getCameraY();
+        int sinCurveY = SIN[client.getPitch()];
+        int cosCurveY = COS[client.getPitch()];
+        int sinCurveX = SIN[client.getYaw()];
+        int cosCurveX = COS[client.getYaw()];
+
+        int calculation = sinCurveX * y + cosCurveX * x >> 16;
+        y = y * cosCurveX - x * sinCurveX >> 16;
+        x = calculation;
+
+        calculation = cosCurveY * z - sinCurveY * y >> 16;
+        y = sinCurveY * z + cosCurveY * y >> 16;
+        z = calculation;
+
+        if (y >= 50) {
+            int screenX = x * client.getViewportScale() / y + client.getViewportWidth() / 2;
+            int screenY = z * client.getViewportScale() / y + client.getViewportHeight() / 2;
+            dest.setLocation(screenX,screenY);
+            return true;
+        }
+
+        return false;
+
+    }
+
 
     public static Point tileToViewport(int x, int y, final int z0, final int height) {
         final RSClient client = Main.client;
@@ -68,7 +143,7 @@ public class W2S {
             return 0;
         }
         final int[][] h = Main.client.getTileHeights()[floorLevel];
-        final int aa = h[rx][ry] * (128 - (x & 0x7F)) + h[rx + 1][ry] * (x & 0x7F) >> 7;
+        final int aa = h[rx][ry] * (128 - (x & 0x7f)) + h[rx + 1][ry] * (x & 0x7F) >> 7;
         final int ab = h[rx][ry + 1] * (128 - (x & 0x7F)) + h[rx + 1][ry + 1] * (x & 0x7F) >> 7;
         return aa * (128 - (y & 0x7F)) + ab * (y & 0x7F) >> 7;
     }
@@ -78,24 +153,24 @@ public class W2S {
     public static void draw3DBox(int floor, int rx, int ry, int height, Graphics2D g) {
 
         Point BA = regionToViewport(rx,ry,floor,0);
-        if(BA.x == -1) return;
+        if(BA == null) return;
         Point BB = regionToViewport(rx,ry+1,floor,0);
-        if(BB.x == -1) return;
+        if(BB == null) return;
         Point BC = regionToViewport(rx+1,ry+1,floor,0);
-        if(BC.x == -1) return;
+        if(BC == null) return;
         Point BD = regionToViewport(rx+1,ry,floor,0);
-        if(BD.x == -1) return;
+        if(BD == null) return;
 
 
 
         Point TA = regionToViewport(rx,ry,floor,height);
-        if(TA.x == -1) return;
+        if(TA == null) return;
         Point TB = regionToViewport(rx,ry+1,floor,height);
-        if(TB.x == -1) return;
+        if(TB == null) return;
         Point TC = regionToViewport(rx+1,ry+1,floor,height);
-        if(TC.x == -1) return;
+        if(TC == null) return;
         Point TD = regionToViewport(rx+1,ry,floor,height);
-        if(TD.x == -1) return;
+        if(TD == null) return;
         
         //Bottom
         drawLine(BA,BB,g);
@@ -114,6 +189,50 @@ public class W2S {
         drawLine(BB,TB,g);
         drawLine(BC,TC,g);
         drawLine(BD,TD,g);
+
+    }
+
+
+    public static void draw3DBox(int floor, int rx, int ry, int height, RTGraphics g, int color) {
+
+        Point BA = regionToViewport(rx,ry,floor,0);
+        if(BA == null) return;
+        Point BB = regionToViewport(rx,ry+1,floor,0);
+        if(BB == null) return;
+        Point BC = regionToViewport(rx+1,ry+1,floor,0);
+        if(BC == null) return;
+        Point BD = regionToViewport(rx+1,ry,floor,0);
+        if(BD == null) return;
+
+
+
+        Point TA = regionToViewport(rx,ry,floor,height);
+        if(TA == null) return;
+        Point TB = regionToViewport(rx,ry+1,floor,height);
+        if(TB == null) return;
+        Point TC = regionToViewport(rx+1,ry+1,floor,height);
+        if(TC == null) return;
+        Point TD = regionToViewport(rx+1,ry,floor,height);
+        if(TD == null) return;
+
+        //Bottom
+        g.drawLine(BA, BB, color);
+        g.drawLine(BA, BB, color);
+        g.drawLine(BB, BC, color);
+        g.drawLine(BC, BD, color);
+        g.drawLine(BD, BA, color);
+
+        //Top
+        g.drawLine(TA, TB, color);
+        g.drawLine(TB, TC, color);
+        g.drawLine(TC, TD, color);
+        g.drawLine(TD, TA, color);
+
+        //Sides
+        g.drawLine(BA, TA, color);
+        g.drawLine(BB, TB, color);
+        g.drawLine(BC, TC, color);
+        g.drawLine(BD, TD, color);
 
     }
     

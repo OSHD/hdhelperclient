@@ -22,6 +22,7 @@ public class MainFrame extends JFrame {
     }
 
 
+
     public void start() {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -29,11 +30,13 @@ public class MainFrame extends JFrame {
 
                 setJMenuBar(new Bar());
 
-                setContentPane(bootModClient());
+                Applet a = bootModClient();
+                setContentPane(a);
 
                 pack();
                 revalidate();
                 setVisible(true);
+
 
             }
         });
