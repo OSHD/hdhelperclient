@@ -871,6 +871,9 @@ public abstract class RTFont extends RTGraphics {
         for (int var6 = 0; var6 < var1.length(); ++var6) {
             if (var1.charAt(var6) != 0) {
                 char curChar = (char) (Util.method264(var1.charAt(var6), (byte) 51) & 255);
+
+                if(flags[curChar]==null) return; //Invalid character
+
                 if (curChar == 60) {
                     var4 = var6;
                 } else {

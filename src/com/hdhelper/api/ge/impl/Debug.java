@@ -84,7 +84,13 @@ public class Debug extends BasicOverlay {
                 W2S.draw3DBox(floor, rx, ry, p.getHeight(), g, Color.RED.getRGB());
                 Point P = W2S.tileToViewport(p.getStrictX(), p.getStrictY(), floor, p.getHeight());
                 if (P.x == -1) continue;
-                warrior.drawString(p.getName() + " | Lvl:" + p.getCombatLevel() + " | Anim:" + p.getAnimation() + " | Target:" + p.getTargetIndex() + "Orintation:" + p.getOrientation(), P.x, P.y);
+                RSPlayerConfig cfg = p.getConfig();
+                warrior.drawString(p.getName() + " | Lvl:" + p.getCombatLevel() + " | Anim:" + p.getAnimation() + " | Target:" + p.getTargetIndex() + " | Orientation:" + p.getOrientation(), P.x, P.y);
+                if(cfg == null) {
+                    warrior.drawString("cfg==null", P.x, P.y-15);
+                } else {
+                    warrior.drawString("Z=" + p.getZ() + " | Female=" + cfg.isFemale() + " | Equip = " + Arrays.toString(cfg.getEquipment()) + " | EquipColors = " + Arrays.toString(cfg.getEquipmentColors())  , P.x, P.y-15);
+                }
             }
 
             //Render Npcs:
@@ -165,7 +171,7 @@ public class Debug extends BasicOverlay {
             
         } finally {
              // It's not critical we release references to the graphic.
-             // But it does not heart to help the garbage collector a bit
+             // But it does not hert to help the garbage collector a bit
             warrior.finish();
         }
 
