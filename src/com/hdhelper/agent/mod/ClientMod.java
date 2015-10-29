@@ -93,7 +93,7 @@ public class ClientMod extends InjectionModule {
         CACHE_DIR = new FieldMember("ef", "v", "Ljava/io/File;", true);
 
         P12FULL = new FieldMember("dz","cx", "Lhy;",true);
-
+        
     }
 
     @Override
@@ -134,8 +134,6 @@ public class ClientMod extends InjectionModule {
         client.methods.add(ASMUtil.mkGetter("getKeys",KEYS));
 
         client.methods.add(ASMUtil.mkGetter("getItemContainers",Type.getMethodDescriptor(RSNodeTable.class),ITEM_TABLES));
-
-        client.methods.add(ASMUtil.mkGetter("getCacheDirectory", CACHE_DIR));
 
         hackCanvas(classes);
 

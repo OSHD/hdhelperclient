@@ -26,9 +26,9 @@ public class ClientCanvas extends Canvas {
     public ClientCanvas() {
         super();
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        int width  = (int) screen.getWidth();
+        int width = (int) screen.getWidth();
         int height = (int) screen.getHeight();
-        rawImage   = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        rawImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         backBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     }
 
@@ -41,11 +41,11 @@ public class ClientCanvas extends Canvas {
     }
 
     void validateGraphics() {
-        if(cur_shape != reshape_count) {
+        if (cur_shape != reshape_count) {
             final int w = engine_img.getWidth(null);
             final int h = engine_img.getHeight(null);
-            if(g != null) g.flush();
-            g = new RTGraphics(engine_raster,w,h);
+            if (g != null) g.flush();
+            g = new RTGraphics(engine_raster, w, h);
             cur_shape = reshape_count;
         }
     }
@@ -171,14 +171,15 @@ public class ClientCanvas extends Canvas {
         //Equipment Debug:
         for (Equipment.Slot s : Equipment.Slot.values()) {
             g0.drawString(s.name() + ":" + s.get(), base_x, base_y + gap * i++);
+
         }
 
 
     }
 
 
-
     Debug debug;
+
 
     void draw00(RTGraphics g) {
 /*
@@ -192,20 +193,20 @@ public class ClientCanvas extends Canvas {
 
 */
 
-        if(debug == null) {
+        if (debug == null) {
             debug = new Debug();
         }
 
-      //  long t0 = System.nanoTime();
+        //  long t0 = System.nanoTime();
         debug.render(g);
-      //  long tf = System.nanoTime();
-      //  System.out.println((tf-t0));
+        //  long tf = System.nanoTime();
+        //  System.out.println((tf-t0));
 
     }
 
     void draw0(Graphics2D g0) {
 
-        if(engine_raster == null || engine_raster.length == 1) {
+        if (engine_raster == null || engine_raster.length == 1) {
             return;
         }
 
