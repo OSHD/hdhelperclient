@@ -1,5 +1,7 @@
 package com.hdhelper.peer;
 
+import java.io.File;
+
 public interface RSClient {
 
     RSPlayer getMyPlayer();
@@ -34,5 +36,7 @@ public interface RSClient {
 
     int[] getChunkIds();
     int[][] getKeys();
+    
+    File getCacheDirectory();
 
 }

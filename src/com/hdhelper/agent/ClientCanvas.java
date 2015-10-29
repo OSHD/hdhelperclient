@@ -173,6 +173,7 @@ public class ClientCanvas extends Canvas {
             g0.drawString(s.name() + ":" + s.get(), base_x, base_y + gap * i++);
         }
 
+
     }
 
 
