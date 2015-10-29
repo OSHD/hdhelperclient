@@ -93,7 +93,7 @@ public class ClientMod extends InjectionModule {
         CACHE_DIR = new FieldMember("ef", "v", "Ljava/io/File;", true);
 
         P12FULL = new FieldMember("dz","cx", "Lhy;",true);
-        
+
     }
 
     @Override
