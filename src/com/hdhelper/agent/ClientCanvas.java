@@ -32,20 +32,21 @@ public class ClientCanvas extends Canvas {
         backBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     }
 
-
     //Callbacked
     public static void reshape(int[] raster, Image img) {
         engine_raster = raster;
         engine_img = img;
         reshape_count++;
+
     }
 
+
     void validateGraphics() {
-        if (cur_shape != reshape_count) {
+        if(cur_shape != reshape_count) {
             final int w = engine_img.getWidth(null);
             final int h = engine_img.getHeight(null);
-            if (g != null) g.flush();
-            g = new RTGraphics(engine_raster, w, h);
+            if(g != null) g.flush();
+            g = new RTGraphics(engine_raster,w,h);
             cur_shape = reshape_count;
         }
     }
@@ -174,12 +175,11 @@ public class ClientCanvas extends Canvas {
 
         }
 
-
     }
 
 
-    Debug debug;
 
+    Debug debug;
 
     void draw00(RTGraphics g) {
 /*
@@ -193,20 +193,22 @@ public class ClientCanvas extends Canvas {
 
 */
 
-        if (debug == null) {
+        if(debug == null) {
             debug = new Debug();
         }
 
-        //  long t0 = System.nanoTime();
+      //  long t0 = System.nanoTime();
         debug.render(g);
-        //  long tf = System.nanoTime();
-        //  System.out.println((tf-t0));
+      //  long tf = System.nanoTime();
+      //  System.out.println((tf-t0));
 
     }
 
+
+
     void draw0(Graphics2D g0) {
 
-        if (engine_raster == null || engine_raster.length == 1) {
+        if(engine_raster == null || engine_raster.length == 1) {
             return;
         }
 
