@@ -1188,7 +1188,7 @@ public final class RTImage extends RTGraphics {
     }
 
     public void c(RTIcon var1, int var2, int var3) {
-        if (viewportMaxX - viewportX == var1.fieldI && viewportMaxY - viewportY == var1.fieldB) {
+        if (viewportMaxX - viewportX == var1.maxX && viewportMaxY - viewportY == var1.maxY) {
             var2 += this.fieldB;
             var3 += this.fieldL;
             int var4 = var2 + var3 * rasterWidth;
@@ -1228,8 +1228,8 @@ public final class RTImage extends RTGraphics {
             }
 
             if (var7 > 0 && var6 > 0) {
-                var10 = var2 - viewportX + (var3 - viewportY) * var1.fieldI;
-                int var11 = var1.fieldI - var7;
+                var10 = var2 - viewportX + (var3 - viewportY) * var1.maxX;
+                int var11 = var1.maxX - var7;
                 method366(raster, this.pixels, 0, var5, var4, var10, var7, var6, var8, var9, var11, var1.indices);
             }
         } else {

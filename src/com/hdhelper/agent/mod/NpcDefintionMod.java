@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class NpcDefintionMod extends InjectionModule {
 
-    public static final String NPC_DEFINTION = "ay";
+    public static final String NPC_DEFINTION = "aj";
     public static final String NPC_DEFINTION_DESC = "L" + NPC_DEFINTION + ";";
 
     public static final FieldMember ID;
@@ -21,8 +21,8 @@ public class NpcDefintionMod extends InjectionModule {
 
     static {
 
-        ID = new FieldMember(NPC_DEFINTION,"x","I",-764559607);
-        NAME = new FieldMember(NPC_DEFINTION,"q", Type.getDescriptor(String.class));
+        ID = new FieldMember(NPC_DEFINTION,"a","I",708216051);
+        NAME = new FieldMember(NPC_DEFINTION,"s", Type.getDescriptor(String.class));
 
     }
 

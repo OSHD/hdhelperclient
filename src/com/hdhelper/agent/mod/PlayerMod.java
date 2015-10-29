@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class PlayerMod extends InjectionModule {
 
-    public static final String PLAYER = "r";
+    public static final String PLAYER = "f";
     public static final String PLAYER_DESC = "L" + PLAYER + ";";
 
     public static final FieldMember CB_LEVEL;
@@ -24,10 +24,10 @@ public class PlayerMod extends InjectionModule {
 
     static {
 
-        CB_LEVEL = new FieldMember(PLAYER,"g","I",-1439097529);
+        CB_LEVEL = new FieldMember(PLAYER,"a","I",868548497);
         NAME = new FieldMember(PLAYER,"i", Type.getDescriptor(String.class));
         CONFIG = new FieldMember(PLAYER,"v", PlayerConfigMod.PLAYER_CONFIG_DESC);
-        HEIGHT = new FieldMember(PLAYER,"h","I",382912625);
+        HEIGHT = new FieldMember(PLAYER,"p","I",604542887); //TODO
 
     }
 

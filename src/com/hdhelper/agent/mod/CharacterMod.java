@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class CharacterMod extends InjectionModule {
 
-    public static final String CHARACTER = "aj";
+    public static final String CHARACTER = "ai";
     public static final String CHARACTER_DESC = "L" + CHARACTER + ";";
 
 
@@ -21,11 +21,11 @@ public class CharacterMod extends InjectionModule {
     public static final FieldMember ORIENTATION;
 
     static {
-        STRICT_X = new FieldMember(CHARACTER,"w","I",1417283341);
-        STRICT_Y = new FieldMember(CHARACTER,"au","I",-97200345);
-        ANIMATION = new FieldMember(CHARACTER,"bz","I",-677076447);
-        TARGET = new FieldMember(CHARACTER,"ad","I", 896704877);
-        ORIENTATION = new FieldMember(CHARACTER,"ar","I",815493485);
+        STRICT_X = new FieldMember(CHARACTER,"q","I",1938631351);
+        STRICT_Y = new FieldMember(CHARACTER,"ak","I",-236469231);
+        ANIMATION = new FieldMember(CHARACTER,"bc","I",2031954925);
+        TARGET = new FieldMember(CHARACTER,"ad","I", 1889871245);
+        ORIENTATION = new FieldMember(CHARACTER,"bt","I",-504444531);
     }
 
     @Override

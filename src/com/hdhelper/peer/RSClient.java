@@ -10,7 +10,7 @@ public interface RSClient {
     RSNpc[] getNpcs();
 
     RSItemDefinition getItemDef(int id);
-    RSObjectDefintion getObjectDef(int id);
+    RSObjectDefinition getObjectDef(int id);
 
     RSNodeTable getItemContainers();
 

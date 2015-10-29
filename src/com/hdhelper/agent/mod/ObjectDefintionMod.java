@@ -12,14 +12,14 @@ import java.util.Map;
  */
 public class ObjectDefintionMod extends InjectionModule {
 
-    public static final String OBJECT_DEFINTION = "ap";
+    public static final String OBJECT_DEFINTION = "af";
     public static final String OBJECT_DEFINTION_DESC = "L" + OBJECT_DEFINTION + ";";
 
     public static final FieldMember NAME;
 
     static {
 
-        NAME = new FieldMember(OBJECT_DEFINTION,"e", Type.getDescriptor(String.class));
+        NAME = new FieldMember(OBJECT_DEFINTION,"z", Type.getDescriptor(String.class));
 
     }
 

@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class NodeMod extends InjectionModule {
 
-    public static final String NODE = "go";
+    public static final String NODE = "gp";
     public static final String NODE_DESC = "L" + NODE + ";";
 
 
@@ -24,9 +24,9 @@ public class NodeMod extends InjectionModule {
     static {
 
 
-        KEY = new FieldMember(NODE,"eg","J");
-        NEXT = new FieldMember(NODE,"ek",NODE_DESC);
-        PREV = new FieldMember(NODE,"eo",NODE_DESC);
+        KEY = new FieldMember(NODE,"ek","J");
+        NEXT = new FieldMember(NODE,"ez",NODE_DESC);
+        PREV = new FieldMember(NODE,"ew",NODE_DESC);
 
     }
 

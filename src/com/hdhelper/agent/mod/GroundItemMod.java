@@ -13,15 +13,15 @@ import java.util.Map;
  */
 public class GroundItemMod extends InjectionModule {
 
-    public static final String GROUND_ITEM = "ah";
+    public static final String GROUND_ITEM = "al";
     public static final String GROUND_ITEM_DESC = "L" + GROUND_ITEM + ";";
 
     public static final FieldMember ID;
     public static final FieldMember NUM;
 
     static {
-        ID  = new FieldMember(GROUND_ITEM,"i","I",1898835819);
-        NUM = new FieldMember(GROUND_ITEM,"v","I",-824129891);
+        ID  = new FieldMember(GROUND_ITEM,"i","I",108977289);
+        NUM = new FieldMember(GROUND_ITEM,"v","I",175501403);
     }
 
     @Override

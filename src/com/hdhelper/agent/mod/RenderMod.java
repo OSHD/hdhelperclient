@@ -10,13 +10,13 @@ import java.util.Map;
 //Disables main-screen rendering
 public class RenderMod extends InjectionModule {
 
-    public static final String LANDSCAPE = "co";
+    public static final String LANDSCAPE = "cb";
 
 
     @Override
     public void inject(Map<String, ClassNode> classes) {
         for(MethodNode mn : classes.get(LANDSCAPE).methods) {
-            if(mn.name.equals("an")) {
+            if(mn.name.equals("ay")) {
 
                 LabelNode A = new LabelNode(new Label());
                 mn.visitLabel(A.getLabel());

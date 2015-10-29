@@ -8,12 +8,11 @@ public final class RTIcon extends RTGraphics {
     public int[] palette;
     public byte[] indices;
 
-    public int fieldB;
-    public int fieldI;
+    public int maxY;
+    public int maxX;
 
     public int height;
     public int width;
-
 
     static void method275(int[] var0, byte[] var1, int[] var2, int var3, int var4, int var5, int var6, int var7, int var8) {
         int var9 = -(var5 >> 2);
@@ -98,20 +97,20 @@ public final class RTIcon extends RTGraphics {
 
     }
 
-    public void a() {
-        if (this.fieldI != this.width || this.fieldB != this.height) {
+    public void crop() {
+        if (this.maxX != this.width || this.maxY != this.height) {
             byte[] var1 = new byte[this.width * this.height];
             int var2 = 0;
 
-            for (int var3 = 0; var3 < this.fieldB; ++var3) {
-                for (int var4 = 0; var4 < this.fieldI; ++var4) {
+            for (int var3 = 0; var3 < this.maxY; ++var3) {
+                for (int var4 = 0; var4 < this.maxX; ++var4) {
                     var1[var4 + this.insetX + (var3 + this.insetY) * this.width] = this.indices[var2++];
                 }
             }
 
             this.indices = var1;
-            this.fieldI = this.width;
-            this.fieldB = this.height;
+            this.maxX = this.width;
+            this.maxY = this.height;
             this.insetX = 0;
             this.insetY = 0;
         }
@@ -122,8 +121,8 @@ public final class RTIcon extends RTGraphics {
         y += this.insetY;
         int var3 = x + y * rasterWidth;
         int var4 = 0;
-        int var5 = this.fieldB;
-        int var6 = this.fieldI;
+        int var5 = this.maxY;
+        int var6 = this.maxX;
         int var7 = rasterWidth - var6;
         int var8 = 0;
         int var9;

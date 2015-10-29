@@ -1,6 +1,6 @@
 package com.hdhelper.peer;
 
-public interface RSItemContainer extends RSNode{
+public interface RSItemTable extends RSNode{
     int[] getIds();
     int[] getQuantities();
 }

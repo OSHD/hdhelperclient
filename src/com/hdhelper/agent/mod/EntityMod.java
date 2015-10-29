@@ -11,16 +11,16 @@ import java.util.Map;
 /**
  * Created by Jamie on 10/22/2015.
  */
-public class RenderableMod extends InjectionModule {
+public class EntityMod extends InjectionModule {
 
-    public static final String RENDERABLE = "cy";
+    public static final String RENDERABLE = "ck";
     public static final String RENDERABLE_DESC = "L" + RENDERABLE + ";";
 
     public static final FieldMember HEIGHT;
 
     static {
 
-        HEIGHT = new FieldMember(RENDERABLE,"co","I",-587617995);
+        HEIGHT = new FieldMember(RENDERABLE,"cb","I",1513659429);
 
     }
 

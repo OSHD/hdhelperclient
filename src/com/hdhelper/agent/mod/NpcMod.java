@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class NpcMod extends InjectionModule {
 
-    public static final String NPC = "ac";
+    public static final String NPC = "aq";
     public static final String NPC_DESC = "L" + NPC + ";";
 
     public static final FieldMember DEF;

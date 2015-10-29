@@ -151,7 +151,7 @@ public class Debug extends BasicOverlay {
             warrior.drawString("Height:" + client.getViewportHeight(), lol.x(), lol.y());
             lol.i += 1;
 
-            // XTEA Debug:
+        /*    // XTEA Debug:
             int[][] keys = client.getKeys();
             int[] chunks = client.getChunkIds();
             if (chunks != null && keys != null) {
@@ -164,7 +164,7 @@ public class Debug extends BasicOverlay {
                     int ry = chunkId & 255;
                     warrior.drawString("<" + rx + "_" + ry + "> => " + Arrays.toString(key), lol.x(),lol.y());
                 }
-            }
+            }*/
             lol.i += 1;
 
             //Equipment Debug:

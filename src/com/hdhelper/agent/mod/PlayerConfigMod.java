@@ -9,7 +9,7 @@ import jdk.internal.org.objectweb.asm.tree.ClassNode;
 import java.util.Map;
 public class PlayerConfigMod extends InjectionModule {
 
-    public static final String PLAYER_CONFIG = "fv";
+    public static final String PLAYER_CONFIG = "fz";
     public static final String PLAYER_CONFIG_DESC = "L" + PLAYER_CONFIG + ";";
 
     public static final FieldMember EQUIPMENT;
@@ -20,7 +20,7 @@ public class PlayerConfigMod extends InjectionModule {
 
         EQUIPMENT = new FieldMember(PLAYER_CONFIG,"i","[I");
         EQUIPMENT_COLORS = new FieldMember(PLAYER_CONFIG,"v","[I"); //TODO not to sure
-        FEMALE = new FieldMember(PLAYER_CONFIG,"r","Z");
+        FEMALE = new FieldMember(PLAYER_CONFIG,"f","Z");
 
     }
 

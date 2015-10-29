@@ -59,31 +59,27 @@ public class FontFactory {
         return data;
     }
 
+    public static void l() {
+
+    }
     public static void profileCharacter(Font font, FontMetrics fontmetrics, char c, int index, boolean bool, FontData dest) {
         int char_with = fontmetrics.charWidth(c);
-        if (bool)
-            try {
-                if (c == '/')
-                    bool = false;
-                if (c == 'f' || c == 't' || c == 'w' || c == 'v' || c == 'k' || c == 'x' || c == 'y' || c == 'A' || c == 'V' || c == 'W')
-                    char_with++;
-            } catch (Exception ignored) {
-            }
-
         int y = fontmetrics.getMaxAscent();
+
         int char_height = fontmetrics.getMaxAscent() + fontmetrics.getMaxDescent();
 
-        if(char_with==0||char_height==0)System.out.println("EEK:" + c);
+    //    if(char_with==0||char_height==0) System.out.println("EEK:" + c);
         if(char_with==0||char_height==0) return;
+
         Image image = new BufferedImage(char_with,char_height,BufferedImage.TYPE_INT_ARGB);
         Graphics graphics = image.getGraphics();
         graphics.setColor(Color.black);
         graphics.fillRect(0, 0, char_with, char_height);
         graphics.setColor(Color.white);
         graphics.setFont(font);
+
         graphics.drawString((new StringBuilder()).append(c).append("").toString(), 0, y);
-        if (bool)
-            graphics.drawString((new StringBuilder()).append(c).append("").toString(), 1, y);
+
         int raster[] = new int[char_with * char_height];
         PixelGrabber pixelgrabber = new PixelGrabber(image, 0, 0, char_with, char_height, raster, 0, char_with);
         try {

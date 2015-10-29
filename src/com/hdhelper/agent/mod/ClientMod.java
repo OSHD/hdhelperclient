@@ -52,51 +52,43 @@ public class ClientMod extends InjectionModule {
     
     public static final FieldMember CACHE_DIR;
 
-    public static final FieldMember P12FULL;
-
-    public static final FieldMember P12FULL;
-
     static {
 
 
-        LOCAL = new FieldMember("ch","hz",PlayerMod.PLAYER_DESC,true);
-        PLAYERS = new FieldMember("client","gr","[" + PlayerMod.PLAYER_DESC,true);
-        NPCS = new FieldMember("client","ck","[" + NpcMod.NPC_DESC,true);
+        LOCAL = new FieldMember("d","hr",PlayerMod.PLAYER_DESC,true);
+        PLAYERS = new FieldMember("client","gb","[" + PlayerMod.PLAYER_DESC,true);
+        NPCS = new FieldMember("client","cm","[" + NpcMod.NPC_DESC,true);
 
-        GET_ITEM_DEF = new MethodMember("ak","v","(II)" + ItemDefintionMod.ITEM_DEF_DESC, 1507988354,true);
-        GET_OBJECT_DEF = new MethodMember("dx","y","(II)" + ObjectDefintionMod.OBJECT_DEFINTION_DESC, -28475770,true);
+        GET_ITEM_DEF = new MethodMember("dx","v","(II)" + ItemDefintionMod.ITEM_DEF_DESC, -1194634781,true);
+        GET_OBJECT_DEF = new MethodMember("bo","i","(II)" + ObjectDefintionMod.OBJECT_DEFINTION_DESC, -671952731,true);
 
-        BASE_X = new FieldMember("bg","cg","I",1494213157,true);
-        BASE_Y = new FieldMember("ad","dj","I",2141073093,true);
-        FLOOR = new FieldMember("bg","gw", "I", 2109755494,true);
+        BASE_X = new FieldMember("fi","cv","I",1045964135,true);
+        BASE_Y = new FieldMember("aj","do","I",1160360799,true);
+        FLOOR = new FieldMember("dn","gg", "I",1513745407,true);
 
-        PITCH = new FieldMember("cd","fy","I",146540893,true);
-        YAW   = new FieldMember("dn","fc","I",-1584182535,true);
+        PITCH = new FieldMember("s","fo","I",-30081311,true);
+        YAW   = new FieldMember("ev","fv","I",-1592076759,true);
 
-        CAM_X = new FieldMember("m","fj","I",810483375,true);
-        CAM_Y = new FieldMember("cc","fb","I",312137923,true);
-        CAM_Z = new FieldMember("da","ff","I",890320763,true);
+        CAM_X = new FieldMember("fa","fl","I",1736524133,true);
+        CAM_Y = new FieldMember("dq","fm","I",-637488189,true);
+        CAM_Z = new FieldMember("ac","ff","I",-629785153,true);
 
-        TILE_HEIGHTS = new FieldMember("q","i","[[[I",true);
-        RENDER_RULES = new FieldMember("q","v","[[[B",true);
+        TILE_HEIGHTS = new FieldMember("s","i","[[[I",true);
+        RENDER_RULES = new FieldMember("s","v","[[[B",true);
 
-        VIEWPORT_SCALE = new FieldMember("client","ou","I",-12363387,true);
-        VIEWPORT_WIDTH = new FieldMember("client","oq","I",-1476608275,true);
-        VIEWPORT_HEIGHT = new FieldMember("client","ob","I",516989967,true);
+        VIEWPORT_WIDTH = new FieldMember("client","og","I",215114979,true);
+        VIEWPORT_HEIGHT = new FieldMember("client","ok","I",1968603227,true);
+        VIEWPORT_SCALE = new FieldMember("client","ox","I",-1748693073,true);
 
-        GROUND_ITEMS = new FieldMember("client","hl","[[[" + DequeMod.DEQUE_DESC,true);
+        GROUND_ITEMS = new FieldMember("client","ha","[[[" + DequeMod.DEQUE_DESC,true);
 
         CHUNK_IDS = new FieldMember("at","dz","[I",true);
         KEYS = new FieldMember("ag","ds","[[I",true);
         LOOKUP_FILE_ID = new MethodMember("fs","f",Type.getMethodDescriptor(int.class,String.class,byte.class),0);
 
-        ITEM_TABLES = new FieldMember("l","i",NodeTableMod.NODE_TABLE_DESC,true);
+        ITEM_TABLES = new FieldMember("g","i",NodeTableMod.NODE_TABLE_DESC,true);
         
-        CACHE_DIR = new FieldMember("ef", "v", "Ljava/io/File;", true);
-
-        P12FULL = new FieldMember("dz","cx", "Lhy;",true);
-
-        P12FULL = new FieldMember("dz","cx", "Lhy;",true);
+        CACHE_DIR = new FieldMember("eq", "v", "Ljava/io/File;", true);
 
     }
 
@@ -143,7 +135,7 @@ public class ClientMod extends InjectionModule {
 
         hackCanvas(classes);
 
-        xteaDump(classes);
+      //  xteaDump(classes);
 
     }
 
@@ -209,7 +201,7 @@ public class ClientMod extends InjectionModule {
     static MethodNode mkGetObjectDef() {
         MethodMember def = GET_OBJECT_DEF;
         MethodNode getItemDef = new MethodNode(ACC_PUBLIC|ACC_FINAL, "getObjectDef",
-                Type.getMethodDescriptor(RSObjectDefintion.class, int.class),null,null);
+                Type.getMethodDescriptor(RSObjectDefinition.class, int.class),null,null);
         InsnList stack = getItemDef.instructions;
         stack.add(new VarInsnNode(ILOAD,1));
         stack.add(new LdcInsnNode(def.getDummy()));

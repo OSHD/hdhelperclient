@@ -20,7 +20,7 @@ public class ItemDefintionMod extends InjectionModule {
 
     static {
 
-        NAME = new FieldMember(ITEM_DEF,"t", ASMUtil.getDescriptor(String.class));
+        NAME = new FieldMember(ITEM_DEF,"b", ASMUtil.getDescriptor(String.class));
 
     }
     @Override

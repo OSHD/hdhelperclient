@@ -192,7 +192,6 @@ public class ClientCanvas extends Canvas {
         System.out.println((tf-t0));
 
 */
-
         if(debug == null) {
             debug = new Debug();
         }
@@ -215,6 +214,8 @@ public class ClientCanvas extends Canvas {
         validateGraphics();
 
         RTGraphics rtg = g;
+
+        System.out.println();
 
         draw00(rtg);
 

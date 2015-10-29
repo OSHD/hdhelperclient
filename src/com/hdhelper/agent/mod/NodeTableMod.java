@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class NodeTableMod extends InjectionModule {
 
-    public static final String NODE_TABLE = "gd";
+    public static final String NODE_TABLE = "gm";
     public static final String NODE_TABLE_DESC = "L" + NODE_TABLE+ ";";
 
 
