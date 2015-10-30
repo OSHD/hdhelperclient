@@ -50,6 +50,7 @@ public class FontFactory {
     }
 
     public static FontData profile(Font font) {
+        //Test
         Canvas c = new Canvas();
         FontMetrics fm = c.getFontMetrics(font);
         FontData data = new FontData(256);
