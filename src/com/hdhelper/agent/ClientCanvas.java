@@ -215,8 +215,6 @@ public class ClientCanvas extends Canvas {
 
         RTGraphics rtg = g;
 
-        System.out.println();
-
         draw00(rtg);
 
         Image rtg_image = rtg.crate();

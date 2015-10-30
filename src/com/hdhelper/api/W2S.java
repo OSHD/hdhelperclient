@@ -6,9 +6,6 @@ import com.hdhelper.peer.RSClient;
 
 import java.awt.*;
 
-/**
- * Created by Jamie on 10/22/2015.
- */
 public class W2S {
 
     public static final int JAGEX_CIRCULAR_ANGLE = 2048;
@@ -25,7 +22,8 @@ public class W2S {
         }
     }
 
-//.5
+
+
     public static Point regionToViewport(int x, int y, int floor, int height) {
 
         if (x < 0 || y < 0 || x > 102 || y > 102) {
