@@ -54,8 +54,6 @@ public class ClientMod extends InjectionModule {
 
     public static final FieldMember P12FULL;
 
-    public static final FieldMember P12FULL;
-
     static {
 
 
@@ -92,9 +90,7 @@ public class ClientMod extends InjectionModule {
 
         ITEM_TABLES = new FieldMember("l","i",NodeTableMod.NODE_TABLE_DESC,true);
         
-        CACHE_DIR = new FieldMember("ef", "v", "Ljava/io/File;", true);
-
-        P12FULL = new FieldMember("dz","cx", "Lhy;",true);
+        CACHE_DIR = new FieldMember("eq", "v", "Ljava/io/File;", true);
 
         P12FULL = new FieldMember("dz","cx", "Lhy;",true);
 
@@ -139,6 +135,8 @@ public class ClientMod extends InjectionModule {
 
         client.methods.add(ASMUtil.mkGetter("getItemContainers",Type.getMethodDescriptor(RSNodeTable.class),ITEM_TABLES));
 
+        client.methods.add(ASMUtil.mkGetter("getCacheDirectory", CACHE_DIR));
+        
 //        client.methods.add(ASMUtil.mkGetter("getP12Full",Type.getMethodDescriptor(RSTextRender.class),P12FULL));
 
         hackCanvas(classes);
