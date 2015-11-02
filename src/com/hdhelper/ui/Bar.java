@@ -16,7 +16,8 @@ public class Bar extends JMenuBar {
     private void build() {
 
         JMenu menu;
-        JCheckBoxMenuItem cbMenuItem;
+        JCheckBoxMenuItem render_ls;
+        JCheckBoxMenuItem draw_debug;
 
         //Create the menu bar.
 
@@ -24,16 +25,26 @@ public class Bar extends JMenuBar {
         //Build the first menu.
         menu = new JMenu("Stuff");
 
-        cbMenuItem = new JCheckBoxMenuItem("Render landscape");
-        cbMenuItem.setSelected(true);
-        cbMenuItem.addActionListener(new ActionListener() {
+        render_ls = new JCheckBoxMenuItem("Render landscape");
+        render_ls.setSelected(true);
+        render_ls.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Environment.RENDER_LANDSCAPE = cbMenuItem.isSelected();
+                Environment.RENDER_LANDSCAPE = render_ls.isSelected();
             }
         });
 
-        menu.add(cbMenuItem);
+        draw_debug = new JCheckBoxMenuItem("Draw Debug");
+        draw_debug.setSelected(false);
+        draw_debug.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Environment.RENDER_DEBUG = draw_debug.isSelected();
+            }
+        });
+
+        menu.add(render_ls);
+        menu.add(draw_debug);
 
         this.add(menu);
 

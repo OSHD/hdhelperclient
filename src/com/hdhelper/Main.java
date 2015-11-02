@@ -12,7 +12,69 @@ public class Main {
 
     public static RSClient client;
 
+
+    public static class MySecurityManager extends SecurityManager {
+        public void checkRead(String s) {
+            Class c[] = getClassContext();
+            for (int i = 0; i < c.length; i++) {
+                String name = c[i].getName();
+                System.out.println(name);
+
+            }
+        }
+
+
+        /**
+         *
+         * Node implements RSNode {
+         *
+         *     @BField(name = "duel_next");
+         *     Node next;
+         *     @BField
+         *     Node prev;
+         *
+         *
+         *
+         *     @BMethod;
+         *     public void remove(Node A, Node b) {
+         *
+         *     }
+         *
+         *
+         *     public void cool() {
+         *         remove(next,prev);
+         *     }
+         *
+         *     @Override
+         *     public RSNode getNext() {
+         *         return next;
+         *     }
+         *
+         *     @Override
+         *     public RSNode getPrevious() {
+         *         return prev;
+         *     }
+         *
+         *
+         *
+         *
+         * }
+         *
+         *
+         *
+         */
+    }
+
+
+
     public static void main(String... args) throws IOException, InterruptedException {
+
+
+
+
+
+
+
 
        System.out.println("Start");
 

@@ -84,7 +84,7 @@ public class ClientMod extends InjectionModule {
 
         CHUNK_IDS = new FieldMember("at","dz","[I",true);
         KEYS = new FieldMember("ag","ds","[[I",true);
-        LOOKUP_FILE_ID = new MethodMember("fs","f",Type.getMethodDescriptor(int.class,String.class,byte.class),0);
+        LOOKUP_FILE_ID = new MethodMember("fg","o",Type.getMethodDescriptor(int.class,String.class,int.class),0);
 
         ITEM_TABLES = new FieldMember("g","i",NodeTableMod.NODE_TABLE_DESC,true);
         
@@ -94,6 +94,7 @@ public class ClientMod extends InjectionModule {
 
     @Override
     public void inject(Map<String, ClassNode> classes) {
+
 
         ClassNode client = classes.get("client");
         client.interfaces.add(Type.getInternalName(RSClient.class));
@@ -141,7 +142,7 @@ public class ClientMod extends InjectionModule {
 
 
 
-    private static void xteaDump(Map<String,ClassNode> classes) {
+    public  static void xteaDump(Map<String,ClassNode> classes) {
 
         for(ClassNode cn : classes.values()) {
             for(MethodNode mn : cn.methods) {
@@ -211,7 +212,7 @@ public class ClientMod extends InjectionModule {
     }
 
 
-    private static void hackCanvas(Map<String, ClassNode> classes) {
+    public static void hackCanvas(Map<String, ClassNode> classes) {
         for (final ClassNode cn : classes.values()) {
             if (!cn.superName.equals(Type.getInternalName(Canvas.class))) continue;
             cn.superName = Type.getInternalName(ClientCanvas.class);

@@ -1,15 +1,21 @@
 package com.hdhelper.agent;
 
 import com.hdhelper.Environment;
+import com.hdhelper.agent.bs.compiler.BCompiler;
+import com.hdhelper.agent.bs.impl.ReflectionProfiler;
+import com.hdhelper.agent.bs.impl.ResolverImpl;
+import com.hdhelper.agent.bs.impl.patch.GPatch;
+import com.hdhelper.agent.bs.impl.scripts.*;
 import com.hdhelper.agent.io.ClientLoader;
-import com.hdhelper.agent.mod.InjectionModule;
+import com.hdhelper.agent.mod.ClientMod;
+import com.hdhelper.agent.mod.GraphicsEngineMod;
 import com.hdhelper.agent.util.ClassWriterFix;
 import jdk.internal.org.objectweb.asm.ClassReader;
 import jdk.internal.org.objectweb.asm.ClassWriter;
 import jdk.internal.org.objectweb.asm.tree.ClassNode;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +36,24 @@ public final class Injector {
         ClientLoader.loadClient(Environment.WORLD);
     }
 
+
+
+    public static String read(String url) throws Exception {
+
+        URL oracle = new URL(url);
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(oracle.openStream()));
+
+        StringBuilder b = new StringBuilder();
+        String inputLine;
+        while ((inputLine = in.readLine()) != null)
+            b.append(inputLine);
+        in.close();
+
+        return b.toString();
+
+    }
+
     public Map<String,byte[]> inject() throws Exception {
 
         loadJar();
@@ -37,9 +61,42 @@ public final class Injector {
         Map<String,byte[]> defs = inflate();
         ClassLoader default_def_loader = new ByteClassLoader(defs);
 
+        String gson = read(new File("C:\\Users\\Jamie\\HDUpdater\\Updater\\hooks.gson").toURL().toString());
+
+        GPatch cr = GPatch.parse(gson);
+        BCompiler compiler = new BCompiler(new ReflectionProfiler(),new ResolverImpl(cr));
+
+
+        System.out.println("COMPILE SCRIPTS");
+
+        compiler.inject(Client.class, classes);
+        compiler.inject(Node.class, classes);
+        compiler.inject(com.hdhelper.agent.bs.impl.scripts.Character.class, classes);
+        compiler.inject(Deque.class, classes);
+        compiler.inject(DualNode.class, classes);
+        compiler.inject(Entity.class, classes);
+        compiler.inject(GameEngine.class, classes);
+        compiler.inject(ItemDefinition.class, classes);
+        compiler.inject(NodeTable.class, classes);
+        compiler.inject(Npc.class,classes);
+        compiler.inject(NpcDefinition.class, classes);
+        compiler.inject(ObjectDefinition.class,classes);
+        compiler.inject(Player.class,classes);
+        compiler.inject(PlayerConfig.class,classes);
+        compiler.inject(GroundItem.class,classes);
+        compiler.inject(ItemTable.class,classes);
+
+
+        ClientMod.hackCanvas(classes);
+        new GraphicsEngineMod().inject(classes);
+        ClientMod.xteaDump(classes);
+
+        System.out.println("DONE");
+
+/*
         for(InjectionModule mod : InjectionModule.getModules()) {
             mod.inject(classes);
-        }
+        }*/
 
         compile(default_def_loader);
 

@@ -63,6 +63,8 @@ public class FontFactory {
     public static void l() {
 
     }
+
+
     public static void profileCharacter(Font font, FontMetrics fontmetrics, char c, int index, boolean bool, FontData dest) {
         int char_with = fontmetrics.charWidth(c);
         int y = fontmetrics.getMaxAscent();
