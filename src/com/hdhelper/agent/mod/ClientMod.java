@@ -91,7 +91,7 @@ public class ClientMod extends InjectionModule {
         ITEM_TABLES = new FieldMember("g","i",NodeTableMod.NODE_TABLE_DESC,true);
         
         CACHE_DIR = new FieldMember("eq", "v", "Ljava/io/File;", true);
-        
+
         P12FULL = new FieldMember("dz","cx", "Lhy;",true);
 
     }

@@ -1,6 +1,7 @@
 package com.hdhelper.agent;
 
 import com.hdhelper.Environment;
+import com.hdhelper.Main;
 import com.hdhelper.agent.bs.compiler.BCompiler;
 import com.hdhelper.agent.bs.impl.ReflectionProfiler;
 import com.hdhelper.agent.bs.impl.ResolverImpl;
@@ -14,8 +15,10 @@ import jdk.internal.org.objectweb.asm.ClassReader;
 import jdk.internal.org.objectweb.asm.ClassWriter;
 import jdk.internal.org.objectweb.asm.tree.ClassNode;
 
-import java.io.*;
-import java.net.URL;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,11 +41,11 @@ public final class Injector {
 
 
 
-    public static String read(String url) throws Exception {
+    public static String getHooks() throws IOException {
 
-        URL oracle = new URL(url);
+        InputStream input = Main.class.getResourceAsStream("hooks.gson");
         BufferedReader in = new BufferedReader(
-                new InputStreamReader(oracle.openStream()));
+                new InputStreamReader(input));
 
         StringBuilder b = new StringBuilder();
         String inputLine;
@@ -61,7 +64,8 @@ public final class Injector {
         Map<String,byte[]> defs = inflate();
         ClassLoader default_def_loader = new ByteClassLoader(defs);
 
-        String gson = read(new File("C:\\Users\\Jamie\\HDUpdater\\Updater\\hooks.gson").toURL().toString());
+
+        String gson = getHooks();
 
         GPatch cr = GPatch.parse(gson);
         BCompiler compiler = new BCompiler(new ReflectionProfiler(),new ResolverImpl(cr));
