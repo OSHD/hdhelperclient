@@ -1,5 +1,6 @@
-package com.hdhelper.agent.bs.impl.scripts;
+package com.hdhelper.agent.bs.impl.scripts.cache;
 
+import com.hdhelper.agent.bs.impl.scripts.collection.DualNode;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.BMethod;
 import com.hdhelper.agent.bs.lang.ByteScript;
@@ -19,20 +20,29 @@ public class NpcDefinition extends DualNode implements RSNpcDefintion {
     @BField short[] colors;
 
 
-    @Override
-    public String getName() {
+
+
+    @BMethod(name = "transform")
+    public NpcDefinition transform0() {
         return null;
     }
 
-    @BMethod
-    public NpcDefinition transform() {
-        return null;
+
+
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override
     public int getId() {
-        return 0;
+        return id;
     }
 
+    @Override
+    public RSNpcDefintion transform() {
+        return transform0();
+    }
 
 }

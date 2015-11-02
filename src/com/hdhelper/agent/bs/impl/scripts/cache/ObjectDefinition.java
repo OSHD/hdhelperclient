@@ -1,5 +1,6 @@
-package com.hdhelper.agent.bs.impl.scripts;
+package com.hdhelper.agent.bs.impl.scripts.cache;
 
+import com.hdhelper.agent.bs.impl.scripts.collection.DualNode;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.BMethod;
 import com.hdhelper.agent.bs.lang.ByteScript;
@@ -26,7 +27,7 @@ public class ObjectDefinition extends DualNode implements RSObjectDefinition {
     }
 
     @Override
-    public String name() {
+    public String getName() {
         return name;
     }
 

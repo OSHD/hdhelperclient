@@ -148,6 +148,48 @@ public class W2S {
 
 
 
+    public static void draw3DBox(int floor, int rx, int ry, int w, int h, int height, int color, RTGraphics g) {
+
+        Point BA = regionToViewport(rx,ry,floor,0);
+        if(BA == null) return;
+        Point BB = regionToViewport(rx,ry+h,floor,0);
+        if(BB == null) return;
+        Point BC = regionToViewport(rx+w,ry+h,floor,0);
+        if(BC == null) return;
+        Point BD = regionToViewport(rx+w,ry,floor,0);
+        if(BD == null) return;
+
+
+
+        Point TA = regionToViewport(rx,ry,floor,height);
+        if(TA == null) return;
+        Point TB = regionToViewport(rx,ry+h,floor,height);
+        if(TB == null) return;
+        Point TC = regionToViewport(rx+w,ry+h,floor,height);
+        if(TC == null) return;
+        Point TD = regionToViewport(rx+w,ry,floor,height);
+        if(TD == null) return;
+
+        //Bottom
+        g.drawLine(BA,BB,color);
+        g.drawLine(BB,BC,color);
+        g.drawLine(BC,BD,color);
+        g.drawLine(BD,BA,color);
+
+        //Top
+        g.drawLine(TA,TB,color);
+        g.drawLine(TB,TC,color);
+        g.drawLine(TC,TD,color);
+        g.drawLine(TD,TA,color);
+
+        //Sides
+        g.drawLine(BA,TA,color);
+        g.drawLine(BB,TB,color);
+        g.drawLine(BC,TC,color);
+        g.drawLine(BD,TD,color);
+
+    }
+
     public static void draw3DBox(int floor, int rx, int ry, int height, Graphics2D g) {
 
         Point BA = regionToViewport(rx,ry,floor,0);
@@ -190,16 +232,48 @@ public class W2S {
 
     }
 
+    public static void drawStrictPoint(int floor, int sx, int sy,  RTGraphics g, int border_color, int centre_color) {
 
-    public static void draw3DBox(int floor, int rx, int ry, int height, RTGraphics g, int color) {
-
+        int rx = sx >> 7;
+        int ry = sy >> 7;
+        
         Point BA = regionToViewport(rx,ry,floor,0);
         if(BA == null) return;
         Point BB = regionToViewport(rx,ry+1,floor,0);
         if(BB == null) return;
         Point BC = regionToViewport(rx+1,ry+1,floor,0);
         if(BC == null) return;
-        Point BD = regionToViewport(rx+1,ry,floor,0);
+        Point BD = regionToViewport(rx + 1, ry, floor, 0);
+        if(BD == null) return;
+        
+        Point C = tileToViewport(sx,sy,floor,0);
+        if(C.x == -1) return;
+        
+        g.drawLine(BA, BB, border_color);
+        g.drawLine(BB, BC, border_color);
+        g.drawLine(BC, BD, border_color);
+        g.drawLine(BD, BA, border_color);
+        
+        g.drawLine(BA, C, centre_color);
+        g.drawLine(BB, C, centre_color);
+        g.drawLine(BC, C, centre_color);
+        g.drawLine(BD, C, centre_color);
+        
+    }
+    
+    public static void draw3DBox(int floor, int rx, int ry, int height, RTGraphics g, int color) {
+        draw3DBox(floor, rx, ry, 0, height, g, color);
+    }
+
+    public static void draw3DBox(int floor, int rx, int ry, int base_height, int height, RTGraphics g, int color) {
+
+        Point BA = regionToViewport(rx,ry,floor,base_height);
+        if(BA == null) return;
+        Point BB = regionToViewport(rx,ry+1,floor,base_height);
+        if(BB == null) return;
+        Point BC = regionToViewport(rx+1,ry+1,floor,base_height);
+        if(BC == null) return;
+        Point BD = regionToViewport(rx+1,ry,floor,base_height);
         if(BD == null) return;
 
 

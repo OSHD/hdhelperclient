@@ -22,6 +22,14 @@ public class Environment {
     public static int CLIENT_REVISION = 96;
 
     public static boolean RENDER_LANDSCAPE = true;
-    public static boolean RENDER_DEBUG = false;
+
+    public static boolean RENDER_NPC_DEBUG;
+    public static boolean RENDER_PLAYER_DEBUG;
+    public static boolean RENDER_GROUND_ITEM_DEBUG;
+    public static boolean RENDER_BOUNDARY_DEBUG;
+    public static boolean RENDER_BOUNDARY_DECO_DEBUG;
+    public static boolean RENDER_TILE_DECO_DEBUG;
+    public static boolean RENDER_OBJECT_DEBUG;
+    public static boolean RENDER_MISC_DEBUG;
 
 }

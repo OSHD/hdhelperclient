@@ -1,5 +1,6 @@
-package com.hdhelper.agent.bs.impl.scripts;
+package com.hdhelper.agent.bs.impl.scripts.util;
 
+import com.hdhelper.agent.bs.impl.scripts.collection.Node;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.ByteScript;
 import com.hdhelper.peer.RSItemTable;
@@ -19,4 +20,5 @@ public class ItemTable extends Node implements RSItemTable {
     public int[] getQuantities() {
         return quantities;
     }
+
 }

@@ -1,5 +1,6 @@
-package com.hdhelper.agent.bs.impl.scripts;
+package com.hdhelper.agent.bs.impl.scripts.collection;
 
+import com.hdhelper.agent.bs.impl.scripts.collection.Node;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.ByteScript;
 import com.hdhelper.peer.RSNode;
@@ -9,7 +10,8 @@ import com.hdhelper.peer.RSNodeTable;
 public class NodeTable implements RSNodeTable {
 
     @BField Node[] buckets;
-    @BField(name = "index") int size;
+    @BField int size;
+    @BField int index;
 
 
 
@@ -20,6 +22,6 @@ public class NodeTable implements RSNodeTable {
 
     @Override
     public int getCapacity() {
-        return size;
+        return index; //TODO its swapped in the updater
     }
 }

@@ -25,6 +25,8 @@ public class GPatch {
         Gson gson0 = b.create();
         GPatch patch = gson0.fromJson(gson, GPatch.class);
 
+        // Override:
+
         GClass client = patch.getGClass("Client");
 
         client.fields.put("screenScale",new GField( "client", "ox", "I", -1748693073 ));
@@ -36,10 +38,14 @@ public class GPatch {
         client.fields.put("XTEAKeys", new GField("ap","dd","[[I", null));
 
         GClass character = patch.getGClass("Character");
-        character.fields.put("targetIndex",new GField( "ai", "bu", "I",-1011914803 ));
+        character.fields.put("targetIndex",new GField( "ai", "ad", "I",1889871245 ));
+        character.fields.put("orientation",new GField("ai","bt","I",-504444531));
 
         GClass player = patch.getGClass("Player");
         player.fields.put("height",new GField("f","p","I",604542887));
+
+        GClass entityMarker = patch.getGClass("EntityMarker");
+        entityMarker.fields.put("regionY",new GField("ce","k","I",-228206313));
 
         return patch;
 

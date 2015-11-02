@@ -39,4 +39,6 @@ public interface RSClient {
     
     File getCacheDirectory();
 
+    RSLandscape getLandscape();
+
 }

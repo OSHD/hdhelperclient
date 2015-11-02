@@ -154,11 +154,11 @@
           "desc": "Lck;",
           "access": 0
         },
-        "regionX": {
+        "strictY": {
           "owner": "cx",
-          "name": "v",
+          "name": "f",
           "desc": "I",
-          "decoder": 153414505,
+          "decoder": 401430787,
           "access": 0
         },
         "orientationB": {
@@ -168,11 +168,11 @@
           "decoder": -454260489,
           "access": 0
         },
-        "regionY": {
+        "strictX": {
           "owner": "cx",
-          "name": "f",
+          "name": "v",
           "desc": "I",
-          "decoder": 401430787,
+          "decoder": 153414505,
           "access": 0
         },
         "orientationA": {
@@ -932,18 +932,18 @@
           "desc": "Lck;",
           "access": 0
         },
-        "regionX": {
-          "owner": "cj",
-          "name": "v",
-          "desc": "I",
-          "decoder": 900438221,
-          "access": 0
-        },
-        "regionY": {
+        "strictY": {
           "owner": "cj",
           "name": "f",
           "desc": "I",
           "decoder": -1390404275,
+          "access": 0
+        },
+        "strictX": {
+          "owner": "cj",
+          "name": "v",
+          "desc": "I",
+          "decoder": 900438221,
           "access": 0
         },
         "height": {
@@ -1043,13 +1043,6 @@
           "decoder": -199949401,
           "access": 24
         },
-        "sizeX": {
-          "owner": "ce",
-          "name": "r",
-          "desc": "I",
-          "decoder": 1617706217,
-          "access": 0
-        },
         "orientation": {
           "owner": "ce",
           "name": "s",
@@ -1064,12 +1057,26 @@
           "decoder": 1795239801,
           "access": 0
         },
+        "maxY": {
+          "owner": "ce",
+          "name": "d",
+          "desc": "I",
+          "decoder": -375482433,
+          "access": 1
+        },
         "floorLevel": {
           "owner": "ce",
           "name": "i",
           "desc": "I",
           "decoder": 1576477777,
           "access": 24
+        },
+        "maxX": {
+          "owner": "ce",
+          "name": "r",
+          "desc": "I",
+          "decoder": 1617706217,
+          "access": 0
         },
         "regionX": {
           "owner": "ce",
@@ -1103,13 +1110,6 @@
           "name": "a",
           "desc": "Lck;",
           "access": 0
-        },
-        "sizeY": {
-          "owner": "ce",
-          "name": "d",
-          "desc": "I",
-          "decoder": -375482433,
-          "access": 1
         },
         "height": {
           "owner": "ce",
@@ -1990,13 +1990,6 @@
           "decoder": 1027567379,
           "access": 0
         },
-        "floorLevel": {
-          "owner": "co",
-          "name": "i",
-          "desc": "I",
-          "decoder": -1492732529,
-          "access": 24
-        },
         "strictX": {
           "owner": "co",
           "name": "v",
@@ -2024,6 +2017,13 @@
           "desc": "I",
           "decoder": -292972075,
           "access": 8
+        },
+        "height": {
+          "owner": "co",
+          "name": "i",
+          "desc": "I",
+          "decoder": -1492732529,
+          "access": 24
         }
       }
     },

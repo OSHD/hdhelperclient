@@ -301,6 +301,18 @@ public class RTGraphics {
         drawLine(A.x,A.y,B.x,B.y,color);
     }
 
+    public void drawSquareDot(Point P, int color) {
+        drawSquareDot(P.x,P.y,color);
+    }
+
+    public void drawSquareDot(int x, int y,int color) {
+        drawSquareDot(x,y,2,color);
+    }
+
+    public void drawSquareDot(int x, int y, int size, int color) {
+        fillRectangle(x-size/2,y-size/2,size*2,size*2,color);
+    }
+
     public void drawLine(int x1, int y1, int x2, int y2, int rgb) {
         x2 -= x1;
         y2 -= y1;
@@ -461,6 +473,36 @@ public class RTGraphics {
         }
     }
 
+   /* public void fillCircle(int x, int y, int radius, int color, int alpha) {
+        int lightness = 256 - alpha;
+        int red = (color >> 16 & 0xff) * alpha;
+        int green = (color >> 8 & 0xff) * alpha;
+        int blue = (color & 0xff) * alpha;
+        int y_min = y - radius;
+        if (y_min < 0)
+            y_min = 0;
+        int y_max = y + radius;
+        if (y_max >= rasterHeight)
+            y_max = map_height - 1;
+        for (int y0 = y_min; y0 <= y_max; y0++) {
+            int deltaY = y0 - y;
+            int x_length = (int) Math.sqrt(radius * radius - deltaY * deltaY); //R^2 - Y^2 = X^2
+            int min_x = x - x_length;
+            if (min_x < 0) min_x = 0;
+            int max_x = x + x_length;
+            if (max_x >= map_with)
+                max_x = map_with - 1;
+            int index = min_x + y0 * map_with; // i = y * w + x
+            for (int x0 = min_x; x0 <= max_x; x0++) {
+                int existing_red = (cluster[index] >> 16 & 0xff) * lightness;
+                int existing_green = (cluster[index] >> 8 & 0xff) * lightness;
+                int existing_blue = (cluster[index] & 0xff) * lightness;
+                int new_rgb = ((red + existing_red >> 8) << 16) + ((green + existing_green >> 8) << 8) + (blue + existing_blue >> 8);
+                cluster[index++] = new_rgb;
+            }
+        }
+    }
+*/
 
     public Image crate() {
         if(img == null) {

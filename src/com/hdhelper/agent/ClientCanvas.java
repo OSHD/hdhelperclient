@@ -1,6 +1,5 @@
 package com.hdhelper.agent;
 
-import com.hdhelper.Environment;
 import com.hdhelper.api.ge.RTGraphics;
 import com.hdhelper.api.ge.impl.Debug;
 
@@ -58,13 +57,10 @@ public class ClientCanvas extends Canvas {
 
     void draw00(RTGraphics g) {
 
-
-        if(Environment.RENDER_DEBUG) {
-            if(debug == null) {
-                debug = new Debug();
-            }
-            debug.render(g);
+        if(debug == null) {
+            debug = new Debug();
         }
+        debug.render(g);
 
     }
 

@@ -1,5 +1,13 @@
 package com.hdhelper.agent.bs.impl.scripts;
 
+import com.hdhelper.agent.bs.impl.scripts.cache.ItemDefinition;
+import com.hdhelper.agent.bs.impl.scripts.cache.NpcDefinition;
+import com.hdhelper.agent.bs.impl.scripts.cache.ObjectDefinition;
+import com.hdhelper.agent.bs.impl.scripts.collection.Deque;
+import com.hdhelper.agent.bs.impl.scripts.collection.NodeTable;
+import com.hdhelper.agent.bs.impl.scripts.entity.Npc;
+import com.hdhelper.agent.bs.impl.scripts.entity.Player;
+import com.hdhelper.agent.bs.impl.scripts.ls.Landscape;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.BMethod;
 import com.hdhelper.agent.bs.lang.ByteScript;
@@ -52,6 +60,8 @@ public class Client extends GameEngine implements RSClient {
     public static int[] chunkIds;
     @BField
     public static int[][] XTEAKeys;
+    @BField
+    public static Landscape landscape;
 
 
     @BMethod(name = "getObjectDefinition")
@@ -86,10 +96,7 @@ public class Client extends GameEngine implements RSClient {
         return npcs;
     }
 
-    @Override
-    public RSItemDefinition getItemDef(int id) {
-        return getItemDefinition0(id);
-    }
+
 
 
     @Override
@@ -185,7 +192,18 @@ public class Client extends GameEngine implements RSClient {
         return cacheDirectory;
     }
 
+    @Override
+    public RSLandscape getLandscape() {
+        return landscape;
+    }
 
+
+    @Override
+    public RSItemDefinition getItemDef(int id) {
+        return getItemDefinition0(id);
+    }
+
+    @Override
     public RSObjectDefinition getObjectDef(int id) {
         return getObjectDefinition0(id);
     }

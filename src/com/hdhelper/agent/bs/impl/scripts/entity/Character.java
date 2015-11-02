@@ -1,5 +1,6 @@
-package com.hdhelper.agent.bs.impl.scripts;
+package com.hdhelper.agent.bs.impl.scripts.entity;
 
+import com.hdhelper.agent.bs.impl.scripts.entity.Entity;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.ByteScript;
 import com.hdhelper.peer.RSCharacter;

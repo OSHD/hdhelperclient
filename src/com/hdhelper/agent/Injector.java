@@ -7,9 +7,18 @@ import com.hdhelper.agent.bs.impl.ReflectionProfiler;
 import com.hdhelper.agent.bs.impl.ResolverImpl;
 import com.hdhelper.agent.bs.impl.patch.GPatch;
 import com.hdhelper.agent.bs.impl.scripts.*;
+import com.hdhelper.agent.bs.impl.scripts.cache.ItemDefinition;
+import com.hdhelper.agent.bs.impl.scripts.cache.NpcDefinition;
+import com.hdhelper.agent.bs.impl.scripts.cache.ObjectDefinition;
+import com.hdhelper.agent.bs.impl.scripts.collection.*;
+import com.hdhelper.agent.bs.impl.scripts.entity.*;
+import com.hdhelper.agent.bs.impl.scripts.ls.*;
+import com.hdhelper.agent.bs.impl.scripts.util.ItemTable;
+import com.hdhelper.agent.bs.impl.scripts.util.PlayerConfig;
 import com.hdhelper.agent.io.ClientLoader;
 import com.hdhelper.agent.mod.ClientMod;
 import com.hdhelper.agent.mod.GraphicsEngineMod;
+import com.hdhelper.agent.mod.RenderMod;
 import com.hdhelper.agent.util.ClassWriterFix;
 import jdk.internal.org.objectweb.asm.ClassReader;
 import jdk.internal.org.objectweb.asm.ClassWriter;
@@ -75,7 +84,7 @@ public final class Injector {
 
         compiler.inject(Client.class, classes);
         compiler.inject(Node.class, classes);
-        compiler.inject(com.hdhelper.agent.bs.impl.scripts.Character.class, classes);
+        compiler.inject(com.hdhelper.agent.bs.impl.scripts.entity.Character.class, classes);
         compiler.inject(Deque.class, classes);
         compiler.inject(DualNode.class, classes);
         compiler.inject(Entity.class, classes);
@@ -90,10 +99,19 @@ public final class Injector {
         compiler.inject(GroundItem.class,classes);
         compiler.inject(ItemTable.class,classes);
 
+        compiler.inject(Landscape.class,classes);
+        compiler.inject(BoundaryDecoration.class,classes);
+        compiler.inject(EntityMarker.class,classes);
+        compiler.inject(ItemPile.class,classes);
+        compiler.inject(LandscapeTile.class,classes);
+        compiler.inject(TileDecoration.class,classes);
+        compiler.inject(Boundary.class,classes);
+
 
         ClientMod.hackCanvas(classes);
         new GraphicsEngineMod().inject(classes);
         ClientMod.xteaDump(classes);
+        new RenderMod().inject(classes);
 
         System.out.println("DONE");
 

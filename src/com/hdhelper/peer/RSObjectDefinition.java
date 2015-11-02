@@ -1,6 +1,6 @@
 package com.hdhelper.peer;
 
 public interface RSObjectDefinition {
-    String name();
+    String getName();
     RSObjectDefinition transform();
 }
