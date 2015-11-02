@@ -1,0 +1,12 @@
+/bytecode/
+/bin/
+/hooks.ds2
+/build.xml
+/jars/
+.classpath
+.project
+.settings/
+/log.txt
+.idea/*
+Client.iml
+out/*

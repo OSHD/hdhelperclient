@@ -10,8 +10,8 @@ import java.awt.*;
 
 public class MainFrame extends JFrame {
 
-    private static final int WIDTH = 765 + 4 + 4;
-    private static final int HEIGHT = 545 + 4 + 24;
+    private static final int WIDTH = 781;
+    private static final int HEIGHT = 563;
 
     public MainFrame() {
         super("HD Helper");
