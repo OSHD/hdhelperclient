@@ -41,4 +41,8 @@ public interface RSClient {
 
     RSLandscape getLandscape();
 
+    //GPI:
+    int[] getPlayerIndices();
+    int getPlayerCount();
+
 }

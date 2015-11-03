@@ -208,4 +208,15 @@ public class Client extends GameEngine implements RSClient {
         return getObjectDefinition0(id);
     }
 
+
+    @Override
+    public int[] getPlayerIndices() {
+        return GPI.playerIndices;
+    }
+
+    @Override
+    public int getPlayerCount() {
+        return GPI.playerCount;
+    }
+
 }

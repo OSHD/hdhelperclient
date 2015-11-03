@@ -353,11 +353,17 @@ public class Debug extends BasicOverlay {
                 }
 
                 lol.i += 1;
-
                 //Equipment Debug:
                 for (Equipment.Slot s : Equipment.Slot.values()) {
                     warrior.drawString(s.name() + ":" + s.get(), lol.x(),lol.y());
                 }
+
+                lol.i++;
+                //GPI:
+                warrior.drawString("PlayerCount:" + client.getPlayerCount(), lol.x(), lol.y());
+                warrior.drawString("PlayerIndices:" + Arrays.toString(Arrays.copyOf(client.getPlayerIndices(), client.getPlayerCount())), lol.x(), lol.y());
+
+
             }
 
 

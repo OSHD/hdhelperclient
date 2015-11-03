@@ -47,6 +47,10 @@ public class GPatch {
         GClass entityMarker = patch.getGClass("EntityMarker");
         entityMarker.fields.put("regionY",new GField("ce","k","I",-228206313));
 
+        GClass gpi = patch.getGClass("GPI");
+        gpi.fields.put("playerIndices",new GField("ae","p","[I",null));
+        gpi.fields.put("playerCount",new GField("ae","s","I",907260627));
+
         return patch;
 
     }

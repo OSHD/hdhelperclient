@@ -107,6 +107,8 @@ public final class Injector {
         compiler.inject(TileDecoration.class,classes);
         compiler.inject(Boundary.class,classes);
 
+        compiler.inject(GPI.class,classes);
+
 
         ClientMod.hackCanvas(classes);
         new GraphicsEngineMod().inject(classes);
