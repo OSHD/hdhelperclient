@@ -15,6 +15,7 @@ public class RenderMod extends InjectionModule {
 
     @Override
     public void inject(Map<String, ClassNode> classes) {
+
         for(MethodNode mn : classes.get(LANDSCAPE).methods) {
             if(mn.name.equals("ay")) {
 
@@ -31,6 +32,26 @@ public class RenderMod extends InjectionModule {
 
             }
         }
+
+        //AIO method for drawing hitbar, hitsplats, overheadText
+        for(MethodNode mn : classes.get("dr").methods) {
+            if(mn.name.equals("as")) {
+
+                LabelNode A = new LabelNode(new Label());
+                mn.visitLabel(A.getLabel());
+
+                InsnList stack = new InsnList();
+                stack.add(new FieldInsnNode(GETSTATIC, Type.getInternalName(Environment.class), "RENDER_LANDSCAPE","Z" ));
+                stack.add(new JumpInsnNode(IFNE,A));
+                stack.add(new InsnNode(RETURN));
+                stack.add(A);
+
+                mn.instructions.insertBefore(mn.instructions.getFirst(),stack);
+
+            }
+        }
+
+
     }
 
 }

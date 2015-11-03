@@ -5,4 +5,6 @@ public interface RSPlayer extends RSCharacter {
     int getCombatLevel();
     RSPlayerConfig getConfig();
     int getZ();
+    int getPrayerIcon();
+    int getSkullIcon();
 }

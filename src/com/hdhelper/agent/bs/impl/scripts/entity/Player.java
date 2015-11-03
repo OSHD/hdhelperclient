@@ -12,8 +12,9 @@ public class Player extends com.hdhelper.agent.bs.impl.scripts.entity.Character 
     @BField String name;
     @BField int combatLevel;
     @BField int height;
-    @BField
-    PlayerConfig config;
+    @BField PlayerConfig config;
+    @BField int prayerIcon;
+    @BField int skullIcon;
 
 
 
@@ -36,5 +37,15 @@ public class Player extends com.hdhelper.agent.bs.impl.scripts.entity.Character 
     @Override
     public int getZ() {
         return height;
+    }
+
+    @Override
+    public int getPrayerIcon() {
+        return prayerIcon;
+    }
+
+    @Override
+    public int getSkullIcon() {
+        return skullIcon;
     }
 }
