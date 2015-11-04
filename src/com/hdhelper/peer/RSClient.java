@@ -45,4 +45,6 @@ public interface RSClient {
     int[] getPlayerIndices();
     int getPlayerCount();
 
+    int getFps();
+
 }

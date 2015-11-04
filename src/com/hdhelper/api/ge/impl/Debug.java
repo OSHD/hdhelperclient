@@ -46,6 +46,20 @@ public class Debug extends BasicOverlay {
 
     }
 
+    static int camX;
+    static int camY;
+    static boolean[][] vismap;
+    static int renderMinX;
+    static int renderMinY;
+    static int renderMaxX;
+    static int renderMaxY;
+
+    static boolean cull(int rx, int ry) {
+        rx -= renderMinX;
+        ry -= renderMinY;
+        return !(rx > 0 && ry < 50 && ry > 0 && ry < 50) || !vismap[rx][ry];
+    }
+
     void drawNewDebug(RTGraphics g) {
 
         if(warrior == null) {
@@ -86,9 +100,30 @@ public class Debug extends BasicOverlay {
 
             final int floor = client.getFloor();
 
+
+
             RSLandscapeTile[][] ls_tiles = landscape.getTiles()[floor];
 
 
+            final int pitch = client.getPitch();
+            final int yaw = client.getYaw();
+
+            if(pitch==0&&yaw==0) return;
+
+            vismap = landscape.getVisibilityMap()[(pitch-128)/32][yaw/64];
+
+            camX = client.getCameraX()/128;
+            camY = client.getCameraY()/128;
+
+            renderMinX = camX - 25;
+            renderMinY = camY - 25;
+            renderMaxX = camX + 25;
+            renderMaxY = camY + 25;
+
+            if(renderMinX < 0)   renderMinX = 0;
+            if(renderMinY < 0)   renderMinY = 0;
+            if(renderMinX > 104) renderMaxX = 104;
+            if(renderMinY > 104) renderMaxY = 104;
 
 
             if(Environment.RENDER_PLAYER_DEBUG) {
@@ -97,6 +132,7 @@ public class Debug extends BasicOverlay {
                     if (p == null || p.getHeight() == 1000) continue;
                     int rx = p.getRegionX();
                     int ry = p.getRegionY();
+                    if(cull(rx,ry)) continue;
                     W2S.draw3DBox(floor, rx, ry, p.getHeight(), g, Color.RED.getRGB());
                     Point P = W2S.tileToViewport(p.getStrictX(), p.getStrictY(), floor, p.getHeight());
                     if (P.x == -1) continue;
@@ -120,9 +156,7 @@ public class Debug extends BasicOverlay {
                     if (p == null || p.getHeight() == 1000) continue;
                     int rx = p.getRegionX();
                     int ry = p.getRegionY();
-
-                 //   drawEntities(ls_tiles[rx][ry],UID.TYPE_NPC,g); They remove temp entities after the landscape is rendered...
-
+                    if(cull(rx,ry)) continue;
                     W2S.draw3DBox(floor, rx, ry, p.getHeight(), g, Color.BLUE.getRGB());
                     if (p.getDef() == null) continue;
                     Point P = W2S.tileToViewport(p.getStrictX(), p.getStrictY(), floor, p.getHeight());
@@ -139,8 +173,9 @@ public class Debug extends BasicOverlay {
                 //Render GroundItems:
                 warrior.setColor(Color.YELLOW);
                 RSDeque[][] items = client.getGroundItems()[floor];
-                for (int x = 0; x < 104; x++) {
-                    for (int y = 0; y < 104; y++) {
+                for (int x = renderMinX; x < renderMaxX; ++x) {
+                    for (int y = renderMinY; y < renderMaxY; ++y) {
+                        if(!vismap[x-camX+25][y-camY+25]) continue;
                         RSDeque pile = items[x][y];
                         if (pile == null) continue;
                         RSItemPile pile0 = ls_tiles[x][y].getItemPile();
@@ -162,8 +197,9 @@ public class Debug extends BasicOverlay {
                 }
             }
 
-            for (int x = 0; x < 104; x++) {
-                for (int y = 0; y < 104; y++) {
+            for (int x = renderMinX; x < renderMaxX; ++x) {
+                for (int y = renderMinY; y < renderMaxY; ++y) {
+                    if(!vismap[x-camX+25][y-camY+25]) continue;
 
                     RSLandscapeTile tile = ls_tiles[x][y];
                     if(tile == null) continue;
@@ -304,6 +340,8 @@ public class Debug extends BasicOverlay {
             if(Environment.RENDER_MISC_DEBUG) {
 
                 warrior.setColor(Color.GREEN);
+
+                warrior.drawString("FPS:" + client.getFps(), lol.x(), lol.y());
 
                 RSPlayer me = client.getMyPlayer();
                 if (me != null) {

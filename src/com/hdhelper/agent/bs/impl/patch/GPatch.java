@@ -51,6 +51,9 @@ public class GPatch {
         gpi.fields.put("playerIndices",new GField("ae","p","[I",null));
         gpi.fields.put("playerCount",new GField("ae","s","I",907260627));
 
+        GClass landscape = patch.getGClass("Landscape");
+        landscape.fields.put("visibilityMap",new GField("cb","bp","[[[[Z",null));
+
         return patch;
 
     }

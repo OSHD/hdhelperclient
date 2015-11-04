@@ -15,6 +15,9 @@ public class Landscape implements RSLandscape {
     @BField(name = "tempEntityMarkers")
     EntityMarker[] tempEntities;
 
+    @BField
+    public static boolean[][][][] visibilityMap;
+
 
 
 
@@ -27,4 +30,10 @@ public class Landscape implements RSLandscape {
     public RSEntityMarker[] getTempEntities() {
         return tempEntities;
     }
+
+    @Override
+    public boolean[][][][] getVisibilityMap() {
+        return visibilityMap;
+    }
+
 }

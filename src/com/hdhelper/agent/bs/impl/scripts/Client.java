@@ -62,6 +62,8 @@ public class Client extends GameEngine implements RSClient {
     public static int[][] XTEAKeys;
     @BField
     public static Landscape landscape;
+    @BField
+    public static int fps;
 
 
     @BMethod(name = "getObjectDefinition")
@@ -205,6 +207,7 @@ public class Client extends GameEngine implements RSClient {
 
     @Override
     public RSObjectDefinition getObjectDef(int id) {
+        if(id < 0 || id >= Short.MAX_VALUE) return null;
         return getObjectDefinition0(id);
     }
 
@@ -217,6 +220,11 @@ public class Client extends GameEngine implements RSClient {
     @Override
     public int getPlayerCount() {
         return GPI.playerCount;
+    }
+
+    @Override
+    public int getFps() {
+        return fps;
     }
 
 }
