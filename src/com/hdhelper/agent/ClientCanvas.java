@@ -20,12 +20,6 @@ public class ClientCanvas extends Canvas {
 
     public ClientCanvas() {
         super();
-        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = (int) screen.getWidth();
-        int height = (int) screen.getHeight();
-        rawImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        backBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
         System.out.println("LOADED");
     }
 
@@ -34,7 +28,14 @@ public class ClientCanvas extends Canvas {
         engine_raster = raster;
         engine_img = img;
         reshape_count++;
+    }
 
+
+    void reloadBuffers(int w, int h) {
+        if(rawImage != null) rawImage.flush();
+        if(backBuffer != null) backBuffer.flush();
+        rawImage = new BufferedImage(w,h, BufferedImage.TYPE_INT_RGB);
+        backBuffer = new BufferedImage(w,h, BufferedImage.TYPE_INT_RGB);
     }
 
 
@@ -45,6 +46,7 @@ public class ClientCanvas extends Canvas {
             if(g != null) g.flush();
             g = new RTGraphics(engine_raster,w,h);
             cur_shape = reshape_count;
+            reloadBuffers(w,h);
         }
     }
 
@@ -72,7 +74,7 @@ public class ClientCanvas extends Canvas {
             return;
         }
 
-        validateGraphics();
+
 
         RTGraphics rtg = g;
 
@@ -88,10 +90,10 @@ public class ClientCanvas extends Canvas {
 
     @Override
     public Graphics getGraphics() {
-
+        validateGraphics();
         Graphics g = super.getGraphics();
         Graphics2D paint = (Graphics2D) backBuffer.getGraphics();
-        paint.clearRect(0, 0, getWidth(), getHeight());
+       // paint.clearRect(0, 0, getWidth(), getHeight());
         paint.drawImage(rawImage, 0, 0, null);
         draw0(paint);
         paint.dispose();
