@@ -3,18 +3,22 @@ package com.hdhelper.agent;
 import com.hdhelper.api.ge.RTGraphics;
 import com.hdhelper.api.ge.impl.Debug;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 
 public class ClientCanvas extends Canvas {
 
-    private BufferedImage rawImage;
+    private BufferedImage lastFrame;
     private BufferedImage backBuffer;
 
     private RTGraphics g = null;
     private static int[] engine_raster;
     private static Image engine_img;
     private static int reshape_count = 0;
+
+    private static int[] offscreen_buffer;
 
     private int cur_shape = 0;
 
@@ -30,80 +34,51 @@ public class ClientCanvas extends Canvas {
         reshape_count++;
     }
 
-
-    void reloadBuffers(int w, int h) {
-        if(rawImage != null) rawImage.flush();
-        if(backBuffer != null) backBuffer.flush();
-        rawImage = new BufferedImage(w,h, BufferedImage.TYPE_INT_RGB);
-        backBuffer = new BufferedImage(w,h, BufferedImage.TYPE_INT_RGB);
-    }
-
-
-    void validateGraphics() {
+    private void validateGraphics() {
         if(cur_shape != reshape_count) {
             final int w = engine_img.getWidth(null);
             final int h = engine_img.getHeight(null);
             if(g != null) g.flush();
-            g = new RTGraphics(engine_raster,w,h);
+            offscreen_buffer = new int[w*h+1];
+            g = new RTGraphics(offscreen_buffer,w,h);
             cur_shape = reshape_count;
-            reloadBuffers(w,h);
         }
     }
-
-
-
-
-
 
     Debug debug;
 
     void draw00(RTGraphics g) {
 
+        if(engine_raster == null || engine_raster.length == 1) {
+            return;
+        }
+
         if(debug == null) {
             debug = new Debug();
         }
+
         debug.render(g);
 
     }
 
 
 
-    void draw0(Graphics2D g0) {
-
-        if(engine_raster == null || engine_raster.length == 1) {
-            return;
-        }
-
-
-
-        RTGraphics rtg = g;
-
-        draw00(rtg);
-
-        Image rtg_image = rtg.crate();
-        assert rtg_image != null;
-
-        g0.drawImage(rtg_image, 0, 0, null);
-
-    }
-
-
     @Override
     public Graphics getGraphics() {
+        // ... Frame complete...
         validateGraphics();
-        Graphics g = super.getGraphics();
-        Graphics2D paint = (Graphics2D) backBuffer.getGraphics();
-       // paint.clearRect(0, 0, getWidth(), getHeight());
-        paint.drawImage(rawImage, 0, 0, null);
-        draw0(paint);
-        paint.dispose();
-        g.drawImage(backBuffer, 0, 0, null);
-        backBuffer.flush();
-        g.dispose();
-        Graphics rawG = rawImage.getGraphics();
-        rawImage.flush();
 
-        return rawG;
+        System.arraycopy(engine_raster, 0, offscreen_buffer, 0, engine_raster.length);
+        draw00(g);
+        Graphics canvasG = super.getGraphics();
+        canvasG.drawImage(g.crate(),0,0,null); //Draw the game
+
+        return new DebugGraphics(canvasG) { // Prevent runescape from rendering //TODO inject into the engine not to draw its frame
+            @Override
+            public boolean drawImage(Image m, int x, int y, ImageObserver o) {
+                return false;
+            }
+        };
 
     }
 
