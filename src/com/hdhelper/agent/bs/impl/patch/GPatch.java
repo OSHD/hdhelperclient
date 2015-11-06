@@ -43,7 +43,7 @@ public class GPatch {
         character.fields.put("orientation",new GField( character.name, "cg","I",527854075));
 
         GClass player = patch.getGClass("Player");
-        player.fields.put("height",new GField(player.name,"p","I",604542887));
+        player.fields.put("height",new GField(player.name,"h","I",-1507293645));
 
         GClass entityMarker = patch.getGClass("EntityMarker");
         entityMarker.fields.put("regionY",new GField(entityMarker.name,"h","I",-959893399));
