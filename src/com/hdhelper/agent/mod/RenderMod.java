@@ -10,14 +10,14 @@ import java.util.Map;
 //Disables main-screen rendering
 public class RenderMod extends InjectionModule {
 
-    public static final String LANDSCAPE = "cb";
+    public static final String LANDSCAPE = "ci";
 
 
     @Override
     public void inject(Map<String, ClassNode> classes) {
 
         for(MethodNode mn : classes.get(LANDSCAPE).methods) {
-            if(mn.name.equals("ay")) {
+            if(mn.name.equals("ad")) {
 
                 LabelNode A = new LabelNode(new Label());
                 mn.visitLabel(A.getLabel());
@@ -34,8 +34,8 @@ public class RenderMod extends InjectionModule {
         }
 
         //AIO method for drawing hitbar, hitsplats, overheadText
-        for(MethodNode mn : classes.get("dr").methods) {
-            if(mn.name.equals("as")) {
+        for(MethodNode mn : classes.get("client").methods) {
+            if(mn.name.equals("aa")) {
 
                 LabelNode A = new LabelNode(new Label());
                 mn.visitLabel(A.getLabel());
