@@ -38,6 +38,7 @@ public class ClientCanvas extends Canvas {
         if(cur_shape != reshape_count) {
             final int w = engine_img.getWidth(null);
             final int h = engine_img.getHeight(null);
+            assert w == this.getWidth() && h == this.getHeight();
             if(g != null) g.flush();
             offscreen_buffer = new int[w*h+1];
             g = new RTGraphics(offscreen_buffer,w,h);

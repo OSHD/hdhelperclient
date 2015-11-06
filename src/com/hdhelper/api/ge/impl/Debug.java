@@ -6,7 +6,7 @@ import com.hdhelper.api.Equipment;
 import com.hdhelper.api.UID;
 import com.hdhelper.api.W2S;
 import com.hdhelper.api.ge.BasicOverlay;
-import com.hdhelper.api.ge.FontFactory;
+import com.hdhelper.api.ge.GlyphFactory;
 import com.hdhelper.api.ge.RTFont;
 import com.hdhelper.api.ge.RTGraphics;
 import com.hdhelper.peer.*;
@@ -398,8 +398,8 @@ public class Debug extends BasicOverlay {
 
                 lol.i++;
                 //GPI:
-                warrior.drawString("PlayerCount:" + client.getPlayerCount(), lol.x(), lol.y());
-                warrior.drawString("PlayerIndices:" + Arrays.toString(Arrays.copyOf(client.getPlayerIndices(), client.getPlayerCount())), lol.x(), lol.y());
+         //       warrior.drawString("PlayerCount:" + client.getPlayerCount(), lol.x(), lol.y());
+          //      warrior.drawString("PlayerIndices:" + Arrays.toString(Arrays.copyOf(client.getPlayerIndices(), client.getPlayerCount())), lol.x(), lol.y());
 
 
             }
@@ -607,7 +607,7 @@ public class Debug extends BasicOverlay {
         void init() {
             System.out.println("Building Font...");
             Font font = new Font("Helvetica", 0, 12);
-            f = FontFactory.create(font);
+            f = GlyphFactory.create(font);
             System.out.println("...Font generated");
         }
 

@@ -29,30 +29,31 @@ public class GPatch {
 
         GClass client = patch.getGClass("Client");
 
-        client.fields.put("screenScale",new GField( "client", "ox", "I", -1748693073 ));
-        client.fields.put("screenWidth",new GField( "client", "og", "I", 215114979  ));
-        client.fields.put("screenHeight",new GField( "client", "ok", "I", 1968603227  ));
-        client.fields.put("floorLevel",new GField("dn","gg", "I",447359903 ));
+        client.fields.put("screenScale",new GField( "client", "ob", "I", -900882037 ));
+        client.fields.put("screenWidth",new GField( "client", "om", "I", -601427865  ));
+        client.fields.put("screenHeight",new GField( "client", "oo", "I", 807668933  ));
+        client.fields.put("floorLevel",new GField("ez","gn", "I",238600101));
         client.methods.get("getItemDefinition").predicate = -1194634781;
-        client.fields.put("chunkIds", new GField("k","dc","[I", null));
-        client.fields.put("XTEAKeys", new GField("ap","dd","[[I", null));
+
+        client.fields.put("chunkIds", new GField("client","dm","[I", null));
+        client.fields.put("XTEAKeys", new GField("ei","de","[[I", null));
 
         GClass character = patch.getGClass("Character");
-        character.fields.put("targetIndex",new GField( "ai", "ad", "I",1889871245 ));
-        character.fields.put("orientation",new GField("ai","bt","I",-504444531));
+        character.fields.put("targetIndex",new GField( character.name, "bu", "I",-1836127123 ));
+        character.fields.put("orientation",new GField( character.name, "cg","I",527854075));
 
         GClass player = patch.getGClass("Player");
-        player.fields.put("height",new GField("f","p","I",604542887));
+        player.fields.put("height",new GField(player.name,"p","I",604542887));
 
         GClass entityMarker = patch.getGClass("EntityMarker");
-        entityMarker.fields.put("regionY",new GField("ce","k","I",-228206313));
+        entityMarker.fields.put("regionY",new GField(entityMarker.name,"h","I",-959893399));
 
         GClass gpi = patch.getGClass("GPI");
         gpi.fields.put("playerIndices",new GField("ae","p","[I",null));
         gpi.fields.put("playerCount",new GField("ae","s","I",907260627));
 
         GClass landscape = patch.getGClass("Landscape");
-        landscape.fields.put("visibilityMap",new GField("cb","bp","[[[[Z",null));
+        landscape.fields.put("visibilityMap",new GField("ci","bw","[[[[Z",null));
 
         return patch;
 

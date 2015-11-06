@@ -10,14 +10,18 @@ public class RTGraphics {
     public int rasterWidth;
     public int rasterHeight;
 
-    public int viewportX = 0;
-    public int viewportY = 0;
-    public int viewportMaxX = 0;
-    public int viewportMaxY = 0;
+    int viewportX    = 0;
+    int viewportY    = 0;
+    int viewportMaxX = 0;
+    int viewportMaxY = 0;
 
-    private BufferedImage img;
+    BufferedImage img;
 
-    public RTGraphics() {
+    RTGraphics() {
+    }
+
+    public RTGraphics(RTGraphics from) {
+        copy(from, this, false);
     }
 
     public RTGraphics(int w, int h) {
@@ -31,31 +35,34 @@ public class RTGraphics {
     // Sets the graphics object in which this graphic will render to
     public void setGraphics(RTGraphics g) {
         setRaster(g.raster, g.rasterWidth, g.rasterHeight);
-        this.img = g.img; //TODO should we use the other graphics image ref, or make our own if needed?
+        this.img = g.img;
     }
 
-    public void setRaster(int[] var0, int var1, int var2) {
+    public void copy(RTGraphics dest, boolean cloneRaster) {
+        copy(this, dest, cloneRaster);
+    }
 
+    public static void copy(RTGraphics from, RTGraphics to, boolean cloneRaster) {
+        to.raster = cloneRaster ? from.raster.clone() : from.raster;
+        to.rasterWidth  = from.rasterWidth;
+        to.rasterHeight = from.rasterHeight;
+        to.viewportX    = from.viewportX;
+        to.viewportY    = from.viewportY;
+        to.viewportMaxX = from.viewportMaxX;
+        to.viewportMaxY = from.viewportMaxY;
+    }
+    
+    public void setRaster(int[] var0, int var1, int var2) {
+        flush(); //Flush existing resources
         raster = var0;
         rasterWidth = var1;
         rasterHeight = var2;
         setViewport(0, 0, var1, var2);
-
-        // Cached image no longer uses this graphics buffer
-        if(img != null) {
-            img.flush();
-            img = null;
-        }
-
     }
 
     // Release any held resources
     public void flush() {
         raster = null;
-        if(img != null) {
-            img.flush();
-            img = null;
-        }
     }
 
     public void noClip() {
@@ -298,11 +305,11 @@ public class RTGraphics {
     }
 
     public void drawLine(Point A, Point B, int color) {
-        drawLine(A.x,A.y,B.x,B.y,color);
+        drawLine(A.x, A.y, B.x, B.y, color);
     }
 
     public void drawSquareDot(Point P, int color) {
-        drawSquareDot(P.x,P.y,color);
+        drawSquareDot(P.x, P.y, color);
     }
 
     public void drawSquareDot(int x, int y,int color) {
@@ -310,7 +317,7 @@ public class RTGraphics {
     }
 
     public void drawSquareDot(int x, int y, int size, int color) {
-        fillRectangle(x-size/2,y-size/2,size*2,size*2,color);
+        fillRectangle(x - size / 2, y - size / 2, size * 2, size * 2, color);
     }
 
     public void drawLine(int x1, int y1, int x2, int y2, int rgb) {
@@ -504,14 +511,16 @@ public class RTGraphics {
     }
 */
 
-    public Image crate() {
+
+
+    public BufferedImage crate() {
         if(img == null) {
             img = create(raster,rasterWidth,rasterHeight);
         }
         return img;
     }
 
-    // Creates a compatable graphics object that will render itself onto the existing
+    // Creates a compatible java graphics object that will render itself onto the existing
     // raster/RTGraphics
     public Graphics2D getGraphics() {
         Image img = crate();
@@ -519,14 +528,16 @@ public class RTGraphics {
         return (Graphics2D) img.getGraphics();
     }
 
-    private static BufferedImage create(int[] raster, int w, int h) {
-        if(raster.length < w*h)
-            throw new IllegalArgumentException("Invalid size: (raster_length=" + raster.length + ",w=" + w + ",h=" + h + ",w * h =" + w*h);
+
+    public static BufferedImage create(int[] raster, int w, int h) {
+        //TODO verify
         DataBufferInt var5 = new DataBufferInt(raster,raster.length);
         DirectColorModel var6 = new DirectColorModel(32, 16711680, '\uff00', 255);
         WritableRaster var7 = Raster.createWritableRaster(var6.createCompatibleSampleModel(w, h), var5, null);
         return new BufferedImage(var6, var7, false, new Hashtable());
     }
+
+
 
     public int size() {
         if(raster == null) return 0;

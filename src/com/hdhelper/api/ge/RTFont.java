@@ -4,67 +4,47 @@ import java.util.Random;
 
 public abstract class RTFont extends RTGraphics {
 
-    public RTIcon[] fieldS;
+    RTIcon[] images;
     Random fieldAs = new Random();
-    String[] fieldAh = new String[100];
+    String[] CACHE = new String[100];
+
+
     int streakColor = -1;
     int underlineColor = -1;
     int defaultShadowColor = -1;
     int defaultColor = 0;
     int curColor = 0;
-    public int alpha = 256;
+    int alpha = 256;
     int fieldC = 0;
     int fieldAn = 0;
     int shadowColor = -1;
-    public int baseLine = 0;
 
-    //All package prvate
-    int maxDescent; //N
-    public int[] absWidth; //V
-    public int[] widths; //I
-    public byte[][] flags = new byte[256][]; //A
-    public int[] insetY; //M  // from the top left corner
-    public int[] heights; //B
-    public byte[] fieldK; //K
-    int maxAscent; //E
-    public int[] insetX; //L
+    // GlyphVector references:
+    int[] absWidth;
+    int[] insetX;
+    int[] insetY;
+    int[] widths;
+    int[] heights;
+    byte[][] glyphs;
+    byte[] fieldK;
+    int maxAscent;
+    int maxDescent;
+    int baseLine = 0;
 
-
-    RTFont(byte[] var1) {
-        this.a(var1);
+    public RTFont(RTGlyphVector glyphs) {
+        this.absWidth   = glyphs.absWidth;
+        this.insetX     = glyphs.insetX;
+        this.insetY     = glyphs.insetY;
+        this.widths     = glyphs.widths;
+        this.heights    = glyphs.heights;
+        this.glyphs     = glyphs.glyphs;
+        this.fieldK     = glyphs.fieldK;
+        this.maxAscent  = glyphs.maxAscent;
+        this.maxDescent = glyphs.maxDescent;
+        this.baseLine   = glyphs.baseLine;
     }
 
-    RTFont(byte[] var1, int[] drawOffsetX, int[] drawOffsetY, int[] widths, int[] heights, int[] colorMap, byte[][] bitmap) {
-
-        this.insetX = drawOffsetX;
-        this.insetY = drawOffsetY;
-        this.widths = widths;
-        this.heights = heights;
-
-        this.a(var1);
-        this.flags = bitmap;
-        
-        int var8 = Integer.MAX_VALUE;
-        int var9 = Integer.MIN_VALUE;
-        
-        for (int var10 = 0; var10 < 256; ++var10) {
-
-            if (this.insetY[var10] < var8 && this.heights[var10] != 0) {
-                var8 = this.insetY[var10];
-            }
-
-            if (this.insetY[var10] + this.heights[var10] > var9) {
-                var9 = this.insetY[var10] + this.heights[var10];
-            }
-
-        }
-
-        this.maxAscent = this.baseLine - var8;
-        this.maxDescent = var9 - this.baseLine;
-
-    }
-
-
+    // Publically exposed methods, ignore the rest for now
 
     // Draws the bottom left of the text at the specified points
     public void drawString(String str, int x, int y, int color, int shadowColor) {
@@ -108,6 +88,35 @@ public abstract class RTFont extends RTGraphics {
 
 
 
+    public static String embedTag(String var0) {
+        int var1 = var0.length();
+        int var2 = 0;
+
+        for (int var3 = 0; var3 < var1; ++var3) {
+            char var4 = var0.charAt(var3);
+            if (var4 == 60 || var4 == 62) {
+                var2 += 3;
+            }
+        }
+
+        StringBuilder var6 = new StringBuilder(var1 + var2);
+
+        for (int var7 = 0; var7 < var1; ++var7) {
+            char var5 = var0.charAt(var7);
+            if (var5 == 60) {
+                var6.append("<lt>");
+            } else if (var5 == 62) {
+                var6.append("<gt>");
+            } else {
+                var6.append(var5);
+            }
+        }
+
+        return var6.toString();
+    }
+
+
+    
 
 
 
@@ -147,32 +156,7 @@ public abstract class RTFont extends RTGraphics {
     }
 
 
-    public static String embedTag(String var0) {
-        int var1 = var0.length();
-        int var2 = 0;
 
-        for (int var3 = 0; var3 < var1; ++var3) {
-            char var4 = var0.charAt(var3);
-            if (var4 == 60 || var4 == 62) {
-                var2 += 3;
-            }
-        }
-
-        StringBuilder var6 = new StringBuilder(var1 + var2);
-
-        for (int var7 = 0; var7 < var1; ++var7) {
-            char var5 = var0.charAt(var7);
-            if (var5 == 60) {
-                var6.append("<lt>");
-            } else if (var5 == 62) {
-                var6.append("<gt>");
-            } else {
-                var6.append(var5);
-            }
-        }
-
-        return var6.toString();
-    }
 
     void method33(byte[] var0, int var1, int var2, int var3, int var4, int var5, int var6) {
         int var7 = var1 + var2 * rasterWidth;
@@ -419,7 +403,7 @@ public abstract class RTFont extends RTGraphics {
                                 if (operation.startsWith("img=")) {
                                     try {
                                         int var8 = Util.method305(operation.substring(4), 1848156278);
-                                        var4 += fieldS[var8].width;
+                                        var4 += images[var8].width;
                                         var3 = -1;
                                     } catch (Exception var9) {
                                         ;
@@ -501,7 +485,7 @@ public abstract class RTFont extends RTGraphics {
                         } else if (var16.startsWith("img=")) {
                             try {
                                 int var17 = Util.method305(var16.substring(4), 182687781);
-                                var4 += fieldS[var17].width;
+                                var4 += images[var17].width;
                                 var11 = 0;
                             } catch (Exception var18) {
                                 ;
@@ -556,7 +540,7 @@ public abstract class RTFont extends RTGraphics {
     }
 
     public int w(String var1, int var2) {
-        return this.l(var1, new int[]{var2}, fieldAh);
+        return this.l(var1, new int[]{var2}, CACHE);
     }
 
     //k
@@ -575,7 +559,7 @@ public abstract class RTFont extends RTGraphics {
                 var11 = null;
             }
 
-            int var12 = this.l(var1, var11, fieldAh);
+            int var12 = this.l(var1, var11, CACHE);
             if (var9 == 3 && var12 == 1) {
                 var9 = 1;
             }
@@ -600,16 +584,16 @@ public abstract class RTFont extends RTGraphics {
 
             for (var14 = 0; var14 < var12; ++var14) {
                 if (var8 == 0) {
-                    this.j(fieldAh[var14], var2, var13);
+                    this.j(CACHE[var14], var2, var13);
                 } else if (var8 == 1) {
-                    this.j(fieldAh[var14], var2 + (var4 - this.getStringWidth(fieldAh[var14])) / 2, var13);
+                    this.j(CACHE[var14], var2 + (var4 - this.getStringWidth(CACHE[var14])) / 2, var13);
                 } else if (var8 == 2) {
-                    this.j(fieldAh[var14], var2 + var4 - this.getStringWidth(fieldAh[var14]), var13);
+                    this.j(CACHE[var14], var2 + var4 - this.getStringWidth(CACHE[var14]), var13);
                 } else if (var14 == var12 - 1) {
-                    this.j(fieldAh[var14], var2, var13);
+                    this.j(CACHE[var14], var2, var13);
                 } else {
-                    this.u(fieldAh[var14], var4);
-                    this.j(fieldAh[var14], var2, var13);
+                    this.u(CACHE[var14], var4);
+                    this.j(CACHE[var14], var2, var13);
                     fieldC = 0;
                 }
 
@@ -720,7 +704,7 @@ public abstract class RTFont extends RTGraphics {
 
                                         ++var8;
                                         var14 = Util.method305(var11.substring(4), 1058201672);
-                                        RTIcon var18 = fieldS[var14];
+                                        RTIcon var18 = images[var14];
                                         var18.draw(var2 + var12, var3 + this.baseLine - var18.height + var13);
                                         var2 += var18.width;
                                         var7 = -1;
@@ -766,16 +750,16 @@ public abstract class RTFont extends RTGraphics {
                             if (alpha == 256) {
                                 if (shadowColor != -1) {
 
-                                    method36(this.flags[var10], var2 + this.insetX[var10] + 1 + var13, var3 + this.insetY[var10] + 1 + var14, var17, var12, shadowColor);
+                                    method36(this.glyphs[var10], var2 + this.insetX[var10] + 1 + var13, var3 + this.insetY[var10] + 1 + var14, var17, var12, shadowColor);
                                 }
 
-                                this.y(this.flags[var10], var2 + this.insetX[var10] + var13, var3 + this.insetY[var10] + var14, var17, var12, curColor);
+                                this.y(this.glyphs[var10], var2 + this.insetX[var10] + var13, var3 + this.insetY[var10] + var14, var17, var12, curColor);
                             } else {
                                 if (shadowColor != -1) {
-                                    method33(this.flags[var10], var2 + this.insetX[var10] + 1 + var13, var3 + this.insetY[var10] + 1 + var14, var17, var12, shadowColor, alpha);
+                                    method33(this.glyphs[var10], var2 + this.insetX[var10] + 1 + var13, var3 + this.insetY[var10] + 1 + var14, var17, var12, shadowColor, alpha);
                                 }
 
-                                this.p(this.flags[var10], var2 + this.insetX[var10] + var13, var3 + this.insetY[var10] + var14, var17, var12, curColor, alpha);
+                                this.p(this.glyphs[var10], var2 + this.insetX[var10] + var13, var3 + this.insetY[var10] + var14, var17, var12, curColor, alpha);
                             }
                         } else if (fieldC > 0) {
                             fieldAn += fieldC;
@@ -841,11 +825,11 @@ public abstract class RTFont extends RTGraphics {
     }
 
     public int m(String var1, int var2) {
-        int var3 = this.l(var1, new int[]{var2}, fieldAh);
+        int var3 = this.l(var1, new int[]{var2}, CACHE);
         int var4 = 0;
 
         for (int var5 = 0; var5 < var3; ++var5) {
-            int var6 = this.getStringWidth(fieldAh[var5]);
+            int var6 = this.getStringWidth(CACHE[var5]);
             if (var6 > var4) {
                 var4 = var6;
             }
@@ -872,7 +856,7 @@ public abstract class RTFont extends RTGraphics {
             if (var1.charAt(var6) != 0) {
                 char curChar = (char) (Util.method264(var1.charAt(var6), (byte) 51) & 255);
 
-                if(flags[curChar]==null) return; //Invalid character
+                if(glyphs[curChar]==null) return; //Invalid character
 
                 if (curChar == 60) {
                     var4 = var6;
@@ -888,7 +872,7 @@ public abstract class RTFont extends RTGraphics {
                                 if (var8.startsWith("img=")) {
                                     try {
                                         var9 = Util.method305(var8.substring(4), -1274458779);
-                                        RTIcon var13 = fieldS[var9];
+                                        RTIcon var13 = images[var9];
                                         var13.draw(x, y + this.baseLine - var13.height);
                                         x += var13.width;
                                         var5 = -1;
@@ -923,18 +907,18 @@ public abstract class RTFont extends RTGraphics {
                             if (alpha == 256) {
 
                                 if (shadowColor != -1) {
-                                    method36(this.flags[curChar], x + this.insetX[curChar] + 1, y + this.insetY[curChar] + 1, var12, var9, shadowColor);
+                                    method36(this.glyphs[curChar], x + this.insetX[curChar] + 1, y + this.insetY[curChar] + 1, var12, var9, shadowColor);
                                 }
 
-                                this.y(this.flags[curChar], x + this.insetX[curChar], y + this.insetY[curChar], var12, var9, curColor);
+                                this.y(this.glyphs[curChar], x + this.insetX[curChar], y + this.insetY[curChar], var12, var9, curColor);
 
                             } else {
 
                                 if (shadowColor != -1) {
-                                    method33(this.flags[curChar], x + this.insetX[curChar] + 1, y + this.insetY[curChar] + 1, var12, var9, shadowColor, alpha);
+                                    method33(this.glyphs[curChar], x + this.insetX[curChar] + 1, y + this.insetY[curChar] + 1, var12, var9, shadowColor, alpha);
                                 }
 
-                                this.p(this.flags[curChar], x + this.insetX[curChar], y + this.insetY[curChar], var12, var9, curColor, alpha);
+                                this.p(this.glyphs[curChar], x + this.insetX[curChar], y + this.insetY[curChar], var12, var9, curColor, alpha);
                             }
 
                         } else if (fieldC > 0) {

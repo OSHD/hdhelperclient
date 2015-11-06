@@ -86,7 +86,7 @@ public class ClientMod extends InjectionModule {
 
         CHUNK_IDS = new FieldMember("at","dz","[I",true);
         KEYS = new FieldMember("ag","ds","[[I",true);
-        LOOKUP_FILE_ID = new MethodMember("fg","o",Type.getMethodDescriptor(int.class,String.class,int.class),0);
+        LOOKUP_FILE_ID = new MethodMember("fz","t",Type.getMethodDescriptor(int.class,String.class,int.class),0);
 
         ITEM_TABLES = new FieldMember("g","i",NodeTableMod.NODE_TABLE_DESC,true);
         

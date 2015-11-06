@@ -4,15 +4,24 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 
-/**
- * Created by Jamie on 10/27/2015.
- */
-public class FontFactory {
+
+public class GlyphFactory {
+
+    public static RTGlyphVector createVector(Font f) {
+        GlyphBuffer buffer = profile(f);
+        return buffer.create();
+    }
+
+    public static RTFont create(Font f) {
+        RTGlyphVector vector = createVector(f);
+        return new RTFontImpl(vector);
+    }
 
 
 
 
-    private static class FontData {
+    private static class GlyphBuffer {
+
         int[] widths;
         int[] heights;
         int[] xOffset;
@@ -22,7 +31,7 @@ public class FontFactory {
 
         int baseLine;
 
-        FontData(int numChars) {
+        GlyphBuffer(int numChars) {
             widths   = new int[numChars];
             heights  = new int[numChars];
             xOffset  = new int[numChars];
@@ -39,39 +48,32 @@ public class FontFactory {
             buffer[256] = (byte) baseLine;
             return buffer;
         }
+
+        public RTGlyphVector create() {
+            byte[] header = getHeader();
+            return new RTGlyphVector(absWidth,baseLine,xOffset,yOffset,widths,heights,null,flags);
+        }
+
     }
 
 
-    public static RTFont create(Font f) {
-        FontData d = profile(f);
-        byte[] header = d.getHeader();
-        RTFont font = new RTFontImpl(header,d.xOffset,d.yOffset,d.widths,d.heights,null,d.flags);
-        return font;
-    }
 
-    public static FontData profile(Font font) {
-        //Test
-        Canvas c = new Canvas();
+    private static GlyphBuffer profile(Font font) {
+        Canvas c = new Canvas(); //TODO make this thread local or passed?
         FontMetrics fm = c.getFontMetrics(font);
-        FontData data = new FontData(256);
-        data.baseLine = fm.getHeight() - fm.getDescent();
+        GlyphBuffer buffer = new GlyphBuffer(256);
+        buffer.baseLine = fm.getHeight() - fm.getDescent();
         for (int i = 0; i < 256; i++)
-            profileCharacter(font, fm, (char) i, i, false, data);
-        return data;
+            profileCharacter(font, fm, (char) i, i, false, buffer);
+        return buffer;
     }
 
-    public static void l() {
-
-    }
-
-
-    public static void profileCharacter(Font font, FontMetrics fontmetrics, char c, int index, boolean bool, FontData dest) {
+    public static void profileCharacter(Font font, FontMetrics fontmetrics, char c, int index, boolean bool, GlyphBuffer dest) {
         int char_with = fontmetrics.charWidth(c);
         int y = fontmetrics.getMaxAscent();
 
         int char_height = fontmetrics.getMaxAscent() + fontmetrics.getMaxDescent();
 
-    //    if(char_with==0||char_height==0) System.out.println("EEK:" + c);
         if(char_with==0||char_height==0) return;
 
         Image image = new BufferedImage(char_with,char_height,BufferedImage.TYPE_INT_ARGB);
