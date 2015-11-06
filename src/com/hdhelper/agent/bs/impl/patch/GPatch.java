@@ -33,6 +33,8 @@ public class GPatch {
         client.fields.put("screenWidth",new GField( "client", "om", "I", -601427865  ));
         client.fields.put("screenHeight",new GField( "client", "oo", "I", 807668933  ));
         client.fields.put("floorLevel",new GField("ez","gn", "I",238600101));
+        client.fields.get("regionBaseX").decoder =  -1234650781;
+        client.fields.get("regionBaseY").decoder = -706637253;
         client.methods.get("getItemDefinition").predicate = -1194634781;
 
         client.fields.put("chunkIds", new GField("client","dm","[I", null));
