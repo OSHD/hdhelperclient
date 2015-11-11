@@ -11,6 +11,8 @@ public interface RSClient {
 
     RSItemDefinition getItemDef(int id);
     RSObjectDefinition getObjectDef(int id);
+    RSNpcDefinition getNpcDef(int id);
+    RSImage getItemImage(int id, int quantity, int borderThickness, int shadowColor, int num, boolean noted);
 
     RSNodeTable getItemContainers();
 
@@ -46,5 +48,7 @@ public interface RSClient {
     int getPlayerCount();
 
     int getFps();
+
+    int getEngineCycle();
 
 }

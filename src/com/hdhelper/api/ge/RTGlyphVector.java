@@ -16,8 +16,8 @@ public class RTGlyphVector {
     private RTGlyphVector() {
     }
 
-    RTGlyphVector(byte[] var1) {
-        this.a(var1);
+    RTGlyphVector(byte[] meta) {
+        this.unpackMeta(meta);
     }
 
     RTGlyphVector(int[] absWidth, int baseLine, int[] drawOffsetX, int[] drawOffsetY, int[] widths, int[] heights, int[] colorMap, byte[][] bitmap) {
@@ -30,6 +30,7 @@ public class RTGlyphVector {
         this.baseLine = baseLine;
 
         this.glyphs = bitmap;
+
         computeRanges();
     }
 
@@ -40,11 +41,11 @@ public class RTGlyphVector {
         this.widths = widths;
         this.heights = heights;
 
-        this.a(meta);
+        unpackMeta(meta); // Unpack absWidths, baseline
+
         this.glyphs = bitmap;
 
         computeRanges();
-
     }
 
     public RTGlyphVector copy() {
@@ -93,7 +94,7 @@ public class RTGlyphVector {
     }
 
 
-    private void a(byte[] buffer) {
+    private void unpackMeta(byte[] buffer) {
         this.absWidth = new int[256];
         int caret;
         if (buffer.length == 257) {

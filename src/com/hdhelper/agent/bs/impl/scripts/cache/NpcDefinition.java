@@ -4,10 +4,10 @@ import com.hdhelper.agent.bs.impl.scripts.collection.DualNode;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.BMethod;
 import com.hdhelper.agent.bs.lang.ByteScript;
-import com.hdhelper.peer.RSNpcDefintion;
+import com.hdhelper.peer.RSNpcDefinition;
 
 @ByteScript(name = "NpcDefinition")
-public class NpcDefinition extends DualNode implements RSNpcDefintion {
+public class NpcDefinition extends DualNode implements RSNpcDefinition {
 
     @BField int varpIndex;
     @BField short[] modifiedColors;
@@ -22,13 +22,17 @@ public class NpcDefinition extends DualNode implements RSNpcDefintion {
 
 
 
+
     @BMethod(name = "transform")
     public NpcDefinition transform0() {
         return null;
     }
 
 
-
+    @Override
+    public int getCombatLevel() {
+        return combatLevel;
+    }
 
     @Override
     public String getName() {
@@ -41,7 +45,7 @@ public class NpcDefinition extends DualNode implements RSNpcDefintion {
     }
 
     @Override
-    public RSNpcDefintion transform() {
+    public RSNpcDefinition transform() {
         return transform0();
     }
 

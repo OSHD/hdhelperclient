@@ -31,6 +31,8 @@ public class MainFrame extends JFrame {
                 setJMenuBar(new Bar());
 
                 Applet a = bootModClient();
+
+
                 setContentPane(a);
 
                 pack();

@@ -5,6 +5,8 @@ import com.hdhelper.api.ge.impl.Debug;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
@@ -20,11 +22,21 @@ public class ClientCanvas extends Canvas {
 
     private static int[] offscreen_buffer;
 
+    public static int mouseX = 0;
+    public static int mouseY = 0;
+
     private int cur_shape = 0;
 
     public ClientCanvas() {
         super();
         System.out.println("LOADED");
+        addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                mouseX = e.getX();
+                mouseY = e.getY();
+            }
+        });
     }
 
     //Callbacked

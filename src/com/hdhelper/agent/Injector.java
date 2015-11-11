@@ -6,23 +6,35 @@ import com.hdhelper.agent.bs.compiler.BCompiler;
 import com.hdhelper.agent.bs.impl.ReflectionProfiler;
 import com.hdhelper.agent.bs.impl.ResolverImpl;
 import com.hdhelper.agent.bs.impl.patch.GPatch;
-import com.hdhelper.agent.bs.impl.scripts.*;
+import com.hdhelper.agent.bs.impl.scripts.Client;
+import com.hdhelper.agent.bs.impl.scripts.GPI;
+import com.hdhelper.agent.bs.impl.scripts.GameEngine;
 import com.hdhelper.agent.bs.impl.scripts.cache.ItemDefinition;
 import com.hdhelper.agent.bs.impl.scripts.cache.NpcDefinition;
 import com.hdhelper.agent.bs.impl.scripts.cache.ObjectDefinition;
-import com.hdhelper.agent.bs.impl.scripts.collection.*;
-import com.hdhelper.agent.bs.impl.scripts.entity.*;
+import com.hdhelper.agent.bs.impl.scripts.collection.Deque;
+import com.hdhelper.agent.bs.impl.scripts.collection.DualNode;
+import com.hdhelper.agent.bs.impl.scripts.collection.Node;
+import com.hdhelper.agent.bs.impl.scripts.collection.NodeTable;
+import com.hdhelper.agent.bs.impl.scripts.entity.Entity;
+import com.hdhelper.agent.bs.impl.scripts.entity.GroundItem;
+import com.hdhelper.agent.bs.impl.scripts.entity.Npc;
+import com.hdhelper.agent.bs.impl.scripts.entity.Player;
+import com.hdhelper.agent.bs.impl.scripts.graphics.Image;
 import com.hdhelper.agent.bs.impl.scripts.ls.*;
 import com.hdhelper.agent.bs.impl.scripts.util.ItemTable;
 import com.hdhelper.agent.bs.impl.scripts.util.PlayerConfig;
 import com.hdhelper.agent.io.ClientLoader;
 import com.hdhelper.agent.mod.ClientMod;
+import com.hdhelper.agent.mod.EngineMod;
 import com.hdhelper.agent.mod.GraphicsEngineMod;
 import com.hdhelper.agent.mod.RenderMod;
 import com.hdhelper.agent.util.ClassWriterFix;
 import jdk.internal.org.objectweb.asm.ClassReader;
 import jdk.internal.org.objectweb.asm.ClassWriter;
-import jdk.internal.org.objectweb.asm.tree.ClassNode;
+import jdk.internal.org.objectweb.asm.Opcodes;
+import jdk.internal.org.objectweb.asm.Type;
+import jdk.internal.org.objectweb.asm.tree.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -107,7 +119,9 @@ public final class Injector {
         compiler.inject(TileDecoration.class,classes);
         compiler.inject(Boundary.class,classes);
 
-        compiler.inject(GPI.class,classes);
+        compiler.inject(Image.class,classes);
+
+        compiler.inject(GPI.class, classes);
 
 
         ClientMod.hackCanvas(classes);
@@ -115,12 +129,34 @@ public final class Injector {
         ClientMod.xteaDump(classes);
         new RenderMod().inject(classes);
 
+        EngineMod.inject(classes.get(cr.getGClass("GameEngine").getName()));
+
         System.out.println("DONE");
 
 /*
         for(InjectionModule mod : InjectionModule.getModules()) {
             mod.inject(classes);
         }*/
+
+
+
+        int id = 0;
+        for(MethodNode mn : classes.get("l").methods) {
+            if(mn.name.equals("cy")) {
+                for(AbstractInsnNode ain : mn.instructions.toArray()) {
+                    if(ain.getOpcode() == Opcodes.INVOKEVIRTUAL) {
+                        MethodInsnNode min = (MethodInsnNode) ain;
+                        if(min.owner.equals("gi") && min.name.equals("q")) {
+                            InsnList stack = new InsnList();
+                            stack.add(new LdcInsnNode(id++));
+                            stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC, Type.getInternalName(Callback.class),"event","(I)V",false));
+                            mn.instructions.insertBefore(ain, stack);
+                            System.out.println("BINGO:" + id);
+                        }
+                    }
+                }
+            }
+        }
 
         compile(default_def_loader);
 

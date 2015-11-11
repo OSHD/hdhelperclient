@@ -13,10 +13,26 @@ public abstract class Character extends Entity implements RSCharacter {
     @BField String overheadText;
     @BField int animation;
     @BField int orientation;
+    @BField int maxHitpoints;
+    @BField int hitpoints;
+    @BField int healthBarCycle;
 
 
 
+    @Override
+    public int getMaxHitpoints() {
+        return maxHitpoints;
+    }
 
+    @Override
+    public int getHitpoints() {
+        return hitpoints;
+    }
+
+    @Override
+    public int getHealthBarCycle() {
+        return healthBarCycle;
+    }
 
     @Override
     public int getStrictX() {

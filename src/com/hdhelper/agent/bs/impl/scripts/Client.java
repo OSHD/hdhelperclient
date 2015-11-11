@@ -1,5 +1,6 @@
 package com.hdhelper.agent.bs.impl.scripts;
 
+import com.hdhelper.agent.bs.impl.scripts.graphics.Image;
 import com.hdhelper.agent.bs.impl.scripts.cache.ItemDefinition;
 import com.hdhelper.agent.bs.impl.scripts.cache.NpcDefinition;
 import com.hdhelper.agent.bs.impl.scripts.cache.ObjectDefinition;
@@ -64,6 +65,10 @@ public class Client extends GameEngine implements RSClient {
     public static Landscape landscape;
     @BField
     public static int fps;
+    @BField
+    public static int engineCycle;
+
+
 
 
     @BMethod(name = "getObjectDefinition")
@@ -81,6 +86,16 @@ public class Client extends GameEngine implements RSClient {
         return null;
     }
 
+    @BMethod(name = "getItemSprite")
+    public static Image getItemImage0(int id, int quantity, int borderThickness, int backgroundColor, int num, boolean noted) {
+        return null;
+    }
+
+
+
+
+
+
 
 
     @Override
@@ -97,9 +112,6 @@ public class Client extends GameEngine implements RSClient {
     public RSNpc[] getNpcs() {
         return npcs;
     }
-
-
-
 
     @Override
     public RSNodeTable getItemContainers() {
@@ -175,9 +187,6 @@ public class Client extends GameEngine implements RSClient {
         return groundItemDeque;
     }
 
-
-
-
     @Override
     public int[] getChunkIds() {
         return chunkIds;
@@ -201,18 +210,6 @@ public class Client extends GameEngine implements RSClient {
 
 
     @Override
-    public RSItemDefinition getItemDef(int id) {
-        return getItemDefinition0(id);
-    }
-
-    @Override
-    public RSObjectDefinition getObjectDef(int id) {
-        if(id < 0 || id >= Short.MAX_VALUE) return null;
-        return getObjectDefinition0(id);
-    }
-
-
-    @Override
     public int[] getPlayerIndices() {
         return GPI.playerIndices;
     }
@@ -225,6 +222,64 @@ public class Client extends GameEngine implements RSClient {
     @Override
     public int getFps() {
         return fps;
+    }
+
+    @Override
+    public int getEngineCycle() {
+        return engineCycle;
+    }
+
+
+    // Methods //////////////////////////////////////////////////////////////////////
+
+
+    @Override
+    public RSItemDefinition getItemDef(int id) {
+        if(id < 0 || id >= Short.MAX_VALUE) return null;
+        verifyCaller();
+        return getItemDefinition0(id);
+    }
+
+    @Override
+    public RSObjectDefinition getObjectDef(int id) {
+        if(id < 0 || id >= Short.MAX_VALUE) return null;
+        verifyCaller();
+        return getObjectDefinition0(id);
+    }
+
+    @Override
+    public RSNpcDefinition getNpcDef(int id) {
+        if(id < 0 || id >= Short.MAX_VALUE) return null;
+        verifyCaller();
+        return getNpcDefinition0(id);
+    }
+
+    @Override
+    public RSImage getItemImage(int id, int quantity, int borderThickness, int shadowColor, int num, boolean noted) {
+        verifyCaller();
+        return getItemImage0(id, quantity, borderThickness, shadowColor, num, noted);
+    }
+
+
+
+
+    // For methods that must be synchronized with the game engine. Since establishing
+    // multi-thread support would be overly complex and/or degrade performance considerably.
+    public static void verifyCaller() {
+        if(!inEngineThread()) {
+            StackTraceElement e = new Exception().getStackTrace()[1];
+            String caller_method = e.getMethodName();
+            throw new Error(caller_method + "() should be called within the engine thread.");
+        }
+    }
+
+    public static boolean inEngineThread() {
+        return Thread.currentThread() == engine_thread;
+    }
+
+    public static Thread engine_thread;
+    public static void onBoot() {
+        engine_thread = Thread.currentThread();
     }
 
 }

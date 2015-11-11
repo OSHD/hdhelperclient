@@ -6,6 +6,13 @@ public class GClass {
 
     String name;
 
+    public GClass() {
+    }
+
+    public GClass(String name) {
+        this.name = name;
+    }
+
     Map<String,GField> fields;
     Map<String,GMethod> methods;
 

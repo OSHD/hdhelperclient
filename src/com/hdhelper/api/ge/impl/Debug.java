@@ -2,13 +2,11 @@ package com.hdhelper.api.ge.impl;
 
 import com.hdhelper.Environment;
 import com.hdhelper.Main;
+import com.hdhelper.agent.ClientCanvas;
 import com.hdhelper.api.Equipment;
 import com.hdhelper.api.UID;
 import com.hdhelper.api.W2S;
-import com.hdhelper.api.ge.BasicOverlay;
-import com.hdhelper.api.ge.GlyphFactory;
-import com.hdhelper.api.ge.RTFont;
-import com.hdhelper.api.ge.RTGraphics;
+import com.hdhelper.api.ge.*;
 import com.hdhelper.peer.*;
 
 import java.awt.*;
@@ -141,9 +139,13 @@ public class Debug extends BasicOverlay {
                     if(cfg == null) {
                         warrior.drawString("cfg==null", P.x, P.y-15);
                     } else {
-                        warrior.drawString("Z=" + p.getZ() + " | Female=" + cfg.isFemale(),P.x, P.y-15);
-                        warrior.drawString("Equip = " + Arrays.toString(cfg.getEquipment()) ,P.x, P.y-30);
-                        warrior.drawString("EquipColors = " + Arrays.toString(cfg.getEquipmentColors()), P.x, P.y-45);
+                        int i = 1;
+                        final int s = 15;
+                        warrior.drawString("Z=" + p.getZ() + " | Female=" + cfg.isFemale(),P.x, P.y-s*i++);
+                        warrior.drawString("Equip = " + Arrays.toString(cfg.getEquipment()) ,P.x, P.y-s*i++);
+                        warrior.drawString("EquipColors = " + Arrays.toString(cfg.getEquipmentColors()), P.x, P.y-s*i++);
+                        boolean hp_bar_showing = p.isHpBarShowing(client.getEngineCycle());
+                        warrior.drawString("BarShowing:" + hp_bar_showing + " HP:(" + p.getHitpoints() + "/" + p.getMaxHitpoints() + ")", P.x, P.y-s*i++);
                     }
                     W2S.drawStrictPoint(floor, p.getStrictX(), p.getStrictY(), g, Color.BLUE.getRGB(), Color.GREEN.getRGB());
                 }
@@ -161,10 +163,12 @@ public class Debug extends BasicOverlay {
                     if (p.getDef() == null) continue;
                     Point P = W2S.tileToViewport(p.getStrictX(), p.getStrictY(), floor, p.getHeight());
                     if (P.x == -1) continue;
-                    RSNpcDefintion def = p.getDef();
-                    warrior.drawString(def.getName() + " | Anim:" + p.getAnimation() + " | Target:" + p.getTargetIndex() + "| Orintation:" + p.getOrientation(), P.x, P.y);
-                    W2S.drawStrictPoint(floor, p.getStrictX(), p.getStrictY(), g, Color.GREEN.getRGB(), Color.RED.getRGB());
+                    RSNpcDefinition def = p.getDef();
+                    warrior.drawString(def.getName() + " | Lvl:" + def.getCombatLevel() + " | Anim:" + p.getAnimation() + " | Target:" + p.getTargetIndex() + "| Orintation:" + p.getOrientation(), P.x, P.y);
+                    boolean hp_bar_showing = p.isHpBarShowing(client.getEngineCycle());
+                    warrior.drawString("BarShowing:" + hp_bar_showing + " HP:(" + p.getHitpoints() + "/" + p.getMaxHitpoints() + ")", P.x, P.y-15);
 
+                    W2S.drawStrictPoint(floor, p.getStrictX(), p.getStrictY(), g, Color.GREEN.getRGB(), Color.RED.getRGB());
 
                 }
             }
@@ -405,16 +409,38 @@ public class Debug extends BasicOverlay {
             }
 
 
+
+            if(money == null) {
+                RSImage img = client.getItemImage(995,Integer.MAX_VALUE,1,0,2,false);
+                money = RTImage.create(img,true);
+            }
+
+            money.setGraphics(g);
+            money.f(ClientCanvas.mouseX-money.getWidth(),ClientCanvas.mouseY-money.getHeight()); //huez
+
+            // Keep this:
+
+         /*   final int x = 100;
+            final int y = 100;
+            final int w = ClientCanvas.mouseX - x;
+            final int h = ClientCanvas.mouseY - y;
+            if(w <= 0 || h <= 0) return;
+            RTFont f = warrior.f;
+            f.fillRectangle(x, y, w, h, Color.BLACK.getRGB(), 128);
+            int k = f.drawWordWrap("US ER N AME: awdadawdaw dawd awd aw daw dawda wdccc cc cc cccccccccccccccccc", x, y, w, h, 16777215, -1, RTFont.TEXT_LAYOUT_CENTER,RTFont.ROW_LAYOUT_CENTER, 0);
+            warrior.drawString("" + k, x,y);*/
+
+        } catch (Exception e) {
+           e.printStackTrace();
         } finally {
-            // It's not critical we release references to the graphic.
-
-            // But it does not heart to help the garbage collector a bit
-
-            // But it does not hert to help the garbage collector a bit
-            warrior.finish();
+            warrior.finish(); //Help the GC
         }
 
     }
+
+    private static RTImage money = null;
+
+
 
     static void drawEntities(RSLandscapeTile t, int filter_type, RTGraphics g) {
         for(RSEntityMarker m : t.getMarkers()) {
@@ -526,7 +552,7 @@ public class Debug extends BasicOverlay {
             if (p.getDef() == null) continue;
             Point P = W2S.tileToViewport(p.getStrictX(), p.getStrictY(), floor, p.getHeight());
             if (P.x == -1) continue;
-            RSNpcDefintion def = p.getDef();
+            RSNpcDefinition def = p.getDef();
             g0.drawString(def.getName() + " | Anim:" + p.getAnimation() + " | Target:" + p.getTargetIndex() + "| Orintation:" + p.getOrientation(), P.x, P.y);
         }
 

@@ -8,6 +8,9 @@ public interface RSCharacter extends RSEntity {
     String getOverheadText();
     int getAnimation();
     int getOrientation();
+    int getHitpoints();
+    int getMaxHitpoints();
+    int getHealthBarCycle();
 
     default int getRegionX() {
         return getStrictX() >> 7;
@@ -15,6 +18,10 @@ public interface RSCharacter extends RSEntity {
 
     default int getRegionY() {
         return getStrictY() >> 7;
+    }
+
+    default boolean isHpBarShowing(int engine_cycle){
+        return getHealthBarCycle() > engine_cycle;
     }
 
 }

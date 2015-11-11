@@ -56,7 +56,7 @@ public class ReflectionProfiler implements BSProfiler {
     public BMethod getMethodDef(String owner, String name, String desc) {
         try {
             Class c = Class.forName(owner.replace('/','.'));
-            for(Method m : c.getDeclaredMethods()) {
+            for(Method m : c.getMethods()) {
                 String dec0 = Type.getMethodDescriptor(m);
                 if(desc.equals(dec0)) {
                     return m.getDeclaredAnnotation(BMethod.class);
@@ -116,4 +116,5 @@ public class ReflectionProfiler implements BSProfiler {
             throw new Error("Class not found: " + owner + "." + name + desc);
         }
     }
+
 }

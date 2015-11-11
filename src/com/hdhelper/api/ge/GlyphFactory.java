@@ -41,6 +41,7 @@ public class GlyphFactory {
         }
 
         public byte[] getHeader() {
+            // assumes numchars == 256
             byte[] buffer = new byte[257];
             for(int w = 0; w < 256; w++) {
                 buffer[w] = (byte) absWidth[w];
@@ -50,7 +51,7 @@ public class GlyphFactory {
         }
 
         public RTGlyphVector create() {
-            byte[] header = getHeader();
+          //  byte[] header = getHeader();
             return new RTGlyphVector(absWidth,baseLine,xOffset,yOffset,widths,heights,null,flags);
         }
 

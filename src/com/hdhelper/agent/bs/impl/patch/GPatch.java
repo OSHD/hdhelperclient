@@ -40,22 +40,33 @@ public class GPatch {
         client.fields.put("chunkIds", new GField("client","dm","[I", null));
         client.fields.put("XTEAKeys", new GField("ei","de","[[I", null));
 
-        GClass character = patch.getGClass("Character");
+     /*   GClass character = patch.getGClass("Character");
         character.fields.put("targetIndex",new GField( character.name, "bu", "I",-1836127123 ));
-        character.fields.put("orientation",new GField( character.name, "cg","I",527854075));
+        character.fields.put("orientation",new GField( character.name, "cg","I",527854075));*/
 
-        GClass player = patch.getGClass("Player");
-        player.fields.put("height",new GField(player.name,"h","I",-1507293645));
+    /*    GClass player = patch.getGClass("Player");
+        player.fields.put("height",new GField(player.name,"h","I",-1507293645));*/
 
-        GClass entityMarker = patch.getGClass("EntityMarker");
-        entityMarker.fields.put("regionY",new GField(entityMarker.name,"h","I",-959893399));
+    /*    GClass entityMarker = patch.getGClass("EntityMarker");
+        entityMarker.fields.put("regionY",new GField(entityMarker.name,"h","I",-959893399));*/
 
         GClass gpi = patch.getGClass("GPI");
         gpi.fields.put("playerIndices",new GField("ae","p","[I",null));
         gpi.fields.put("playerCount",new GField("ae","s","I",907260627));
 
-        GClass landscape = patch.getGClass("Landscape");
+        patch.classes.put("Graphics",new GClass("cq"));
+
+    /*    GClass landscape = patch.getGClass("Landscape");
         landscape.fields.put("visibilityMap",new GField("ci","bw","[[[[Z",null));
+
+
+*/
+
+        GClass image = patch.getGClass("Sprite");
+        image.fields.put("insetX",new GField(image.name,"d","I",null));
+        image.fields.put("insetY",new GField(image.name,"f","I",null));
+        image.fields.put("maxX",new GField(image.name,"r","I",null));
+        image.fields.put("maxY",new GField(image.name,"l","I",null));
 
         return patch;
 

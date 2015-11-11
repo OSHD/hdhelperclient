@@ -4,7 +4,7 @@ import com.hdhelper.agent.bs.impl.scripts.cache.NpcDefinition;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.ByteScript;
 import com.hdhelper.peer.RSNpc;
-import com.hdhelper.peer.RSNpcDefintion;
+import com.hdhelper.peer.RSNpcDefinition;
 
 @ByteScript(name = "Npc")
 public class Npc extends com.hdhelper.agent.bs.impl.scripts.entity.Character implements RSNpc {
@@ -15,7 +15,7 @@ public class Npc extends com.hdhelper.agent.bs.impl.scripts.entity.Character imp
 
 
     @Override
-    public RSNpcDefintion getDef() {
+    public RSNpcDefinition getDef() {
         return definition;
     }
 

@@ -2064,6 +2064,13 @@
           "name": "q",
           "desc": "Lfq;",
           "access": 0
+        },
+        "height": {
+          "owner": "k",
+          "name": "h",
+          "desc": "I",
+          "decoder": -1507293645,
+          "access": 1
         }
       }
     },
@@ -2091,6 +2098,12 @@
           "owner": "ci",
           "name": "h",
           "desc": "[Lcx;",
+          "access": 0
+        },
+        "visibilityMap": {
+          "owner": "ci",
+          "name": "bw",
+          "desc": "[[[[Z",
           "access": 0
         }
       },
@@ -2123,6 +2136,12 @@
           "owner": "ci",
           "name": "g",
           "desc": "(IIIILcc;ILcc;Lcc;)V",
+          "access": 0
+        },
+        "addTempEntity": {
+          "owner": "ci",
+          "name": "a",
+          "desc": "(IIIIILcc;IIZ)Z",
           "access": 0
         }
       }
@@ -2162,10 +2181,10 @@
         },
         "orientation": {
           "owner": "av",
-          "name": "cl",
+          "name": "ay",
           "desc": "I",
-          "decoder": 2021102163,
-          "access": 25
+          "decoder": -1009612215,
+          "access": 1
         },
         "overheadText": {
           "owner": "av",

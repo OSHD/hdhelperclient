@@ -2,13 +2,14 @@ package com.hdhelper.api.ge;
 
 import java.util.Random;
 
+//Some functions are left private since I have yet to figure out its exact mechanics.
 public abstract class RTFont extends RTGraphics {
 
     RTIcon[] images;
     Random fieldAs = new Random();
     String[] CACHE = new String[100];
 
-
+    // Mutable properties:
     int streakColor = -1;
     int underlineColor = -1;
     int defaultShadowColor = -1;
@@ -20,16 +21,17 @@ public abstract class RTFont extends RTGraphics {
     int shadowColor = -1;
 
     // GlyphVector references:
-    int[] absWidth;
-    int[] insetX;
-    int[] insetY;
-    int[] widths;
-    int[] heights;
-    byte[][] glyphs;
-    byte[] fieldK;
-    int maxAscent;
-    int maxDescent;
-    int baseLine = 0;
+    // These are to be immutable.
+    final int[] absWidth;
+    final int[] insetX;
+    final int[] insetY;
+    final int[] widths;
+    final int[] heights;
+    final byte[][] glyphs;
+    final byte[] fieldK;
+    final int maxAscent;
+    final int maxDescent;
+    final int baseLine;
 
     public RTFont(RTGlyphVector glyphs) {
         this.absWidth   = glyphs.absWidth;
@@ -304,79 +306,6 @@ public abstract class RTFont extends RTGraphics {
         }
     }
 
-    void a(byte[] buffer) {
-        this.absWidth = new int[256];
-        int caret;
-        if (buffer.length == 257) {
-            for (caret = 0; caret < this.absWidth.length; ++caret) {
-                this.absWidth[caret] = buffer[caret] & 255;
-            }
-
-            this.baseLine = buffer[256] & 255;
-
-        } else {
-            caret = 0;
-
-            for (int var3 = 0; var3 < 256; ++var3) {
-                this.absWidth[var3] = buffer[caret++] & 255;
-            }
-
-            int[] glypSize = new int[256];
-            int[] var4 = new int[256];
-
-            int var5;
-            for (var5 = 0; var5 < 256; ++var5) {
-                glypSize[var5] = buffer[caret++] & 255;
-            }
-
-            for (var5 = 0; var5 < 256; ++var5) {
-                var4[var5] = buffer[caret++] & 255;
-            }
-
-            byte[][] var11 = new byte[256][];
-
-            int charB;
-            for (int var6 = 0; var6 < 256; ++var6) {
-                var11[var6] = new byte[glypSize[var6]];
-                byte var7 = 0;
-
-                for (charB = 0; charB < var11[var6].length; ++charB) {
-                    var7 += buffer[caret++];
-                    var11[var6][charB] = var7;
-                }
-            }
-
-            byte[][] var12 = new byte[256][];
-
-            int charA;
-            for (charA = 0; charA < 256; ++charA) {
-                var12[charA] = new byte[glypSize[charA]];
-                byte var14 = 0;
-
-                for (int var9 = 0; var9 < var12[charA].length; ++var9) {
-                    var14 += buffer[caret++];
-                    var12[charA][var9] = var14;
-                }
-            }
-
-            this.fieldK = new byte[65536];
-
-            for (charA = 0; charA < 256; ++charA) {
-                if (charA != 32 && charA != 160) {
-                    for (charB = 0; charB < 256; ++charB) {
-                        if (charB != 32 && charB != 160) {
-                            this.fieldK[(charA << 8) + charB] = (byte) method31(var11, var12, var4, this.absWidth, glypSize, charA, charB);
-                        }
-                    }
-                }
-            }
-
-            this.baseLine = var4[32] + glypSize[32];
-
-
-        }
-
-    }
 
 
     // getStringWidth
@@ -435,7 +364,7 @@ public abstract class RTFont extends RTGraphics {
         }
     }
 
-    int l(String var1, int[] var2, String[] var3) {
+    int computeWrapBlocks(String var1, int[] rowWidths, String[] rowDest) {
         if (var1 == null) {
             return 0;
         } else {
@@ -462,7 +391,7 @@ public abstract class RTFont extends RTGraphics {
                         var6.append(var16);
                         var6.append('>');
                         if (var16.equals("br")) {
-                            var3[var12] = var6.toString().substring(var5, var6.length());
+                            rowDest[var12] = var6.toString().substring(var5, var6.length());
                             ++var12;
                             var5 = var6.length();
                             var4 = 0;
@@ -512,8 +441,8 @@ public abstract class RTFont extends RTGraphics {
                             var9 = 1;
                         }
 
-                        if (var2 != null && var4 > var2[var12 < var2.length ? var12 : var2.length - 1] && var7 >= 0) {
-                            var3[var12] = var6.toString().substring(var5, var7 - var9);
+                        if (rowWidths != null && var4 > rowWidths[var12 < rowWidths.length ? var12 : rowWidths.length - 1] && var7 >= 0) {
+                            rowDest[var12] = var6.toString().substring(var5, var7 - var9);
                             ++var12;
                             var5 = var7;
                             var7 = -1;
@@ -532,72 +461,84 @@ public abstract class RTFont extends RTGraphics {
 
             String var19 = var6.toString();
             if (var19.length() > var5) {
-                var3[var12++] = var19.substring(var5, var19.length());
+                rowDest[var12++] = var19.substring(var5, var19.length());
             }
 
             return var12;
         }
     }
 
-    public int w(String var1, int var2) {
-        return this.l(var1, new int[]{var2}, CACHE);
+    public int getWordWrapRowCount(String var1, int var2) {
+        return this.computeWrapBlocks(var1, new int[]{var2}, CACHE);
     }
 
     //k
 
-    public int f(String var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9, int var10) {
+    //
+
+    // returns the number of rows
+
+    public static final int ROW_LAYOUT_LEFT    = 0;
+    public static final int ROW_LAYOUT_CENTER  = 1;
+    public static final int ROW_LAYOUT_RIGHT   = 2;
+
+    public static final int TEXT_LAYOUT_BASELINE = 0;
+    public static final int TEXT_LAYOUT_CENTER   = 1;
+    public static final int TEXT_LAYOUT_TOP      = 2;
+
+    public int drawWordWrap(String var1, int x, int y, int width, int height, int foreColor, int shadowColor, int rowLayout, int textLayout, int space) {
         if (var1 == null) {
             return 0;
         } else {
-            this.t(var6, var7);
-            if (var10 == 0) {
-                var10 = this.baseLine;
+            this.t(foreColor, shadowColor);
+            if (space == 0) {
+                space = this.baseLine;
             }
 
-            int[] var11 = new int[]{var4};
-            if (var5 < this.maxAscent + this.maxDescent + var10 && var5 < var10 + var10) {
+            int[] var11 = new int[]{width};
+            if (height < this.maxAscent + this.maxDescent + space && height < space + space) {
                 var11 = null;
             }
 
-            int var12 = this.l(var1, var11, CACHE);
-            if (var9 == 3 && var12 == 1) {
-                var9 = 1;
+            int var12 = this.computeWrapBlocks(var1, var11, CACHE);
+            if (textLayout == 3 && var12 == 1) {
+                textLayout = 1;
             }
 
             int var13;
             int var14;
-            if (var9 == 0) {
-                var13 = var3 + this.maxAscent;
-            } else if (var9 == 1) {
-                var13 = var3 + this.maxAscent + (var5 - this.maxAscent - this.maxDescent - (var12 - 1) * var10) / 2;
-            } else if (var9 == 2) {
-                var13 = var3 + var5 - this.maxDescent - (var12 - 1) * var10;
+            if (textLayout == 0) {
+                var13 = y + this.maxAscent;
+            } else if (textLayout == 1) {
+                var13 = y + this.maxAscent + (height - this.maxAscent - this.maxDescent - (var12 - 1) * space) / 2;
+            } else if (textLayout == 2) {
+                var13 = y + height - this.maxDescent - (var12 - 1) * space;
             } else {
-                var14 = (var5 - this.maxAscent - this.maxDescent - (var12 - 1) * var10) / (var12 + 1);
+                var14 = (height - this.maxAscent - this.maxDescent - (var12 - 1) * space) / (var12 + 1);
                 if (var14 < 0) {
                     var14 = 0;
                 }
 
-                var13 = var3 + this.maxAscent + var14;
-                var10 += var14;
+                var13 = y + this.maxAscent + var14;
+                space += var14;
             }
 
             for (var14 = 0; var14 < var12; ++var14) {
-                if (var8 == 0) {
-                    this.j(CACHE[var14], var2, var13);
-                } else if (var8 == 1) {
-                    this.j(CACHE[var14], var2 + (var4 - this.getStringWidth(CACHE[var14])) / 2, var13);
-                } else if (var8 == 2) {
-                    this.j(CACHE[var14], var2 + var4 - this.getStringWidth(CACHE[var14]), var13);
+                if (rowLayout == 0) {
+                    this.j(CACHE[var14], x, var13);
+                } else if (rowLayout == 1) {
+                    this.j(CACHE[var14], x + (width - this.getStringWidth(CACHE[var14])) / 2, var13);
+                } else if (rowLayout == 2) {
+                    this.j(CACHE[var14], x + width - this.getStringWidth(CACHE[var14]), var13);
                 } else if (var14 == var12 - 1) {
-                    this.j(CACHE[var14], var2, var13);
+                    this.j(CACHE[var14], x, var13);
                 } else {
-                    this.u(CACHE[var14], var4);
-                    this.j(CACHE[var14], var2, var13);
+                    this.u(CACHE[var14], width);
+                    this.j(CACHE[var14], x, var13);
                     fieldC = 0;
                 }
 
-                var13 += var10;
+                var13 += space;
             }
 
             return var12;
@@ -632,19 +573,19 @@ public abstract class RTFont extends RTGraphics {
         }
     }
 
-    void t(int var1, int var2) {
+    private void t(int color, int shadowColor) {
         streakColor = -1;
         underlineColor = -1;
-        defaultShadowColor = var2;
-        shadowColor = var2;
-        defaultColor = var1;
-        curColor = var1;
+        defaultShadowColor = shadowColor;
+        this.shadowColor = shadowColor;
+        defaultColor = color;
+        curColor = color;
         alpha = 256;
         fieldC = 0;
         fieldAn = 0;
     }
 
-    void u(String var1, int var2) {
+    private void u(String var1, int var2) {
         int var3 = 0;
         boolean var4 = false;
 
@@ -666,7 +607,7 @@ public abstract class RTFont extends RTGraphics {
     }
 
 
-    void g(String var1, int var2, int var3, int[] var4, int[] var5) {
+    private void g(String var1, int var2, int var3, int[] var4, int[] var5) {
         var3 -= this.baseLine;
         int var6 = -1;
         int var7 = -1;
@@ -825,7 +766,7 @@ public abstract class RTFont extends RTGraphics {
     }
 
     public int m(String var1, int var2) {
-        int var3 = this.l(var1, new int[]{var2}, CACHE);
+        int var3 = this.computeWrapBlocks(var1, new int[]{var2}, CACHE);
         int var4 = 0;
 
         for (int var5 = 0; var5 < var3; ++var5) {

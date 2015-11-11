@@ -19,7 +19,7 @@ public class Environment {
     public static final int WORLD = 2;
 
 
-    public static int CLIENT_REVISION = 96;
+    public static int CLIENT_REVISION = 98;
 
     public static boolean RENDER_LANDSCAPE = true;
 

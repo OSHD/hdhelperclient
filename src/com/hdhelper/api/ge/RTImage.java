@@ -1,66 +1,95 @@
 package com.hdhelper.api.ge;
 
+import com.hdhelper.peer.RSImage;
+
 import java.awt.*;
 import java.awt.image.PixelGrabber;
 
 public final class RTImage extends RTGraphics {
 
-    public int fieldM;
-    public int fieldW;
-    public int[] pixels;
-    public int height; //TODO this was  package private
-    int fieldB;
-    int fieldL;
-    public int width;//TODO this was package private
+    int[] pixels;
 
+    int width;//TODO this was package private
+    int height; //TODO this was  package private
 
-    public RTImage(int var1, int var2) {
-        this.pixels = new int[var1 * var2];
-        this.width = this.fieldM = var1;
-        this.height = this.fieldW = var2;
-        this.fieldL = 0;
-        this.fieldB = 0;
+    int maxX;
+    int maxY;
+
+    int insetX;
+    int insetY;
+
+    public int getWidth() {
+        return width;
     }
 
-    public RTImage(Image var3) {
+    public int getHeight() {
+        return height;
+    }
+
+
+    public static RTImage create(RSImage src, boolean unsafe) {
+        RTImage dest = new RTImage();
+        dest.pixels = unsafe ? src.getPixels() : src.getPixels().clone();
+        dest.width = src.getHeight();
+        dest.height = src.getWidth();
+        dest.insetX = src.getInsetX();
+        dest.insetY = src.getInsetY();
+        dest.maxX = src.getMaxX();
+        dest.maxY = src.getMaxY();
+        return dest;
+    }
+
+    RTImage() {}
+
+    RTImage(int[] pixels, int width, int height) {
+        this.pixels = pixels;
+        this.width = this.maxX = width;
+        this.height = this.maxY = height;
+        this.insetX = 0;
+        this.insetY = 0;
+    }
+
+    public RTImage(int width, int height) {
+        this.pixels = new int[width * height];
+        this.width = this.maxX = width;
+        this.height = this.maxY = height;
+        this.insetY = 0;
+        this.insetX = 0;
+    }
+
+    public RTImage(Image var3) { //TODO should we provide an observer?
         try {
             this.width = var3.getWidth(null);
             this.height = var3.getHeight(null);
-            this.fieldM = this.width;
-            this.fieldW = this.height;
-            this.fieldB = 0;
-            this.fieldL = 0;
+            this.maxX = this.width;
+            this.maxY = this.height;
+            this.insetX = 0;
+            this.insetY = 0;
             this.pixels = new int[this.width * this.height];
             PixelGrabber var5 = new PixelGrabber(var3, 0, 0, this.width, this.height, this.pixels, 0, this.width);
             var5.grabPixels();
-        } catch (InterruptedException var6) {
-            ;
+        } catch (InterruptedException ignored) {
+            throw new Error(ignored);
         }
-
     }
 
-    public RTImage(byte[] var1, Component var2) {
+    public RTImage(byte[] imageData, Component var2) {
         try {
-            Image var3 = Toolkit.getDefaultToolkit().createImage(var1);
+            Image var3 = Toolkit.getDefaultToolkit().createImage(imageData);
             MediaTracker var4 = new MediaTracker(var2);
             var4.addImage(var3, 0);
             var4.waitForAll();
             this.width = var3.getWidth(var2);
             this.height = var3.getHeight(var2);
-            this.fieldM = this.width;
-            this.fieldW = this.height;
-            this.fieldB = 0;
-            this.fieldL = 0;
+            this.maxX = this.width;
+            this.maxY = this.height;
+            this.insetX = 0;
+            this.insetY = 0;
             this.pixels = new int[this.width * this.height];
             PixelGrabber var5 = new PixelGrabber(var3, 0, 0, this.width, this.height, this.pixels, 0, this.width);
             var5.grabPixels();
-        } catch (InterruptedException var6) {
-            ;
+        } catch (InterruptedException ignored) {
         }
-
-    }
-
-    RTImage() {
     }
 
     static void method360(int[] var0, int[] var1, int var2, int var3, int var4, int var5, int var6, int var7) {
@@ -324,7 +353,7 @@ public final class RTImage extends RTGraphics {
         }
 
         this.pixels = var1;
-        this.fieldB = this.fieldM - this.width - this.fieldB;
+        this.insetX = this.maxX - this.width - this.insetX;
     }
 
     // Translate Pallet ( R, G, B) adds rgb to the existing image
@@ -362,44 +391,44 @@ public final class RTImage extends RTGraphics {
 
     }
 
-    public void b() {
-        if (this.width != this.fieldM || this.height != this.fieldW) {
-            int[] var1 = new int[this.fieldM * this.fieldW];
+    public void crop() {
+        if (this.width != this.maxX || this.height != this.maxY) {
+            int[] var1 = new int[this.maxX * this.maxY];
 
             for (int var2 = 0; var2 < this.height; ++var2) {
                 for (int var3 = 0; var3 < this.width; ++var3) {
-                    var1[(var2 + this.fieldL) * this.fieldM + var3 + this.fieldB] = this.pixels[var2 * this.width + var3];
+                    var1[(var2 + this.insetY) * this.maxX + var3 + this.insetX] = this.pixels[var2 * this.width + var3];
                 }
             }
 
             this.pixels = var1;
-            this.width = this.fieldM;
-            this.height = this.fieldW;
-            this.fieldB = 0;
-            this.fieldL = 0;
+            this.width = this.maxX;
+            this.height = this.maxY;
+            this.insetX = 0;
+            this.insetY = 0;
         }
     }
 
     public void l(int var1) {
-        if (this.width != this.fieldM || this.height != this.fieldW) {
+        if (this.width != this.maxX || this.height != this.maxY) {
             int var2 = var1;
-            if (var1 > this.fieldB) {
-                var2 = this.fieldB;
+            if (var1 > this.insetX) {
+                var2 = this.insetX;
             }
 
             int var3 = var1;
-            if (var1 + this.fieldB + this.width > this.fieldM) {
-                var3 = this.fieldM - this.fieldB - this.width;
+            if (var1 + this.insetX + this.width > this.maxX) {
+                var3 = this.maxX - this.insetX - this.width;
             }
 
             int var4 = var1;
-            if (var1 > this.fieldL) {
-                var4 = this.fieldL;
+            if (var1 > this.insetY) {
+                var4 = this.insetY;
             }
 
             int var5 = var1;
-            if (var1 + this.fieldL + this.height > this.fieldW) {
-                var5 = this.fieldW - this.fieldL - this.height;
+            if (var1 + this.insetY + this.height > this.maxY) {
+                var5 = this.maxY - this.insetY - this.height;
             }
 
             int var6 = this.width + var2 + var3;
@@ -415,8 +444,8 @@ public final class RTImage extends RTGraphics {
             this.pixels = var8;
             this.width = var6;
             this.height = var7;
-            this.fieldB -= var2;
-            this.fieldL -= var4;
+            this.insetX -= var2;
+            this.insetY -= var4;
         }
     }
 
@@ -432,13 +461,13 @@ public final class RTImage extends RTGraphics {
         }
 
         this.pixels = var1;
-        this.fieldL = this.fieldW - this.height - this.fieldL;
+        this.insetY = this.maxY - this.height - this.insetY;
     }
 
     //draw
     public void s(int var1, int var2) {
-        var1 += this.fieldB;
-        var2 += this.fieldL;
+        var1 += this.insetX;
+        var2 += this.insetY;
         int var3 = var1 + var2 * rasterWidth;
         int var4 = 0;
         int var5 = this.height;
@@ -488,21 +517,21 @@ public final class RTImage extends RTGraphics {
             int var6 = this.height;
             int var7 = 0;
             int var8 = 0;
-            int var9 = this.fieldM;
-            int var10 = this.fieldW;
+            int var9 = this.maxX;
+            int var10 = this.maxY;
             int var11 = (var9 << 16) / var3;
             int var12 = (var10 << 16) / var4;
             int var13;
-            if (this.fieldB > 0) {
-                var13 = ((this.fieldB << 16) + var11 - 1) / var11;
+            if (this.insetX > 0) {
+                var13 = ((this.insetX << 16) + var11 - 1) / var11;
                 var1 += var13;
-                var7 += var13 * var11 - (this.fieldB << 16);
+                var7 += var13 * var11 - (this.insetX << 16);
             }
 
-            if (this.fieldL > 0) {
-                var13 = ((this.fieldL << 16) + var12 - 1) / var12;
+            if (this.insetY > 0) {
+                var13 = ((this.insetY << 16) + var12 - 1) / var12;
                 var2 += var13;
-                var8 += var13 * var12 - (this.fieldL << 16);
+                var8 += var13 * var12 - (this.insetY << 16);
             }
 
             if (var5 < var9) {
@@ -560,8 +589,8 @@ public final class RTImage extends RTGraphics {
         if (var3 == 256) {
             this.f(var1, var2);
         } else {
-            var1 += this.fieldB;
-            var2 += this.fieldL;
+            var1 += this.insetX;
+            var2 += this.insetY;
             int var5 = var1 + var2 * rasterWidth;
             int var6 = 0;
             int var7 = this.height;
@@ -622,21 +651,21 @@ public final class RTImage extends RTGraphics {
             int var7 = this.height;
             int var8 = 0;
             int var9 = 0;
-            int var10 = this.fieldM;
-            int var11 = this.fieldW;
+            int var10 = this.maxX;
+            int var11 = this.maxY;
             int var12 = (var10 << 16) / var3;
             int var13 = (var11 << 16) / var4;
             int var14;
-            if (this.fieldB > 0) {
-                var14 = ((this.fieldB << 16) + var12 - 1) / var12;
+            if (this.insetX > 0) {
+                var14 = ((this.insetX << 16) + var12 - 1) / var12;
                 var1 += var14;
-                var8 += var14 * var12 - (this.fieldB << 16);
+                var8 += var14 * var12 - (this.insetX << 16);
             }
 
-            if (this.fieldL > 0) {
-                var14 = ((this.fieldL << 16) + var13 - 1) / var13;
+            if (this.insetY > 0) {
+                var14 = ((this.insetY << 16) + var13 - 1) / var13;
                 var2 += var14;
-                var9 += var14 * var13 - (this.fieldL << 16);
+                var9 += var14 * var13 - (this.insetY << 16);
             }
 
             if (var6 < var10) {
@@ -715,14 +744,10 @@ public final class RTImage extends RTGraphics {
 
     }
 
-    public static void main(String... d) {
-        System.out.println((int)'\uffff');
-    }
-
     void z(int var1, int var2, int var3, int var4, int var5, int var6) {
         if (var6 != 0) {
-            var1 -= this.fieldB << 4;
-            var2 -= this.fieldL << 4;
+            var1 -= this.insetX << 4;
+            var2 -= this.insetY << 4;
             double var7 = (double) (var5 & 65535) * 9.587379924285257E-5D;
             int var9 = (int) Math.floor(Math.sin(var7) * (double) var6 + 0.5D);
             int var10 = (int) Math.floor(Math.cos(var7) * (double) var6 + 0.5D);
@@ -1189,8 +1214,8 @@ public final class RTImage extends RTGraphics {
 
     public void c(RTIcon var1, int var2, int var3) {
         if (viewportMaxX - viewportX == var1.maxX && viewportMaxY - viewportY == var1.maxY) {
-            var2 += this.fieldB;
-            var3 += this.fieldL;
+            var2 += this.insetX;
+            var3 += this.insetY;
             int var4 = var2 + var3 * rasterWidth;
             int var5 = 0;
             int var6 = this.height;
@@ -1238,7 +1263,7 @@ public final class RTImage extends RTGraphics {
     }
 
     public void r(int axisX, int axisY, int rotation, int radius) {
-        this.z(this.fieldM << 3, this.fieldW << 3, axisX << 4, axisY << 4, rotation, radius);
+        this.z(this.maxX << 3, this.maxY << 3, axisX << 4, axisY << 4, rotation, radius);
     }
 
     public void setBackgroundColor ( int var1 ) {
@@ -1257,10 +1282,10 @@ public final class RTImage extends RTGraphics {
     // Clone
     public RTImage a() {
         RTImage var1 = new RTImage(this.width, this.height);
-        var1.fieldM = this.fieldM;
-        var1.fieldW = this.fieldW;
-        var1.fieldB = this.fieldM - this.width - this.fieldB;
-        var1.fieldL = this.fieldL;
+        var1.maxX = this.maxX;
+        var1.maxY = this.maxY;
+        var1.insetX = this.maxX - this.width - this.insetX;
+        var1.insetY = this.insetY;
 
         for (int var2 = 0; var2 < this.height; ++var2) {
             for (int var3 = 0; var3 < this.width; ++var3) {
@@ -1273,8 +1298,8 @@ public final class RTImage extends RTGraphics {
 
     // drawAlpha
     public void h(int var1, int var2, int var3) {
-        var1 += this.fieldB;
-        var2 += this.fieldL;
+        var1 += this.insetX;
+        var2 += this.insetY;
         int var4 = var1 + var2 * rasterWidth;
         int var5 = 0;
         int var6 = this.height;
@@ -1321,8 +1346,8 @@ public final class RTImage extends RTGraphics {
     }
 
     public void f(int var1, int var2) {
-        var1 += this.fieldB;
-        var2 += this.fieldL;
+        var1 += this.insetX;
+        var2 += this.insetY;
         int var3 = var1 + var2 * rasterWidth;
         int var4 = 0;
         int var5 = this.height;

@@ -10,3 +10,4 @@
 .idea/*
 Client.iml
 out/*
+.gitignore

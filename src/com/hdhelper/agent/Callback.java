@@ -13,6 +13,11 @@ import java.util.Arrays;
 
 public class Callback {
 
+    public static void event(int id) {
+        System.out.println(id);
+
+    }
+
     public static void dump(int index) {
         RSClient client = Main.client;
         int[] key = client.getKeys()[index];
