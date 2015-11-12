@@ -29,20 +29,22 @@ public class GPatch {
 
         GClass client = patch.getGClass("Client");
 
-        client.fields.put("screenScale",new GField( "client", "ob", "I", -900882037 ));
-        client.fields.put("screenWidth",new GField( "client", "om", "I", -601427865  ));
-        client.fields.put("screenHeight",new GField( "client", "oo", "I", 807668933  ));
-        client.fields.put("floorLevel",new GField("ez","gn", "I",238600101));
-        client.fields.get("regionBaseX").decoder =  -1234650781;
-        client.fields.get("regionBaseY").decoder = -706637253;
-        client.methods.get("getItemDefinition").predicate = -1194634781;
+        client.fields.put("screenScale",new GField( "client", "og", "I", -1119192075 ));
+        client.fields.put("screenWidth",new GField( "client", "os", "I", 1392196225  ));
+        client.fields.put("screenHeight",new GField( "client", "ow", "I", -1996549443  ));
+        client.fields.get("engineCycle").decoder = 1600591593;
+       // client.fields.put("floorLevel",new GField("ez","gn", "I",238600101));
+     //   client.fields.get("regionBaseX").decoder =  -1234650781;
+      //  client.fields.get("regionBaseY").decoder = -706637253;
+        client.methods.get("getItemDefinition").predicate = 0;
 
-        client.fields.put("chunkIds", new GField("client","dm","[I", null));
-        client.fields.put("XTEAKeys", new GField("ei","de","[[I", null));
+        client.fields.put("chunkIds", new GField("fg","dr","[I", null));
+        client.fields.put("XTEAKeys", new GField("fu","di","[[I", null));
 
-     /*   GClass character = patch.getGClass("Character");
-        character.fields.put("targetIndex",new GField( character.name, "bu", "I",-1836127123 ));
-        character.fields.put("orientation",new GField( character.name, "cg","I",527854075));*/
+       GClass character = patch.getGClass("Character");
+        character.fields.put("targetIndex",new GField( character.name, "bb", "I",1495396491 ));
+
+       // character.fields.put("orientation",new GField( character.name, "cg","I",527854075));*/
 
     /*    GClass player = patch.getGClass("Player");
         player.fields.put("height",new GField(player.name,"h","I",-1507293645));*/
@@ -54,7 +56,7 @@ public class GPatch {
         gpi.fields.put("playerIndices",new GField("ae","p","[I",null));
         gpi.fields.put("playerCount",new GField("ae","s","I",907260627));
 
-        patch.classes.put("Graphics",new GClass("cq"));
+        patch.classes.put("Graphics",new GClass("cv"));
 
     /*    GClass landscape = patch.getGClass("Landscape");
         landscape.fields.put("visibilityMap",new GField("ci","bw","[[[[Z",null));
@@ -62,6 +64,7 @@ public class GPatch {
 
 */
 
+        //TODO hook
         GClass image = patch.getGClass("Sprite");
         image.fields.put("insetX",new GField(image.name,"d","I",null));
         image.fields.put("insetY",new GField(image.name,"f","I",null));

@@ -15,7 +15,7 @@ public class GraphicsEngineMod extends InjectionModule {
 
 
         for(ClassNode cn : classes.values()) {
-            if(cn.superName.equals("bq")) {
+            if(cn.superName.equals("ba")) {
                 hack(cn);
             }
         }
@@ -31,9 +31,9 @@ public class GraphicsEngineMod extends InjectionModule {
                     if(fin.owner.equals(cn.name) && fin.name.equals("l")) {
                         InsnList stack = new InsnList();
                         stack.add(new VarInsnNode(ALOAD,0));
-                        stack.add(new FieldInsnNode(GETFIELD,cn.name,"k","[I"));
+                        stack.add(new FieldInsnNode(GETFIELD,cn.name,"q","[I"));
                         stack.add(new VarInsnNode(ALOAD,0));
-                        stack.add(new FieldInsnNode(GETFIELD,cn.name,"l","L" + Type.getInternalName(Image.class) + ";"));
+                        stack.add(new FieldInsnNode(GETFIELD,cn.name,"m","L" + Type.getInternalName(Image.class) + ";"));
                         stack.add(new MethodInsnNode(INVOKESTATIC,Type.getInternalName(Callback.class),"reshape",Type.getMethodDescriptor(Void.TYPE, int[].class, Image.class),false));
                         mn.instructions.insert(fin, stack);
 

@@ -2,7 +2,6 @@ package com.hdhelper.api.ge.impl;
 
 import com.hdhelper.Environment;
 import com.hdhelper.Main;
-import com.hdhelper.agent.ClientCanvas;
 import com.hdhelper.api.Equipment;
 import com.hdhelper.api.UID;
 import com.hdhelper.api.W2S;
@@ -410,13 +409,13 @@ public class Debug extends BasicOverlay {
 
 
 
-            if(money == null) {
+           /* if(money == null) {
                 RSImage img = client.getItemImage(995,Integer.MAX_VALUE,1,0,2,false);
                 money = RTImage.create(img,true);
             }
 
             money.setGraphics(g);
-            money.f(ClientCanvas.mouseX-money.getWidth(),ClientCanvas.mouseY-money.getHeight()); //huez
+            money.f(ClientCanvas.mouseX-money.getWidth(),ClientCanvas.mouseY-money.getHeight()); //huez*/
 
             // Keep this:
 
