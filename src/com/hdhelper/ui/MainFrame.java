@@ -2,7 +2,7 @@ package com.hdhelper.ui;
 
 import com.hdhelper.Context;
 import com.hdhelper.Main;
-import com.hdhelper.peer.RSClient;
+import com.hdhelper.agent.peer.RSClient;
 
 import javax.swing.*;
 import java.applet.Applet;
@@ -36,7 +36,7 @@ public class MainFrame extends JFrame {
                 setContentPane(a);
 
                 pack();
-                revalidate();
+
                 setVisible(true);
 
 

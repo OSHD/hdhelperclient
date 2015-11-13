@@ -30,7 +30,7 @@ public class ClientCanvas extends Canvas {
     public ClientCanvas() {
         super();
         super.setIgnoreRepaint(true);
-        System.out.println("LOADED");
+
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {

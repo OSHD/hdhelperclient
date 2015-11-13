@@ -3,10 +3,12 @@ package com.hdhelper.agent.bs.impl.scripts.ls;
 import com.hdhelper.agent.bs.impl.scripts.collection.Node;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.ByteScript;
-import com.hdhelper.peer.*;
+import com.hdhelper.agent.peer.*;
 
 @ByteScript(name = "LandscapeTile")
 public class LandscapeTile extends Node implements RSLandscapeTile {
+
+    public static final int MAX_ENTITIES = 5;
 
     @BField(name = "boundaryDecorationStub")
     BoundaryDecoration boundaryDecoration;

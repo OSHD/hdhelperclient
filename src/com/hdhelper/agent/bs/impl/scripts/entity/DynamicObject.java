@@ -2,7 +2,7 @@ package com.hdhelper.agent.bs.impl.scripts.entity;
 
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.ByteScript;
-import com.hdhelper.peer.RSDynamicObject;
+import com.hdhelper.agent.peer.RSDynamicObject;
 
 @ByteScript(name = "DynamicObject")
 public class DynamicObject extends Entity implements RSDynamicObject {

@@ -1,9 +1,9 @@
 package com.hdhelper.agent.bs.compiler;
 
-import jdk.internal.org.objectweb.asm.ClassVisitor;
-import jdk.internal.org.objectweb.asm.FieldVisitor;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.commons.RemappingClassAdapter;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.FieldVisitor;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.commons.RemappingClassAdapter;
 
 public class BSAdapter extends RemappingClassAdapter {
 

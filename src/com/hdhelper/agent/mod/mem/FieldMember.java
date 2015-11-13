@@ -1,9 +1,9 @@
 package com.hdhelper.agent.mod.mem;
 
 import com.hdhelper.agent.util.ASMUtil;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
-import jdk.internal.org.objectweb.asm.tree.FieldNode;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.tree.FieldInsnNode;
+import org.objectweb.asm.tree.FieldNode;
 
 public class FieldMember {
 

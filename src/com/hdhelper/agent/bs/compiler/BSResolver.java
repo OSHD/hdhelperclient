@@ -1,6 +1,6 @@
 package com.hdhelper.agent.bs.compiler;
 
-import jdk.internal.org.objectweb.asm.Type;
+import org.objectweb.asm.Type;
 
 public interface BSResolver {
 

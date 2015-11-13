@@ -1,10 +1,11 @@
 package com.hdhelper.agent.mod;
 
 import com.hdhelper.Environment;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.tree.*;
+import org.objectweb.asm.Label;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.*;
 
+import java.util.List;
 import java.util.Map;
 
 //Disables main-screen rendering
@@ -17,7 +18,7 @@ public class RenderMod extends InjectionModule {
     public void inject(Map<String, ClassNode> classes) {
 
 
-        for(MethodNode mn : classes.get(LANDSCAPE).methods) {
+        for(MethodNode mn : (List<MethodNode>) classes.get(LANDSCAPE).methods) {
             if(mn.name.equals("ag")) {
 
                 LabelNode A = new LabelNode(new Label());
@@ -35,7 +36,7 @@ public class RenderMod extends InjectionModule {
         }
 
         //AIO method for drawing hitbar, hitsplats, overheadText
-        for(MethodNode mn : classes.get("es").methods) {
+        for(MethodNode mn : (List<MethodNode>) classes.get("es").methods) {
             if(mn.name.equals("ax")) {
 
                 LabelNode A = new LabelNode(new Label());
@@ -46,8 +47,6 @@ public class RenderMod extends InjectionModule {
                 stack.add(new JumpInsnNode(IFNE,A));
                 stack.add(new InsnNode(RETURN));
                 stack.add(A);
-
-                mn.instructions.insertBefore(mn.instructions.getFirst(),stack);
 
             }
         }

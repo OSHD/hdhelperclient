@@ -2,7 +2,7 @@ package com.hdhelper.agent.bs.impl.scripts.graphics;
 
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.ByteScript;
-import com.hdhelper.peer.RSImage;
+import com.hdhelper.agent.peer.RSImage;
 
 @ByteScript(name = "Sprite")
 public class Image extends Graphics implements RSImage {

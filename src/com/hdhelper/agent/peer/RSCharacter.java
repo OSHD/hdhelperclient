@@ -1,4 +1,4 @@
-package com.hdhelper.peer;
+package com.hdhelper.agent.peer;
 
 public interface RSCharacter extends RSEntity {
 
@@ -11,17 +11,5 @@ public interface RSCharacter extends RSEntity {
     int getHitpoints();
     int getMaxHitpoints();
     int getHealthBarCycle();
-
-    default int getRegionX() {
-        return getStrictX() >> 7;
-    }
-
-    default int getRegionY() {
-        return getStrictY() >> 7;
-    }
-
-    default boolean isHpBarShowing(int engine_cycle){
-        return getHealthBarCycle() > engine_cycle;
-    }
 
 }

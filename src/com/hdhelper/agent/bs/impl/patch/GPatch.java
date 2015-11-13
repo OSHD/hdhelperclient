@@ -1,7 +1,7 @@
 package com.hdhelper.agent.bs.impl.patch;
 
 import com.google.gson.*;
-import jdk.internal.org.objectweb.asm.Type;
+import org.objectweb.asm.Type;
 
 import java.text.NumberFormat;
 import java.util.*;
@@ -13,7 +13,7 @@ public class GPatch {
 
     Map<String,GClass> classes;
 
-    Map<String,String> private2Public = new HashMap<>();
+    Map<String,String> private2Public = new HashMap<String,String>();
 
     public GClass getGClass(String pubName) {
         return classes.get(pubName);

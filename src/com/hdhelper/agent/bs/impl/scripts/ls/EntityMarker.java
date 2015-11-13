@@ -3,8 +3,8 @@ package com.hdhelper.agent.bs.impl.scripts.ls;
 import com.hdhelper.agent.bs.impl.scripts.entity.Entity;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.ByteScript;
-import com.hdhelper.peer.RSEntity;
-import com.hdhelper.peer.RSEntityMarker;
+import com.hdhelper.agent.peer.RSEntity;
+import com.hdhelper.agent.peer.RSEntityMarker;
 
 @ByteScript(name = "EntityMarker")
 public class EntityMarker implements RSEntityMarker {

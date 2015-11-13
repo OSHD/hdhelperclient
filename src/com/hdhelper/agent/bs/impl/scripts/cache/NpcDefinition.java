@@ -4,7 +4,7 @@ import com.hdhelper.agent.bs.impl.scripts.collection.DualNode;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.BMethod;
 import com.hdhelper.agent.bs.lang.ByteScript;
-import com.hdhelper.peer.RSNpcDefinition;
+import com.hdhelper.agent.peer.RSNpcDefinition;
 
 @ByteScript(name = "NpcDefinition")
 public class NpcDefinition extends DualNode implements RSNpcDefinition {

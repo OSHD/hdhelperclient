@@ -2,7 +2,7 @@ package com.hdhelper.api;
 
 import com.hdhelper.Main;
 import com.hdhelper.api.ge.RTGraphics;
-import com.hdhelper.peer.RSClient;
+import com.hdhelper.agent.peer.RSClient;
 
 import java.awt.*;
 

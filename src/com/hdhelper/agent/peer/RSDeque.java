@@ -1,12 +1,10 @@
-package com.hdhelper.peer;
+package com.hdhelper.agent.peer;
 
-import java.util.ArrayDeque;
-
-public interface RSDeque<T extends RSNode> {
+public interface RSDeque {
     RSNode getHead();
     RSNode getTail();
 
-    default RSNode[] toArray() {
+   /* default RSNode[] toArray() {
 
         RSNode root = getHead();
 
@@ -19,5 +17,5 @@ public interface RSDeque<T extends RSNode> {
 
         return nodes.toArray(new RSNode[nodes.size()]);
 
-    }
+    }*/
 }

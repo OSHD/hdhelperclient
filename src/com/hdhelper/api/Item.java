@@ -1,7 +1,7 @@
 package com.hdhelper.api;
 
 import com.hdhelper.Main;
-import com.hdhelper.peer.RSItemDefinition;
+import com.hdhelper.agent.peer.RSItemDefinition;
 
 public class Item {
     private int id;

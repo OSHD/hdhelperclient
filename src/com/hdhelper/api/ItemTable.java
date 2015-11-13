@@ -1,8 +1,8 @@
 package com.hdhelper.api;
 
 import com.hdhelper.Main;
-import com.hdhelper.peer.RSItemTable;
-import com.hdhelper.peer.RSNodeTable;
+import com.hdhelper.agent.peer.RSItemTable;
+import com.hdhelper.agent.peer.RSNodeTable;
 
 
 public class ItemTable {
@@ -14,7 +14,7 @@ public class ItemTable {
     public static RSItemTable get(long id) {
         if(id < 0) return null;
         RSNodeTable table = Main.client.getItemContainers();
-        return (RSItemTable) table.get(id);
+        return (RSItemTable) NodeTable.get(id,table);
     }
 
     public static int getItemCount(int table, int item_id) {

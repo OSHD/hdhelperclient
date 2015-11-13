@@ -3,8 +3,8 @@ package com.hdhelper.agent.bs.impl.scripts.ls;
 import com.hdhelper.agent.bs.impl.scripts.entity.Entity;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.ByteScript;
-import com.hdhelper.peer.RSEntity;
-import com.hdhelper.peer.RSTileDecoration;
+import com.hdhelper.agent.peer.RSEntity;
+import com.hdhelper.agent.peer.RSTileDecoration;
 
 @ByteScript(name = "TileDecorationStub")
 public class TileDecoration implements RSTileDecoration {

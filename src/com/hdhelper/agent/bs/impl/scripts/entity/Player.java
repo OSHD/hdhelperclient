@@ -3,8 +3,8 @@ package com.hdhelper.agent.bs.impl.scripts.entity;
 import com.hdhelper.agent.bs.impl.scripts.util.PlayerConfig;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.ByteScript;
-import com.hdhelper.peer.RSPlayer;
-import com.hdhelper.peer.RSPlayerConfig;
+import com.hdhelper.agent.peer.RSPlayer;
+import com.hdhelper.agent.peer.RSPlayerConfig;
 
 @ByteScript(name = "Player")
 public class Player extends com.hdhelper.agent.bs.impl.scripts.entity.Character implements RSPlayer {

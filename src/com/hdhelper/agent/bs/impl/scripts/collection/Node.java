@@ -2,7 +2,7 @@ package com.hdhelper.agent.bs.impl.scripts.collection;
 
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.ByteScript;
-import com.hdhelper.peer.RSNode;
+import com.hdhelper.agent.peer.RSNode;
 
 @ByteScript(name = "Node")
 public class Node implements RSNode {

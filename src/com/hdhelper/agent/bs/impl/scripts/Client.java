@@ -12,7 +12,8 @@ import com.hdhelper.agent.bs.impl.scripts.ls.Landscape;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.BMethod;
 import com.hdhelper.agent.bs.lang.ByteScript;
-import com.hdhelper.peer.*;
+import com.hdhelper.agent.bs.lang.Piston;
+import com.hdhelper.agent.peer.*;
 
 import java.io.File;
 
@@ -233,30 +234,30 @@ public class Client extends GameEngine implements RSClient {
     // Methods //////////////////////////////////////////////////////////////////////
 
 
+    @Piston
     @Override
     public RSItemDefinition getItemDef(int id) {
-        if(id < 0 || id >= Short.MAX_VALUE) return null;
-        verifyCaller();
+        if(id < 0 || id >= Short.MAX_VALUE) return null; // Cache the total items within the cache
         return getItemDefinition0(id);
     }
 
+    @Piston
     @Override
     public RSObjectDefinition getObjectDef(int id) {
         if(id < 0 || id >= Short.MAX_VALUE) return null;
-        verifyCaller();
         return getObjectDefinition0(id);
     }
 
+    @Piston
     @Override
     public RSNpcDefinition getNpcDef(int id) {
         if(id < 0 || id >= Short.MAX_VALUE) return null;
-        verifyCaller();
         return getNpcDefinition0(id);
     }
 
+    @Piston
     @Override
     public RSImage getItemImage(int id, int quantity, int borderThickness, int shadowColor, int num, boolean noted) {
-        verifyCaller();
         return getItemImage0(id, quantity, borderThickness, shadowColor, num, noted);
     }
 

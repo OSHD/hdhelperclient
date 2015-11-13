@@ -6,9 +6,9 @@ import com.hdhelper.agent.bs.impl.ResolverImpl;
 import com.hdhelper.agent.bs.impl.patch.GPatch;
 import com.hdhelper.agent.bs.impl.scripts.Client;
 import com.hdhelper.agent.util.ClassWriterFix;
-import jdk.internal.org.objectweb.asm.ClassReader;
-import jdk.internal.org.objectweb.asm.ClassWriter;
-import jdk.internal.org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.ClassNode;
 
 import java.io.*;
 import java.net.URL;
@@ -45,26 +45,43 @@ public class Test {
 
 
     private static ClassNode load(String file) {
-        try(FileInputStream in = new FileInputStream(new File(file))) {
+        FileInputStream in = null;
+        try {
+            in = new FileInputStream(new File(file));
             ClassReader reader = new ClassReader(in);
             ClassNode dest = new ClassNode();
             reader.accept(dest,ClassReader.EXPAND_FRAMES);
             return dest;
         } catch (Exception e) {
             e.printStackTrace();;
+        } finally {
+            if(in != null) try {
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
 
     private static ClassNode save(ClassNode cn, String file) {
-
-        try(FileOutputStream out = new FileOutputStream(new File(file))) {
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(new File(file));
             ClassWriter writer = new ClassWriterFix(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES, new URLClassLoader(new URL[] { new File("C:\\Users\\Jamie\\HDUpdater\\Updater\\jars\\96\\gamepack.jar").toURL() }));
             cn.accept(writer);
             byte[] compiled = writer.toByteArray();
             out.write(compiled);
         } catch (Exception e) {
             e.printStackTrace();;
+        } finally {
+            if(out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return null;
     }

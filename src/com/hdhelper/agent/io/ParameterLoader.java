@@ -44,7 +44,7 @@ public class ParameterLoader {
         Matcher archive = ARCHIVE_PATTERN.matcher(frameSource);
         if (!archive.find())
             throw new IllegalArgumentException("Archive parameters are not found within the given source.");
-        HashMap<String, String> parameters = new HashMap<>();
+        HashMap<String, String> parameters = new HashMap<String,String>();
         parameters.put("archive", frameSource.substring(archive.start() + 8, archive.end()));
         Matcher param = PARAMETER_PATTERN.matcher(frameSource);
         while (param.find()) {

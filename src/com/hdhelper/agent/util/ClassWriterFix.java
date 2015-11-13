@@ -1,6 +1,6 @@
 package com.hdhelper.agent.util;
 
-import jdk.internal.org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.ClassWriter;
 
 public class ClassWriterFix extends ClassWriter {
 

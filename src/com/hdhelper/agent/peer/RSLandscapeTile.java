@@ -1,4 +1,4 @@
-package com.hdhelper.peer;
+package com.hdhelper.agent.peer;
 
 public interface RSLandscapeTile {
 

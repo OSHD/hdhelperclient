@@ -4,13 +4,14 @@ import com.hdhelper.agent.Callback;
 import com.hdhelper.agent.ClientCanvas;
 import com.hdhelper.agent.mod.mem.FieldMember;
 import com.hdhelper.agent.mod.mem.MethodMember;
+import com.hdhelper.agent.peer.*;
 import com.hdhelper.agent.util.ASMUtil;
-import com.hdhelper.peer.*;
-import jdk.internal.org.objectweb.asm.tree.*;
-import jdk.nashorn.internal.codegen.types.Type;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.*;
 
 import java.awt.*;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by Jamie on 10/21/2015.
@@ -86,7 +87,7 @@ public class ClientMod extends InjectionModule {
 
         CHUNK_IDS = new FieldMember("at","dz","[I",true);
         KEYS = new FieldMember("ag","ds","[[I",true);
-        LOOKUP_FILE_ID = new MethodMember("fz","t",Type.getMethodDescriptor(int.class,String.class,int.class),0);
+        LOOKUP_FILE_ID = new MethodMember("fz","t", ASMUtil.getMethodDescriptor(int.class, String.class, int.class),0);
 
         ITEM_TABLES = new FieldMember("g","i",NodeTableMod.NODE_TABLE_DESC,true);
         
@@ -107,9 +108,9 @@ public class ClientMod extends InjectionModule {
         client.methods.add(ASMUtil.mkGetter("getRegionBaseY", BASE_Y));
         client.methods.add(ASMUtil.mkGetter("getFloor", FLOOR));
 
-        client.methods.add(ASMUtil.mkGetter("getMyPlayer", Type.getMethodDescriptor(RSPlayer.class), LOCAL));
-        client.methods.add(ASMUtil.mkGetter("getPlayers", Type.getMethodDescriptor(RSPlayer[].class), PLAYERS));
-        client.methods.add(ASMUtil.mkGetter("getNpcs", Type.getMethodDescriptor(RSNpc[].class), NPCS));
+        client.methods.add(ASMUtil.mkGetter("getMyPlayer", ASMUtil.getMethodDescriptor(RSPlayer.class), LOCAL));
+        client.methods.add(ASMUtil.mkGetter("getPlayers", ASMUtil.getMethodDescriptor(RSPlayer[].class), PLAYERS));
+        client.methods.add(ASMUtil.mkGetter("getNpcs", ASMUtil.getMethodDescriptor(RSNpc[].class), NPCS));
 
         client.methods.add(mkGetItemDef());
         client.methods.add(mkGetObjectDef());
@@ -129,12 +130,12 @@ public class ClientMod extends InjectionModule {
         client.methods.add(ASMUtil.mkGetter("getViewportWidth", VIEWPORT_WIDTH));
         client.methods.add(ASMUtil.mkGetter("getViewportHeight",VIEWPORT_HEIGHT));
 
-        client.methods.add(ASMUtil.mkGetter("getGroundItems",Type.getMethodDescriptor(RSDeque[][][].class), GROUND_ITEMS));
+        client.methods.add(ASMUtil.mkGetter("getGroundItems",ASMUtil.getMethodDescriptor(RSDeque[][][].class), GROUND_ITEMS));
 
         client.methods.add(ASMUtil.mkGetter("getChunkIds",CHUNK_IDS));
         client.methods.add(ASMUtil.mkGetter("getKeys",KEYS));
 
-        client.methods.add(ASMUtil.mkGetter("getItemContainers",Type.getMethodDescriptor(RSNodeTable.class),ITEM_TABLES));
+        client.methods.add(ASMUtil.mkGetter("getItemContainers",ASMUtil.getMethodDescriptor(RSNodeTable.class),ITEM_TABLES));
 
         client.methods.add(ASMUtil.mkGetter("getCacheDirectory", CACHE_DIR));
         
@@ -151,7 +152,7 @@ public class ClientMod extends InjectionModule {
     public  static void xteaDump(Map<String,ClassNode> classes) {
 
         for(ClassNode cn : classes.values()) {
-            for(MethodNode mn : cn.methods) {
+            for(MethodNode mn : (java.util.List<MethodNode>) cn.methods) {
 
                 for(AbstractInsnNode ain : mn.instructions.toArray()) {
                     if(ain.getOpcode() == INVOKEVIRTUAL) {
@@ -196,7 +197,7 @@ public class ClientMod extends InjectionModule {
     static MethodNode mkGetItemDef() {
         MethodMember def = GET_ITEM_DEF;
         MethodNode getItemDef = new MethodNode(ACC_PUBLIC|ACC_FINAL, "getItemDef",
-                Type.getMethodDescriptor(RSItemDefinition.class, int.class),null,null);
+                ASMUtil.getMethodDescriptor(RSItemDefinition.class, int.class),null,null);
         InsnList stack = getItemDef.instructions;
         stack.add(new VarInsnNode(ILOAD,1));
         stack.add(new LdcInsnNode(def.getDummy()));
@@ -208,7 +209,7 @@ public class ClientMod extends InjectionModule {
     static MethodNode mkGetObjectDef() {
         MethodMember def = GET_OBJECT_DEF;
         MethodNode getItemDef = new MethodNode(ACC_PUBLIC|ACC_FINAL, "getObjectDef",
-                Type.getMethodDescriptor(RSObjectDefinition.class, int.class),null,null);
+                ASMUtil.getMethodDescriptor(RSObjectDefinition.class, int.class),null,null);
         InsnList stack = getItemDef.instructions;
         stack.add(new VarInsnNode(ILOAD,1));
         stack.add(new LdcInsnNode(def.getDummy()));
@@ -222,7 +223,7 @@ public class ClientMod extends InjectionModule {
         for (final ClassNode cn : classes.values()) {
             if (!cn.superName.equals(Type.getInternalName(Canvas.class))) continue;
             cn.superName = Type.getInternalName(ClientCanvas.class);
-            for (final MethodNode mn : cn.methods) {
+            for (final MethodNode mn : (List<MethodNode>) cn.methods) {
                 if (!mn.name.equals("<init>")) continue;
                 for (final AbstractInsnNode ain : mn.instructions.toArray()) {
                     if (ain.getOpcode() != INVOKESPECIAL) continue;

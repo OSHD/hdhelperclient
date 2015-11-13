@@ -4,8 +4,8 @@ import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.BMethod;
 import com.hdhelper.agent.bs.lang.ByteScript;
 import com.hdhelper.agent.bs.lang.Rename;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.commons.Remapper;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.commons.Remapper;
 
 public class BSRemaper extends Remapper {
 

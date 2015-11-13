@@ -2,12 +2,12 @@ package com.hdhelper.agent.io;
 
 import com.hdhelper.Environment;
 import com.hdhelper.agent.util.RegexInstructionMatcher;
-import jdk.internal.org.objectweb.asm.ClassReader;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.tree.AbstractInsnNode;
-import jdk.internal.org.objectweb.asm.tree.ClassNode;
-import jdk.internal.org.objectweb.asm.tree.IntInsnNode;
-import jdk.internal.org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.IntInsnNode;
+import org.objectweb.asm.tree.MethodNode;
 
 import java.io.*;
 import java.util.Enumeration;
@@ -63,7 +63,7 @@ public class ClientLoader {
     // Local Loading:
 
 
-    private static boolean slaveLocalVersion(File meta, Version v) {
+   /* private static boolean slaveLocalVersion(File meta, Version v) {
         return saveLocalVersion(meta,v.version,v.crc);
     }
 
@@ -96,7 +96,7 @@ public class ClientLoader {
             LOG.log(Level.WARNING, "client-version meta is currupt @ " + meta.getPath(),e);
         }
         return null;
-    }
+    }*/
 
     //Attempts to get the client-version by anayling the bytecode of the
     //local client.

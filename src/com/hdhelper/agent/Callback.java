@@ -2,7 +2,7 @@ package com.hdhelper.agent;
 
 import com.hdhelper.Environment;
 import com.hdhelper.Main;
-import com.hdhelper.peer.RSClient;
+import com.hdhelper.agent.peer.RSClient;
 
 import java.awt.*;
 import java.io.File;

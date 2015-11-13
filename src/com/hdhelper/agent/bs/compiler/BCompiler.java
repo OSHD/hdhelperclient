@@ -5,13 +5,14 @@ import com.hdhelper.agent.bs.impl.patch.GPatch;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.BMethod;
 import com.hdhelper.agent.bs.lang.ByteScript;
-import jdk.internal.org.objectweb.asm.ClassReader;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.tree.*;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 public class BCompiler {
@@ -47,7 +48,7 @@ public class BCompiler {
     }
 
     public void inject(Class bs, Map<String,ClassNode> classes) throws IOException {
-        ByteScript def = (ByteScript) bs.getDeclaredAnnotation(ByteScript.class);
+        ByteScript def = (ByteScript) bs.getAnnotation(ByteScript.class);
         if(def == null) throw new Error("Fuck off");
         String name0 = def.name();
         if(name0.equals("this")) name0 = Type.getInternalName(bs);
@@ -83,7 +84,7 @@ public class BCompiler {
     }
 
     private void genPredicates(ClassNode cn) {
-        for (MethodNode mn : cn.methods) {
+        for (MethodNode mn : (List<MethodNode>) cn.methods) {
             for (AbstractInsnNode ain : mn.instructions.toArray()) {
                 if (ain instanceof MethodInsnNode) {
 
@@ -136,7 +137,7 @@ public class BCompiler {
 
     private void fixStaticOwners(ClassNode cn) {
 
-        for (MethodNode mn : cn.methods) {
+        for (MethodNode mn : (List<MethodNode>) cn.methods) {
 
             for (AbstractInsnNode ain : mn.instructions.toArray()) {
 
@@ -254,7 +255,7 @@ public class BCompiler {
 
 
     private void appyCodec(ClassNode cn) {
-        for (MethodNode mn : cn.methods) {
+        for (MethodNode mn : (List<MethodNode>) cn.methods) {
             for (AbstractInsnNode ain : mn.instructions.toArray()) {
                 int op = ain.getOpcode();
                 if (op == Opcodes.GETFIELD) {

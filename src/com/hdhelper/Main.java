@@ -1,6 +1,6 @@
 package com.hdhelper;
 
-import com.hdhelper.peer.RSClient;
+import com.hdhelper.agent.peer.RSClient;
 import com.hdhelper.ui.MainFrame;
 
 import javax.swing.*;
@@ -17,7 +17,10 @@ public class Main {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             UIManager.put("PopupMenu.consumeEventOnClose", Boolean.TRUE);
-        } catch (final ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException ignored) {
+        } catch (final ClassNotFoundException ignored) {
+        } catch (final UnsupportedLookAndFeelException ignored) {
+        } catch (final InstantiationException ignored) {
+        } catch (final IllegalAccessException ignored) {
         }
 
         MainFrame frame = new MainFrame();
@@ -33,7 +36,7 @@ public class Main {
         public Ok() {
             super("FUN");
             setSize(500, 500);
-            revalidate();
+
             setVisible(true);
         }
 

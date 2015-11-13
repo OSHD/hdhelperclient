@@ -1,7 +1,7 @@
 package com.hdhelper.agent.bs.impl.patch;
 
 
-import jdk.internal.org.objectweb.asm.Type;
+import org.objectweb.asm.Type;
 
 public class GMethod {
 

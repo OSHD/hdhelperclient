@@ -2,7 +2,7 @@ package com.hdhelper.agent.bs.impl.scripts.util;
 
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.ByteScript;
-import com.hdhelper.peer.RSPlayerConfig;
+import com.hdhelper.agent.peer.RSPlayerConfig;
 
 @ByteScript(name = "PlayerConfig")
 public class PlayerConfig implements RSPlayerConfig {

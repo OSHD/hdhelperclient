@@ -2,7 +2,7 @@ package com.hdhelper.agent.bs.impl;
 
 import com.hdhelper.agent.bs.compiler.BSProfiler;
 import com.hdhelper.agent.bs.lang.*;
-import jdk.internal.org.objectweb.asm.Type;
+import org.objectweb.asm.Type;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -15,7 +15,7 @@ public class ReflectionProfiler implements BSProfiler {
     public Rename getRename(String name) {
         try {
             Class c = Class.forName(name.replace('/','.'));
-            return (Rename) c.getDeclaredAnnotation(Rename.class);
+            return (Rename) c.getAnnotation(Rename.class);
         } catch (ClassNotFoundException e) {
 //            throw new Error("Class not found: " + name);
             return null;
@@ -26,7 +26,7 @@ public class ReflectionProfiler implements BSProfiler {
     public ByteScript getScriptDef(String name) {
         try {
             Class c = Class.forName(name.replace('/', '.'));
-            return (ByteScript) c.getDeclaredAnnotation(ByteScript.class);
+            return (ByteScript) c.getAnnotation(ByteScript.class);
         } catch (ClassNotFoundException e) {
          //   throw new Error("Class not found: " + name);
             return null;
@@ -41,7 +41,7 @@ public class ReflectionProfiler implements BSProfiler {
                 if(f.getName().equals(name))  {
                     String desc0 = Type.getDescriptor(f.getType());
                     if(desc.equals(desc0)) {
-                        return f.getDeclaredAnnotation(BField.class);
+                        return f.getAnnotation(BField.class);
                     }
                 }
             }
@@ -59,7 +59,7 @@ public class ReflectionProfiler implements BSProfiler {
             for(Method m : c.getMethods()) {
                 String dec0 = Type.getMethodDescriptor(m);
                 if(desc.equals(dec0)) {
-                    return m.getDeclaredAnnotation(BMethod.class);
+                    return m.getAnnotation(BMethod.class);
                 }
             }
             throw new Error("Method not found: " + owner + "." + name + desc);
@@ -76,7 +76,7 @@ public class ReflectionProfiler implements BSProfiler {
             for(Constructor init : c.getConstructors()) {
                 String dec0 = Type.getConstructorDescriptor(init);
                 if(desc.equals(dec0)) {
-                    return init.getDeclaredAnnotation(BConstructor.class);
+                    return (BConstructor) init.getAnnotation(BConstructor.class);
                 }
             }
             throw new Error("Constructor not found: " + owner + "." + name + desc);

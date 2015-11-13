@@ -3,7 +3,7 @@ package com.hdhelper.agent.bs.impl.scripts.util;
 import com.hdhelper.agent.bs.impl.scripts.collection.Node;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.ByteScript;
-import com.hdhelper.peer.RSItemTable;
+import com.hdhelper.agent.peer.RSItemTable;
 
 @ByteScript(name = "ItemTable")
 public class ItemTable extends Node implements RSItemTable {

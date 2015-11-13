@@ -5,7 +5,7 @@ import com.hdhelper.agent.bs.impl.patch.GClass;
 import com.hdhelper.agent.bs.impl.patch.GField;
 import com.hdhelper.agent.bs.impl.patch.GMethod;
 import com.hdhelper.agent.bs.impl.patch.GPatch;
-import jdk.internal.org.objectweb.asm.Type;
+import org.objectweb.asm.Type;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,8 +15,8 @@ public class ResolverImpl implements BSResolver {
 
     private final GPatch resolver;
 
-    Map<String,GField> fieldCache = new HashMap<>();
-    Map<String,GMethod> methodCache = new HashMap<>();
+    Map<String,GField> fieldCache = new HashMap<String,GField>();
+    Map<String,GMethod> methodCache = new HashMap<String,GMethod>();
 
     public ResolverImpl(GPatch resolver) {
         this.resolver = resolver;

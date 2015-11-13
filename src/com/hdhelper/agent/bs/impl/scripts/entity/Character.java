@@ -2,7 +2,7 @@ package com.hdhelper.agent.bs.impl.scripts.entity;
 
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.ByteScript;
-import com.hdhelper.peer.RSCharacter;
+import com.hdhelper.agent.peer.RSCharacter;
 
 @ByteScript(name = "Character")
 public abstract class Character extends Entity implements RSCharacter {

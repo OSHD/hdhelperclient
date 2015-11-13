@@ -2,11 +2,12 @@ package com.hdhelper.api.ge.impl;
 
 import com.hdhelper.Environment;
 import com.hdhelper.Main;
+import com.hdhelper.agent.peer.*;
+import com.hdhelper.api.Deque;
 import com.hdhelper.api.Equipment;
 import com.hdhelper.api.UID;
 import com.hdhelper.api.W2S;
 import com.hdhelper.api.ge.*;
-import com.hdhelper.peer.*;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -127,8 +128,8 @@ public class Debug extends BasicOverlay {
                 warrior.setColor(Color.RED);
                 for (RSPlayer p : client.getPlayers()) {
                     if (p == null || p.getHeight() == 1000) continue;
-                    int rx = p.getRegionX();
-                    int ry = p.getRegionY();
+                    int rx = p.getStrictX() >> 7;
+                    int ry = p.getStrictY() >> 7;
                     if(cull(rx,ry)) continue;
                     W2S.draw3DBox(floor, rx, ry, p.getHeight(), g, Color.RED.getRGB());
                     Point P = W2S.tileToViewport(p.getStrictX(), p.getStrictY(), floor, p.getHeight());
@@ -143,7 +144,7 @@ public class Debug extends BasicOverlay {
                         warrior.drawString("Z=" + p.getZ() + " | Female=" + cfg.isFemale(),P.x, P.y-s*i++);
                         warrior.drawString("Equip = " + Arrays.toString(cfg.getEquipment()) ,P.x, P.y-s*i++);
                         warrior.drawString("EquipColors = " + Arrays.toString(cfg.getEquipmentColors()), P.x, P.y-s*i++);
-                        boolean hp_bar_showing = p.isHpBarShowing(client.getEngineCycle());
+                        boolean hp_bar_showing = p.getHealthBarCycle() > client.getEngineCycle();
                         warrior.drawString("BarShowing:" + hp_bar_showing + " HP:(" + p.getHitpoints() + "/" + p.getMaxHitpoints() + ")", P.x, P.y-s*i++);
                     }
                     W2S.drawStrictPoint(floor, p.getStrictX(), p.getStrictY(), g, Color.BLUE.getRGB(), Color.GREEN.getRGB());
@@ -155,8 +156,8 @@ public class Debug extends BasicOverlay {
                 warrior.setColor(Color.BLUE);
                 for (RSNpc p : client.getNpcs()) {
                     if (p == null || p.getHeight() == 1000) continue;
-                    int rx = p.getRegionX();
-                    int ry = p.getRegionY();
+                    int rx = p.getStrictX() >> 7;
+                    int ry = p.getStrictY() >> 7;
                     if(cull(rx,ry)) continue;
                     W2S.draw3DBox(floor, rx, ry, p.getHeight(), g, Color.BLUE.getRGB());
                     if (p.getDef() == null) continue;
@@ -164,7 +165,7 @@ public class Debug extends BasicOverlay {
                     if (P.x == -1) continue;
                     RSNpcDefinition def = p.getDef();
                     warrior.drawString(def.getName() + " | Lvl:" + def.getCombatLevel() + " | Anim:" + p.getAnimation() + " | Target:" + p.getTargetIndex() + "| Orintation:" + p.getOrientation(), P.x, P.y);
-                    boolean hp_bar_showing = p.isHpBarShowing(client.getEngineCycle());
+                    boolean hp_bar_showing = p.getHealthBarCycle() > client.getEngineCycle();
                     warrior.drawString("BarShowing:" + hp_bar_showing + " HP:(" + p.getHitpoints() + "/" + p.getMaxHitpoints() + ")", P.x, P.y-15);
 
                     W2S.drawStrictPoint(floor, p.getStrictX(), p.getStrictY(), g, Color.GREEN.getRGB(), Color.RED.getRGB());
@@ -184,7 +185,7 @@ public class Debug extends BasicOverlay {
                         RSItemPile pile0 = ls_tiles[x][y].getItemPile();
                         assert pile0 != null;
                         if(pile0.getHeight() == 1000) continue;
-                        RSNode[] nodes = pile.toArray();
+                        RSNode[] nodes = Deque.toArray(pile);
                         for (RSNode node : nodes) {
                             RSGroundItem gi = (RSGroundItem) node;
                             W2S.draw3DBox(floor, x, y,  pile0.getHeight(),pile0.getHeight() + gi.getHeight(), g, Color.YELLOW.getRGB());
@@ -351,8 +352,8 @@ public class Debug extends BasicOverlay {
 
                     warrior.setColor(Color.GREEN);
 
-                    int rx = me.getRegionX();
-                    int ry = me.getRegionY();
+                    int rx = me.getStrictX() >> 7;
+                    int ry = me.getStrictY() >> 7;
                     int x = bx + rx;
                     int y = by + ry;
 
@@ -518,8 +519,8 @@ public class Debug extends BasicOverlay {
         RSPlayer me = client.getMyPlayer();
         if (me != null) {
 
-            int rx = me.getRegionX();
-            int ry = me.getRegionY();
+            int rx = me.getStrictX() >> 7;
+            int ry = me.getStrictY() >> 7;
             int x = bx + rx;
             int y = by + ry;
 
@@ -533,8 +534,8 @@ public class Debug extends BasicOverlay {
         g0.setColor(Color.RED);
         for (RSPlayer p : client.getPlayers()) {
             if (p == null) continue;
-            int rx = p.getRegionX();
-            int ry = p.getRegionY();
+            int rx = p.getStrictX() >> 7;
+            int ry = p.getStrictY() >> 7;
             W2S.draw3DBox(floor, rx, ry, p.getHeight(), g0);
             Point P = W2S.tileToViewport(p.getStrictX(), p.getStrictY(), floor, p.getHeight());
             if (P.x == -1) continue;
@@ -545,8 +546,8 @@ public class Debug extends BasicOverlay {
         g0.setColor(Color.BLUE);
         for (RSNpc p : client.getNpcs()) {
             if (p == null) continue;
-            int rx = p.getRegionX();
-            int ry = p.getRegionY();
+            int rx = p.getStrictX() >> 7;
+            int ry = p.getStrictY() >> 7;
             W2S.draw3DBox(floor, rx, ry, p.getHeight(), g0);
             if (p.getDef() == null) continue;
             Point P = W2S.tileToViewport(p.getStrictX(), p.getStrictY(), floor, p.getHeight());
@@ -563,7 +564,7 @@ public class Debug extends BasicOverlay {
             for (int y = 0; y < 104; y++) {
                 RSDeque pile = items[x][y];
                 if (pile == null) continue;
-                RSNode[] nodes = pile.toArray();
+                RSNode[] nodes = Deque.toArray(pile);
                 for (RSNode node : nodes) {
                     RSGroundItem g = (RSGroundItem) node;
                     W2S.draw3DBox(floor, x, y, g.getHeight(), g0);

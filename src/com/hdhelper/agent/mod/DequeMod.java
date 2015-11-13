@@ -1,10 +1,11 @@
 package com.hdhelper.agent.mod;
 
 import com.hdhelper.agent.mod.mem.FieldMember;
+import com.hdhelper.agent.peer.RSDeque;
+import com.hdhelper.agent.peer.RSNode;
 import com.hdhelper.agent.util.ASMUtil;
-import com.hdhelper.peer.RSDeque;
-import com.hdhelper.peer.RSNode;
-import jdk.internal.org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.ClassNode;
 
 import java.util.Map;
 
@@ -30,10 +31,10 @@ public class DequeMod extends InjectionModule {
     public void inject(Map<String, ClassNode> classes) {
 
         ClassNode cn = classes.get(DEQUE);
-        cn.interfaces.add(jdk.nashorn.internal.codegen.types.Type.getInternalName(RSDeque.class));
+        cn.interfaces.add(Type.getInternalName(RSDeque.class));
 
-        cn.methods.add(ASMUtil.mkGetter("getHead", jdk.nashorn.internal.codegen.types.Type.getMethodDescriptor(RSNode.class), HEAD));
-        cn.methods.add(ASMUtil.mkGetter("getTail", jdk.nashorn.internal.codegen.types.Type.getMethodDescriptor(RSNode.class),TAIL));
+        cn.methods.add(ASMUtil.mkGetter("getHead", ASMUtil.getMethodDescriptor(RSNode.class), HEAD));
+        cn.methods.add(ASMUtil.mkGetter("getTail", ASMUtil.getMethodDescriptor(RSNode.class),TAIL));
 
     }
 }

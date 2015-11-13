@@ -2,41 +2,29 @@ package com.hdhelper.agent.util;
 
 import com.hdhelper.agent.mod.mem.FieldMember;
 import com.hdhelper.agent.mod.mem.MethodMember;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.tree.*;
-import jdk.nashorn.internal.codegen.types.Type;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.*;
 
 import java.lang.reflect.Modifier;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 public class ASMUtil {
 
-    public static void iterate(Map<String,ClassNode> classes, BiConsumer<InsnList,AbstractInsnNode> consumer) {
-        InsnList stack;
-        for(ClassNode cn : classes.values()) {
-            for(MethodNode mn : cn.methods) {
-                stack = mn.instructions;
-                for(AbstractInsnNode ain : stack.toArray()) {
-                    consumer.accept(stack,ain);
-
-                }
-            }
-        }
-    }
 
     public static MethodNode get(Map<String,ClassNode> classes, MethodMember mem) {
         ClassNode cn = classes.get(mem.getOwner());
         if(cn == null) return null;
-        for(MethodNode mn : cn.methods) {
+        for(MethodNode mn : (List<MethodNode>) cn.methods) {
             if(mem.match(mn)) return mn;
         }
         return null;
     }
 
     public static MethodNode mkGetter(String owner, String name, FieldNode fn) {
-        boolean is_static = Modifier.isStatic( fn.access );
+        boolean is_static = Modifier.isStatic(fn.access);
         final MethodNode mn = new MethodNode( Opcodes.ACC_PUBLIC, name, "()" + fn.desc, null, null);
         if (!is_static) mn.instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
         mn.instructions.add(new FieldInsnNode(is_static ? Opcodes.GETSTATIC : Opcodes.GETFIELD, owner, fn.name, fn.desc));
@@ -107,7 +95,7 @@ public class ASMUtil {
     }
 
     public static int getOpenVar(MethodNode mn) {
-        int next = jdk.internal.org.objectweb.asm.Type.getArgumentTypes(mn.desc).length;
+        int next = Type.getArgumentTypes(mn.desc).length;
         if(!Modifier.isStatic(mn.access)) next++;
         for(AbstractInsnNode ain0 : mn.instructions.toArray()) {
             if(ain0 instanceof VarInsnNode ) {
@@ -128,7 +116,7 @@ public class ASMUtil {
     }
 
     public static FieldNode find(ClassNode cn, String name) {
-        for (final FieldNode fn : cn.fields) {
+        for (final FieldNode fn : ((List<FieldNode>) cn.fields)) {
             if (fn.name.equals(name)) {
                 return fn;
             }
@@ -146,4 +134,12 @@ public class ASMUtil {
         return fin.owner.equals(owner) && fin.name.equals(name);
     }
 
+    public static String getMethodDescriptor(Class ret, Class... args) {
+        Type ret0 = Type.getType(ret);
+        Type[] args0 = new Type[args.length];
+        for(int i = 0; i < args.length; i++) {
+            args0[i] = Type.getType(args[i]);
+        }
+        return Type.getMethodDescriptor(ret0,args0);
+    }
 }

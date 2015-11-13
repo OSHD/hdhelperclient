@@ -8,7 +8,6 @@ import com.hdhelper.agent.bs.impl.ResolverImpl;
 import com.hdhelper.agent.bs.impl.patch.GPatch;
 import com.hdhelper.agent.bs.impl.scripts.Client;
 import com.hdhelper.agent.bs.impl.scripts.GPI;
-import com.hdhelper.agent.bs.impl.scripts.GameEngine;
 import com.hdhelper.agent.bs.impl.scripts.cache.ItemDefinition;
 import com.hdhelper.agent.bs.impl.scripts.cache.NpcDefinition;
 import com.hdhelper.agent.bs.impl.scripts.cache.ObjectDefinition;
@@ -30,11 +29,11 @@ import com.hdhelper.agent.mod.EngineMod;
 import com.hdhelper.agent.mod.GraphicsEngineMod;
 import com.hdhelper.agent.mod.RenderMod;
 import com.hdhelper.agent.util.ClassWriterFix;
-import jdk.internal.org.objectweb.asm.ClassReader;
-import jdk.internal.org.objectweb.asm.ClassWriter;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.tree.*;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,6 +41,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -52,8 +52,8 @@ public final class Injector {
 
     private static final Logger LOG = Logger.getLogger(Injector.class.getName());
 
-    public HashMap<String, byte[]> classes_final = new HashMap<>();
-    public HashMap<String, ClassNode> classes = new HashMap<>();
+    public HashMap<String, byte[]> classes_final = new HashMap<String,byte[]>();
+    public HashMap<String, ClassNode> classes = new HashMap<String,ClassNode>();
 
     private void loadJar() throws InterruptedException, IOException {
         LOG.info("Loading Jar...");
@@ -95,12 +95,13 @@ public final class Injector {
         System.out.println("COMPILE SCRIPTS");
 
         compiler.inject(Client.class, classes);
+
         compiler.inject(Node.class, classes);
         compiler.inject(com.hdhelper.agent.bs.impl.scripts.entity.Character.class, classes);
         compiler.inject(Deque.class, classes);
         compiler.inject(DualNode.class, classes);
         compiler.inject(Entity.class, classes);
-        compiler.inject(GameEngine.class, classes);
+        //compiler.inject(GameEngine.class, classes);
         compiler.inject(ItemDefinition.class, classes);
         compiler.inject(NodeTable.class, classes);
         compiler.inject(Npc.class,classes);
@@ -116,12 +117,13 @@ public final class Injector {
         compiler.inject(EntityMarker.class,classes);
         compiler.inject(ItemPile.class,classes);
         compiler.inject(LandscapeTile.class,classes);
-        compiler.inject(TileDecoration.class,classes);
-        compiler.inject(Boundary.class,classes);
+        compiler.inject(TileDecoration.class, classes);
+        compiler.inject(Boundary.class, classes);
 
-        compiler.inject(Image.class,classes);
+        compiler.inject(Image.class, classes);
 
         compiler.inject(GPI.class, classes);
+
 
 
         ClientMod.hackCanvas(classes);
@@ -141,7 +143,7 @@ public final class Injector {
 
 
         int id = 0;
-        for(MethodNode mn : classes.get("l").methods) {
+        for(MethodNode mn : (List<MethodNode>) classes.get("l").methods) {
             if(mn.name.equals("cy")) {
                 for(AbstractInsnNode ain : mn.instructions.toArray()) {
                     if(ain.getOpcode() == Opcodes.INVOKEVIRTUAL) {
@@ -168,7 +170,7 @@ public final class Injector {
     Map<String,byte[]> inflate() throws IOException {
         JarFile jar = new JarFile(Environment.CLIENT);
         Enumeration<JarEntry> jarEntries = jar.entries();
-        Map<String,byte[]> def_map = new HashMap<>(jar.size());
+        Map<String,byte[]> def_map = new HashMap<String,byte[]>(jar.size());
         while (jarEntries.hasMoreElements()) {
             JarEntry entry = jarEntries.nextElement();
             String entryName = entry.getName();

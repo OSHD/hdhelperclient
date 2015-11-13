@@ -1,6 +1,6 @@
 package com.hdhelper.api.ge;
 
-import com.hdhelper.peer.RSImage;
+import com.hdhelper.agent.peer.RSImage;
 
 import java.awt.*;
 import java.awt.image.PixelGrabber;

@@ -1,7 +1,7 @@
 package com.hdhelper.agent;
 
-import jdk.internal.org.objectweb.asm.ClassReader;
-import jdk.internal.org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.tree.ClassNode;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,10 +14,10 @@ import java.util.jar.JarOutputStream;
 
 public class ByteClassLoader extends ClassLoader {
 
-    private Map<String, byte[]> classes = new HashMap<>();
+    private Map<String, byte[]> classes = new HashMap<String, byte[]>();
 
-    private final Map<String, Class<?>> loaded  = new HashMap<>();
-    private final Map<String, Class<?>> defined = new HashMap<>();
+    private final Map<String, Class<?>> loaded  = new HashMap<String,Class<?>>();
+    private final Map<String, Class<?>> defined = new HashMap<String,Class<?>>();
 
     public ByteClassLoader(final Map<String, byte[]> classes) {
         this.classes = classes;
@@ -35,7 +35,7 @@ public class ByteClassLoader extends ClassLoader {
     }
 
     public HashMap<String, ClassNode> inflate(int flags) {
-        HashMap<String,ClassNode> nodes = new HashMap<>(classes.size());
+        HashMap<String,ClassNode> nodes = new HashMap<String,ClassNode>(classes.size());
         for(byte[] class_def : classes.values()) {
             ClassNode node = new ClassNode();
             ClassReader reader = new ClassReader(class_def);
@@ -52,7 +52,9 @@ public class ByteClassLoader extends ClassLoader {
     }
 
     public void save(OutputStream dest) throws IOException {
-        try (JarOutputStream out = new JarOutputStream(dest)) {
+        JarOutputStream out = null;
+        try {
+            out = new JarOutputStream(dest);
             for (Map.Entry<String,byte[]> cn : classes.entrySet()) {
                 JarEntry entry = new JarEntry(cn.getKey().replace( '.', '/' ) + ".class");
                 out.putNextEntry(entry);
@@ -60,6 +62,8 @@ public class ByteClassLoader extends ClassLoader {
                 out.closeEntry();
             }
             out.close();
+        } finally {
+            if(out != null) out.close();
         }
     }
 

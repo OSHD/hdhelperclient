@@ -1,7 +1,7 @@
 package com.hdhelper.agent.mod;
 
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.tree.ClassNode;
 
 import java.util.Map;
 

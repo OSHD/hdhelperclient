@@ -1,10 +1,10 @@
 package com.hdhelper.agent.mod;
 
 import com.hdhelper.agent.mod.mem.FieldMember;
+import com.hdhelper.agent.peer.RSNode;
 import com.hdhelper.agent.util.ASMUtil;
-import com.hdhelper.peer.RSNode;
-import jdk.internal.org.objectweb.asm.tree.ClassNode;
-import jdk.nashorn.internal.codegen.types.Type;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.ClassNode;
 
 import java.util.Map;
 
@@ -37,8 +37,8 @@ public class NodeMod extends InjectionModule {
         cn.interfaces.add(Type.getInternalName(RSNode.class));
 
         cn.methods.add(ASMUtil.mkGetter("getKey", KEY));
-        cn.methods.add(ASMUtil.mkGetter("getNext", Type.getMethodDescriptor(RSNode.class),NEXT));
-        cn.methods.add(ASMUtil.mkGetter("getPrevious", Type.getMethodDescriptor(RSNode.class),PREV));
+        cn.methods.add(ASMUtil.mkGetter("getNext", ASMUtil.getMethodDescriptor(RSNode.class), NEXT));
+        cn.methods.add(ASMUtil.mkGetter("getPrevious", ASMUtil.getMethodDescriptor(RSNode.class),PREV));
 
     }
 }

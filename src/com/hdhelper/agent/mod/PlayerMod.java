@@ -2,10 +2,10 @@ package com.hdhelper.agent.mod;
 
 import com.hdhelper.agent.mod.mem.FieldMember;
 import com.hdhelper.agent.util.ASMUtil;
-import com.hdhelper.peer.RSPlayer;
-import com.hdhelper.peer.RSPlayerConfig;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.tree.ClassNode;
+import com.hdhelper.agent.peer.RSPlayer;
+import com.hdhelper.agent.peer.RSPlayerConfig;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.ClassNode;
 
 import java.util.Map;
 
@@ -38,6 +38,6 @@ public class PlayerMod extends InjectionModule {
         cn.methods.add(ASMUtil.mkGetter("getCombatLevel", CB_LEVEL));
         cn.methods.add(ASMUtil.mkGetter("getName",NAME));
         cn.methods.add(ASMUtil.mkGetter("getZ",HEIGHT));
-        cn.methods.add(ASMUtil.mkGetter("getConfig", jdk.nashorn.internal.codegen.types.Type.getMethodDescriptor(RSPlayerConfig.class),CONFIG));
+        cn.methods.add(ASMUtil.mkGetter("getConfig", ASMUtil.getMethodDescriptor(RSPlayerConfig.class),CONFIG));
     }
 }

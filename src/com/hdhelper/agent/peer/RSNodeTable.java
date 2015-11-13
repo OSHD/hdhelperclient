@@ -1,14 +1,11 @@
-package com.hdhelper.peer;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.hdhelper.agent.peer;
 
 public interface RSNodeTable {
 
     RSNode[] getBuckets();
     int getCapacity();
 
-    default RSNode get(long key) {
+    /*default RSNode get(long key) {
         int capacity = getCapacity();
         RSNode[] buckets = getBuckets();
         RSNode last = buckets[(int) (key & (long) (capacity - 1))];
@@ -40,6 +37,6 @@ public interface RSNodeTable {
         }
         return nodes.toArray(new RSNode[nodes.size()]);
     }
-
+*/
 
 }
