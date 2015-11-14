@@ -4,6 +4,7 @@ import com.hdhelper.agent.peer.RSClient;
 import com.hdhelper.ui.MainFrame;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -23,8 +24,9 @@ public class Main {
         } catch (final IllegalAccessException ignored) {
         }
 
-        MainFrame frame = new MainFrame();
-        frame.start();
+        SwiftManager.getManager().start();
+       // MainFrame frame = new MainFrame();
+       // frame.start();
 
 
       //  new Ok();
