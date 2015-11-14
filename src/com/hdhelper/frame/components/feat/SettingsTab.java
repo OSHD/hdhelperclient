@@ -1,5 +1,6 @@
 package com.hdhelper.frame.components.feat;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JLabel;
@@ -8,6 +9,7 @@ import javax.swing.event.ChangeListener;
 
 import com.hdhelper.Environment;
 import com.hdhelper.frame.components.FeatureTab;
+import com.hdhelper.frame.components.PluginExplorer;
 
 public class SettingsTab extends FeatureTab {
 
@@ -34,6 +36,8 @@ public class SettingsTab extends FeatureTab {
 	private final JCheckBox draw_objects = new JCheckBox("Debug Objects");
 	
 	private final JCheckBox draw_misc = new JCheckBox("Debug Misc");
+	
+	private final JButton plugin_explorer = new JButton("Plugin Explorer");
 	
 	/**
 	 * Constructs a new {@Code SettingsTab} {@Code Object}
@@ -84,7 +88,12 @@ public class SettingsTab extends FeatureTab {
         draw_misc.addActionListener(e -> Environment.RENDER_MISC_DEBUG = draw_misc.isSelected());
         draw_misc.setBounds(6, 187, 128, 23);
         add(draw_misc);
-		
+        
+        plugin_explorer.setSelected(false);
+        plugin_explorer.addActionListener(e -> new PluginExplorer());
+        plugin_explorer.setBounds(6, 220, 128, 30);
+        add(plugin_explorer);
+        
 	}
 
 	/**

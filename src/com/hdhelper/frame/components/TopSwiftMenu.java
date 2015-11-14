@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -45,25 +46,28 @@ public class TopSwiftMenu extends SwiftMenuBar {
 	 */
 	private static final JMenu hide = createMenu("nub");
 
+	private static final JMenu settings = new JMenu("Settings");
+	
 	/**
 	 * The homepage.
 	 */
-	private static final JMenuItem homePage = createMenuItem("home");
+	private static final JCheckBoxMenuItem plugins = new JCheckBoxMenuItem("Plugins");
+
 
 	/**
 	 * The forum page.
 	 */
-	private static final JMenuItem forumPage = createMenuItem("Forums");
+	private static final JMenu performance = createMenu("Performance");
 
 	/**
 	 * The account page.
 	 */
-	private static final JMenuItem account = createMenuItem("Account");
+	private static final JMenu varbos = createMenu("Varbos");
 
 	/**
 	 * The world map.
 	 */
-	private static final JMenu worldMap = createMenu("World");
+	private static final JMenuItem worldMap = createMenu("World");
 
 	/**
 	 * If the pane is hidden.
@@ -98,12 +102,10 @@ public class TopSwiftMenu extends SwiftMenuBar {
 	 */
 	public static TopSwiftMenu create() {
 		List<JMenu> items = new ArrayList<>();
-		items.add(screen);
-		screen.add(createMenuItem("Capture"));
-		items.add(link);
-		items.add(hide);
-		hide.add(createMenuItem("Collapse"));
-		worldMap.add(createMenuItem("View"));
+		items.add(settings);
+		settings.add(plugins);
+		settings.add(performance);
+		settings.add(varbos);
 		return new TopSwiftMenu(new Dimension((int) KitConstants.SIZE.getWidth(), 20), items);
 	}
 
