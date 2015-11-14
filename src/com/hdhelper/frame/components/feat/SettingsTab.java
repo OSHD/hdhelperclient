@@ -10,6 +10,7 @@ import javax.swing.event.ChangeListener;
 import com.hdhelper.Environment;
 import com.hdhelper.frame.components.FeatureTab;
 import com.hdhelper.frame.components.PluginExplorer;
+import com.hdhelper.frame.components.varbos.*;
 
 public class SettingsTab extends FeatureTab {
 
@@ -38,6 +39,8 @@ public class SettingsTab extends FeatureTab {
 	private final JCheckBox draw_misc = new JCheckBox("Debug Misc");
 	
 	private final JButton plugin_explorer = new JButton("Plugin Explorer");
+	
+	private final JButton stats_tab = new JButton("Statistics");
 	
 	/**
 	 * Constructs a new {@Code SettingsTab} {@Code Object}
@@ -93,6 +96,11 @@ public class SettingsTab extends FeatureTab {
         plugin_explorer.addActionListener(e -> new PluginExplorer());
         plugin_explorer.setBounds(6, 220, 128, 30);
         add(plugin_explorer);
+        
+        stats_tab.setSelected(false);
+        stats_tab.addActionListener(e -> new VarbosFrame());
+        stats_tab.setBounds(6, 250, 128, 30);
+        add(stats_tab);
         
 	}
 
