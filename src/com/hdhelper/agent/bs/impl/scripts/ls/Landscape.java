@@ -2,7 +2,7 @@ package com.hdhelper.agent.bs.impl.scripts.ls;
 
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.ByteScript;
-import com.hdhelper.agent.bs.lang.Piston;
+import com.hdhelper.agent.Piston;
 import com.hdhelper.agent.peer.RSEntityMarker;
 import com.hdhelper.agent.peer.RSLandscape;
 import com.hdhelper.agent.peer.RSLandscapeTile;

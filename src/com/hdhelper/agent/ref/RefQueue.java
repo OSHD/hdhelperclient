@@ -1,119 +1,38 @@
 package com.hdhelper.agent.ref;
 
-import java.util.Iterator;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 //We do not guaranteed that only one of a added referent exists
 //within this collection. It's not recommended to add multiple
-//references to a single queue, as it's redundant.
-public class RefQueue<R extends Referable> implements Iterable<R>  {
-
-    final CollectionNode root = new CollectionNode();
+//references to a single queue, as it's redundant. This allows
+//for a faster alternative over a RefSet for it does not lookup
+//if a referent already exists before adding.
+public class RefQueue<R extends Referable> extends AbstractRefCollection<R>   {
 
     public RefQueue() {
-        this.root.dualNext = this.root;
-        this.root.dualPrev = this.root;
-    }
-
-    public Ref<R> add(R referent) {
-        Ref<R> existing = lookup(referent);
-        if(existing != null) return existing;
-        return addUnsafe(referent);
-    }
-
-    Ref<R> addUnsafe(R referent) {
-        Ref<R> ref = new Ref<R>(referent);
-        add0(ref);
-        referent.add(ref); //Bind ref to the referent
-        return ref;
-    }
-
-    private void add0(CollectionNode node) {
-        node.dualPrev = this.root.dualPrev;
-        node.dualNext = this.root;
-        node.dualPrev.dualNext = node;
-        node.dualNext.dualPrev = node;
-    }
-
-
-
-
-    // Assumes that only one of Ref object has a referent
-    // equal to the arrgument.
-    Ref<R> lookup(R referent) {
-        CollectionNode root = this.root;
-        CollectionNode next = root;
-        while ((next = next.dualNext) != root) {
-            if( ((Ref<R>)next).referent == referent ) {
-                return (Ref<R>) next;
-            }
-        }
-        return null;
-    }
-
-    public void accept(RefVisitor<R> visitor) {
-        CollectionNode root = this.root;
-        CollectionNode next = root.dualNext;
-        while (next != root) {
-            CollectionNode next0 = next.dualNext;
-            if(!visitor.visit((Ref<R>)next)) {
-                return;
-            }
-            next = next0;
-        }
+        super();
     }
 
     @Override
-    public Iterator<R> iterator() {
-        return new RefQueueIterator();
+    public Ref<R> add(R referent) {
+        return addUnsafe(referent);
     }
 
-
-    public void clear() {
+    // Find all refs that are for the referent.
+    // When there is more then one, it's redundant,
+    // and slows down finalization if the client has
+    // to processes more then is required.
+    public Deque<Ref<R>> lookup(R referent) {
         CollectionNode root = this.root;
-        while (root.dualNext != root) {
-            root.dualNext.deleteHard();
-        }
-    }
-
-    private final class RefQueueIterator implements Iterator<R> {
-
-        CollectionNode next;
-        CollectionNode current = null;
-
-        RefQueueIterator() {
-            this.next = root.dualNext;
-            this.current = null;
-        }
-
-        @Override
-        public R next() {
-            CollectionNode var1 = this.next;
-            if (var1 == root) {
-                var1 = null;
-                this.next = null;
-            } else {
-                this.next = var1.dualNext;
-            }
-
-            this.current = var1;
-            return (R) var1;
-        }
-
-        @Override
-        public void remove() {
-            if (this.current == null) {
-                throw new IllegalStateException();
-            } else {
-                this.current.deleteHard();
-                this.current = null;
+        CollectionNode next = root;
+        ArrayDeque<Ref<R>> refs = new ArrayDeque<Ref<R>>();
+        while ((next = next.colNext) != root) {
+            if( ((Ref<R>)next).referent == referent ) {
+                refs.add((Ref<R>)next);
             }
         }
-
-        @Override
-        public boolean hasNext() {
-            return this.next != root;
-        }
-
+        return refs;
     }
 
 }

@@ -12,7 +12,7 @@ import com.hdhelper.agent.bs.impl.scripts.ls.Landscape;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.BMethod;
 import com.hdhelper.agent.bs.lang.ByteScript;
-import com.hdhelper.agent.bs.lang.Piston;
+import com.hdhelper.agent.Piston;
 import com.hdhelper.agent.peer.*;
 
 import java.io.File;

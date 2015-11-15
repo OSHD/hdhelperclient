@@ -3,6 +3,8 @@ package com.hdhelper.api.ge.impl;
 import com.hdhelper.Environment;
 import com.hdhelper.Main;
 import com.hdhelper.agent.peer.*;
+import com.hdhelper.agent.ref.Ref;
+import com.hdhelper.agent.ref.RefSet;
 import com.hdhelper.api.Deque;
 import com.hdhelper.api.Equipment;
 import com.hdhelper.api.UID;
@@ -58,6 +60,11 @@ public class Debug extends BasicOverlay {
         return !(rx > 0 && ry < 50 && ry > 0 && ry < 50) || !vismap[rx][ry];
     }
 
+
+    private final RefSet<RSPlayer> queue = new RefSet<RSPlayer>();
+
+    private Ref<RSPlayer> pref;
+
     void drawNewDebug(RTGraphics g) {
 
         if(warrior == null) {
@@ -88,6 +95,68 @@ public class Debug extends BasicOverlay {
 
 
             RSClient client = Main.client;
+
+        /*    RSPlayer meee = client.getMyPlayer();
+
+            long a = System.nanoTime();
+            for(RSPlayer p : client.getPlayers()) {
+                if(p == null) continue;
+
+                queue.add(p);
+
+
+            }
+
+
+            long b = System.nanoTime();
+            System.out.println("" + (b-a));
+
+            int n = 0;
+            for(RSPlayer p : queue) {
+                n++;
+               // System.out.println("" + (n++) + p);
+            }
+
+            System.out.println(n);
+
+            final AtomicInteger integer = new AtomicInteger();
+            queue.accept(new RefVisitor<RSPlayer>() {
+                @Override
+                public boolean visit(Ref<RSPlayer> ref) {
+                    integer.incrementAndGet();
+                  //  System.out.println("YE:" + ref.get());
+                    ref.unQueue();
+                    return true;
+                }
+            });
+
+            System.out.println(integer);
+
+
+            queue.clear();
+
+            queue.accept(new RefVisitor<RSPlayer>() {
+                @Override
+                public boolean visit(Ref<RSPlayer> ref) {
+                    System.out.println("YE2:" + ref.get());
+                    return true;
+                }
+            });
+           *//* if(pref == null && meee != null) {
+                pref = queue.add(meee);
+                queue.add(meee);
+                System.out.println(pref.get());
+                queue.accept(new RefVisitor<RSPlayer>() {
+                    @Override
+                    public boolean visit(Ref<RSPlayer> ref) {
+                        System.out.println("YE:" + ref.get());
+                        return true;
+                    }
+                });
+                meee.destroy();
+                System.out.println(pref.get());
+
+            }*/
 
             assert client != null;
 

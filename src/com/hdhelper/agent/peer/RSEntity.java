@@ -1,5 +1,7 @@
 package com.hdhelper.agent.peer;
 
-public interface RSEntity {
+import com.hdhelper.agent.ref.Referable;
+
+public interface RSEntity extends Referable {
     int getHeight();
 }
