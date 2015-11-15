@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Main { // Noobs
+public class Main {
 
     public static RSClient client;
 
