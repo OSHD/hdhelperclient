@@ -10,18 +10,18 @@ public class VarbosFrame extends JFrame {
 	
 	private JTabbedPane varbos_tabs = new JTabbedPane();
 	
-	private StatsTab stats_tab;
+	private StatsTab statisticsTab = StatsTab.INSTANCE.init();
 	
 	public VarbosFrame() {
 		super();
 		setLayout(null);
-		setSize(500, 500);
-		varbos_tabs.setBounds(0, 6, 290, 509);
+		setSize(700, 600);
+		varbos_tabs.setBounds(0, 6, 690, 590);
 		varbos_tabs.setTabPlacement(JTabbedPane.TOP);		
 		
-		addTab(null, (stats_tab = new StatsTab()), "Stats");
-		addTab(null, (stats_tab = new StatsTab()), "Debug");
-		addTab(null, (stats_tab = new StatsTab()), "Performance");
+		addTab(null, (statisticsTab = new StatsTab()), "Stats");
+		//addTab(null, (stats_tab = new StatsTab()), "Debug");
+		//addTab(null, (stats_tab = new StatsTab()), "Performance");
 		
 		add(varbos_tabs);
 		
