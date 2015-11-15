@@ -12,10 +12,10 @@ public class GameComponent extends JPanel {
 
 	public GameComponent() {
 		super();
-/*		setBackground(Color.black);
+		setBackground(Color.black);
 		setOpaque(false);
 		setLocation(0, 20);
-		setSize(new Dimension(765, 528));*/
+		setSize(new Dimension(765, 528));
 
 		Applet a = bootModClient();
 
@@ -23,8 +23,9 @@ public class GameComponent extends JPanel {
 		// not pushed this
         add(a);
 
+        
      //   revalidate();
-     //   setVisible(true);
+        setVisible(true);
 	}
 	
 	private static Applet bootModClient() {
