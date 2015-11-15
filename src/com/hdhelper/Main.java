@@ -3,10 +3,8 @@ package com.hdhelper;
 import com.hdhelper.agent.peer.RSClient;
 import com.hdhelper.frame.components.varbos.StatsTab;
 import com.hdhelper.frame.util.TimeStamp;
-import com.hdhelper.ui.MainFrame;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -17,7 +15,7 @@ public class Main { //Noughty works
 
     public static long startTime;
     
-    public static void main(String... args) throws IOException, InterruptedException {
+    public static void main(String... args) throws IOException, InterruptedException { //NOOOOB
     	startTime = System.currentTimeMillis();
     	final TimeStamp t = new TimeStamp();
     	StatsTab.reportPerformance((int) ((System.currentTimeMillis() - t.duration(false, ""))));

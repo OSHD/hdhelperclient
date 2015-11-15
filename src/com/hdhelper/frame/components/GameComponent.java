@@ -1,32 +1,30 @@
 package com.hdhelper.frame.components;
 
-import java.applet.Applet;
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.JApplet;
-import javax.swing.JPanel;
-
 import com.hdhelper.Context;
 import com.hdhelper.Main;
 import com.hdhelper.agent.peer.RSClient;
+
+import javax.swing.*;
+import java.applet.Applet;
+import java.awt.*;
 
 public class GameComponent extends JPanel {
 
 	public GameComponent() {
 		super();
-		setBackground(Color.black);
+/*		setBackground(Color.black);
 		setOpaque(false);
 		setLocation(0, 20);
-		setSize(new Dimension(765, 528));
+		setSize(new Dimension(765, 528));*/
+
 		Applet a = bootModClient();
 
 		
         add(a);
 
-        revalidate();
-        setVisible(true);
+     //   revalidate();
+
+     //   setVisible(true);
 	}
 	
 	private static Applet bootModClient() {
