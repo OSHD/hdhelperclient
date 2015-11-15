@@ -3,6 +3,7 @@ package com.hdhelper;
 import com.hdhelper.agent.peer.RSClient;
 import com.hdhelper.frame.components.varbos.StatsTab;
 import com.hdhelper.frame.util.TimeStamp;
+import com.hdhelper.ui.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,9 +29,9 @@ public class Main { //Noughty works
         } catch (final IllegalAccessException ignored) {
         }
 
-        SwiftManager.getManager().start();
-       // MainFrame frame = new MainFrame();
-       // frame.start();
+    //    SwiftManager.getManager().start();
+        MainFrame frame = new MainFrame();
+        frame.start();
 
 
       //  new Ok();

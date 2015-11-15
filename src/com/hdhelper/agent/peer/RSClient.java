@@ -50,5 +50,5 @@ public interface RSClient {
     int getFps();
 
     int getEngineCycle();
-
+    int getConnectionState();
 }

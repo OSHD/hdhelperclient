@@ -5,10 +5,7 @@ import com.hdhelper.Main;
 import com.hdhelper.agent.peer.*;
 import com.hdhelper.agent.ref.Ref;
 import com.hdhelper.agent.ref.RefSet;
-import com.hdhelper.api.Deque;
-import com.hdhelper.api.Equipment;
-import com.hdhelper.api.UID;
-import com.hdhelper.api.W2S;
+import com.hdhelper.api.*;
 import com.hdhelper.api.ge.*;
 
 import java.awt.*;
@@ -192,6 +189,8 @@ public class Debug extends BasicOverlay {
             if(renderMinX > 104) renderMaxX = 104;
             if(renderMinY > 104) renderMaxY = 104;
 
+
+            warrior.drawString("Logged in:" + Game.isLoggedIn(), lol.x(), lol.y());
 
             if(Environment.RENDER_PLAYER_DEBUG) {
                 warrior.setColor(Color.RED);

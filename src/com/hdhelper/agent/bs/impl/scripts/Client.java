@@ -68,6 +68,8 @@ public class Client extends GameEngine implements RSClient {
     public static int fps;
     @BField
     public static int engineCycle;
+    @BField
+    public static int connectionState;
 
 
 
@@ -229,6 +231,9 @@ public class Client extends GameEngine implements RSClient {
     public int getEngineCycle() {
         return engineCycle;
     }
+
+    @Override
+    public int getConnectionState() { return connectionState; }
 
 
     // Methods //////////////////////////////////////////////////////////////////////
