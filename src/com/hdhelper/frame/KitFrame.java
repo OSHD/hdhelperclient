@@ -6,8 +6,10 @@ import javax.swing.JFrame;
 
 
 
+
 import com.hdhelper.frame.components.FeaturePanel;
 import com.hdhelper.frame.components.GameComponent;
+import com.hdhelper.frame.components.PluginExplorer;
 import com.hdhelper.frame.components.TopSwiftMenu;
 import com.hdhelper.frame.util.KitConstants;
 
@@ -28,7 +30,7 @@ public class KitFrame extends JFrame {
 		
 		setResizable(false);
 		//setIconImage(getToolkit().getImage(KitConstants.getImageUrl("favicon.png")));
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(KitConstants.SIZE);
 		setLayout(null);
 		game_component = new GameComponent(); 

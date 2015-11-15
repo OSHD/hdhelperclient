@@ -1,6 +1,8 @@
 package com.hdhelper;
 
 import com.hdhelper.agent.peer.RSClient;
+import com.hdhelper.frame.components.varbos.StatsTab;
+import com.hdhelper.frame.util.TimeStamp;
 import com.hdhelper.ui.MainFrame;
 
 import javax.swing.*;
@@ -13,8 +15,12 @@ public class Main {
 
     public static RSClient client;
 
+    public static long startTime;
+    
     public static void main(String... args) throws IOException, InterruptedException {
-
+    	startTime = System.currentTimeMillis();
+    	final TimeStamp t = new TimeStamp();
+    	StatsTab.reportPerformance((int) ((System.currentTimeMillis() - t.duration(false, ""))));
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             UIManager.put("PopupMenu.consumeEventOnClose", Boolean.TRUE);
@@ -32,6 +38,21 @@ public class Main {
       //  new Ok();
     }
 
+    /**
+     * Gets the startTime.
+     * @return the startTime
+     */
+    public static long getStartTime() {
+    	return startTime;
+    }
+
+    /**
+     * Sets the bastartTime.
+     * @param startTime the startTime to set.
+     */
+    public static void setStartTime(long startTime) {
+    	Main.startTime = startTime;
+    }
 
     public static class Ok extends JFrame {
 

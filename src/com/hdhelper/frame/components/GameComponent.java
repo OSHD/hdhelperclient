@@ -5,6 +5,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.JApplet;
 import javax.swing.JPanel;
 
 import com.hdhelper.Context;
@@ -21,7 +22,7 @@ public class GameComponent extends JPanel {
 		setSize(new Dimension(765, 528));
 		Applet a = bootModClient();
 
-
+		
         add(a);
 
         revalidate();
