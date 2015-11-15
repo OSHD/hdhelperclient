@@ -1,11 +1,10 @@
 package com.hdhelper.frame.components;
 
-import java.awt.AWTException;
-import java.awt.Canvas;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Robot;
+import com.hdhelper.frame.KitFrame;
+import com.hdhelper.frame.util.KitConstants;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -13,16 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JScrollPane;
-
-import com.hdhelper.frame.KitFrame;
-import com.hdhelper.frame.util.KitConstants;
 
 public class TopSwiftMenu extends SwiftMenuBar {
 
@@ -101,7 +90,7 @@ public class TopSwiftMenu extends SwiftMenuBar {
 	 * @return the menu.
 	 */
 	public static TopSwiftMenu create() {
-		List<JMenu> items = new ArrayList<>();
+		List<JMenu> items = new ArrayList<JMenu>();
 		items.add(settings);
 		settings.add(plugins);
 		settings.add(performance);

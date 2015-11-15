@@ -1,16 +1,13 @@
 package com.hdhelper.frame.components.feat;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JLabel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import com.hdhelper.Environment;
 import com.hdhelper.frame.components.FeatureTab;
 import com.hdhelper.frame.components.PluginExplorer;
-import com.hdhelper.frame.components.varbos.*;
+import com.hdhelper.frame.components.varbos.VarbosFrame;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SettingsTab extends FeatureTab {
 
@@ -53,52 +50,102 @@ public class SettingsTab extends FeatureTab {
 		add(lblToggleables);
 		
 		draw_npcs.setSelected(false);
-        draw_npcs.addActionListener(e -> Environment.RENDER_NPC_DEBUG = draw_npcs.isSelected());
+        draw_npcs.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Environment.RENDER_NPC_DEBUG = draw_npcs.isSelected();
+			}
+		});
         draw_npcs.setBounds(6, 30, 128, 23);
 		add(draw_npcs);
 		
 		draw_players.setSelected(false);
-		draw_players.addActionListener(e -> Environment.RENDER_PLAYER_DEBUG = draw_players.isSelected());
+		draw_players.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Environment.RENDER_PLAYER_DEBUG = draw_players.isSelected();
+			}
+		});
 		draw_players.setBounds(6, 53, 128, 23);
 		add(draw_players);
 		
 		draw_ground_items.setSelected(false);
-	    draw_ground_items.addActionListener(e -> Environment.RENDER_GROUND_ITEM_DEBUG = draw_ground_items.isSelected());
+	    draw_ground_items.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Environment.RENDER_GROUND_ITEM_DEBUG = draw_ground_items.isSelected();
+			}
+		});
 	    draw_ground_items.setBounds(6, 76, 128, 23);
 	    add(draw_ground_items);
 		
         draw_boundary_items.setSelected(false);
-        draw_boundary_items.addActionListener(e -> Environment.RENDER_BOUNDARY_DEBUG = draw_boundary_items.isSelected());
+        draw_boundary_items.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Environment.RENDER_BOUNDARY_DEBUG = draw_boundary_items.isSelected();
+			}
+		});
         draw_boundary_items.setBounds(6, 99, 128, 23);
         add(draw_boundary_items);
         
         draw_tile_decorations.setSelected(false);
-        draw_tile_decorations.addActionListener(e -> Environment.RENDER_TILE_DECO_DEBUG = draw_tile_decorations.isSelected());
+        draw_tile_decorations.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Environment.RENDER_TILE_DECO_DEBUG = draw_tile_decorations.isSelected();
+			}
+		});
         draw_tile_decorations.setBounds(6, 118, 150, 23);
         add(draw_tile_decorations);
         
         draw_boundary_decorations.setSelected(false);
-        draw_boundary_decorations.addActionListener(e -> Environment.RENDER_BOUNDARY_DECO_DEBUG = draw_boundary_decorations.isSelected());
+        draw_boundary_decorations.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Environment.RENDER_BOUNDARY_DECO_DEBUG = draw_boundary_decorations.isSelected();
+			}
+		});
         draw_boundary_decorations.setBounds(6, 141, 170, 23);
         add(draw_boundary_decorations);
         
         draw_objects.setSelected(false);
-        draw_objects.addActionListener(e -> Environment.RENDER_OBJECT_DEBUG = draw_objects.isSelected());
+        draw_objects.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Environment.RENDER_OBJECT_DEBUG = draw_objects.isSelected();
+			}
+		});
         draw_objects.setBounds(6, 164, 128, 23);
         add(draw_objects);
         
         draw_misc.setSelected(false);
-        draw_misc.addActionListener(e -> Environment.RENDER_MISC_DEBUG = draw_misc.isSelected());
+        draw_misc.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Environment.RENDER_MISC_DEBUG = draw_misc.isSelected();
+			}
+		});
         draw_misc.setBounds(6, 187, 128, 23);
         add(draw_misc);
         
         plugin_explorer.setSelected(false);
-        plugin_explorer.addActionListener(e -> new PluginExplorer());
+        plugin_explorer.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new PluginExplorer();
+			}
+		});
         plugin_explorer.setBounds(6, 220, 128, 30);
         add(plugin_explorer);
         
         stats_tab.setSelected(false);
-        stats_tab.addActionListener(e -> new VarbosFrame());
+        stats_tab.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new VarbosFrame();
+			}
+		});
         stats_tab.setBounds(6, 250, 128, 30);
         add(stats_tab);
         
