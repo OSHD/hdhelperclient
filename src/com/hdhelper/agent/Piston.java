@@ -1,4 +1,4 @@
-package com.hdhelper.agent.bs.lang;
+package com.hdhelper.agent;
 
 
 import java.lang.annotation.ElementType;
