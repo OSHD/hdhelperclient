@@ -19,11 +19,11 @@ public class GameComponent extends JPanel {
 
 		Applet a = bootModClient();
 
-		
+		//thought u set it to canvas here?, idk i was fucking with it, should have 
+		// not pushed this
         add(a);
 
      //   revalidate();
-
      //   setVisible(true);
 	}
 	
