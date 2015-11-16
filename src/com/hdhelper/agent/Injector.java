@@ -24,10 +24,7 @@ import com.hdhelper.agent.bs.impl.scripts.ls.*;
 import com.hdhelper.agent.bs.impl.scripts.util.ItemTable;
 import com.hdhelper.agent.bs.impl.scripts.util.PlayerConfig;
 import com.hdhelper.agent.io.ClientLoader;
-import com.hdhelper.agent.mod.ClientMod;
-import com.hdhelper.agent.mod.EngineMod;
-import com.hdhelper.agent.mod.GraphicsEngineMod;
-import com.hdhelper.agent.mod.RenderMod;
+import com.hdhelper.agent.mod.*;
 import com.hdhelper.agent.util.ClassWriterFix;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -130,6 +127,8 @@ public final class Injector {
         new GraphicsEngineMod().inject(classes);
         ClientMod.xteaDump(classes);
         new RenderMod().inject(classes);
+
+        new LandscapeMod(classes,cr).inject(classes,cr);
 
         EngineMod.inject(classes.get(cr.getGClass("GameEngine").getName()));
 

@@ -1,14 +1,18 @@
 package com.hdhelper.agent.bs.impl.scripts.ls;
 
+import com.hdhelper.agent.Piston;
 import com.hdhelper.agent.bs.lang.BField;
 import com.hdhelper.agent.bs.lang.ByteScript;
-import com.hdhelper.agent.Piston;
+import com.hdhelper.agent.bus.LandscapeAccess;
+import com.hdhelper.agent.bus.LandscapeBus;
 import com.hdhelper.agent.peer.RSEntityMarker;
 import com.hdhelper.agent.peer.RSLandscape;
 import com.hdhelper.agent.peer.RSLandscapeTile;
 
 @ByteScript(name = "Landscape")
 public class Landscape implements RSLandscape {
+
+    public static LandscapeAccess BUS;
 
     @BField
     public static boolean[][][][] visibilityMap;
@@ -122,7 +126,35 @@ public class Landscape implements RSLandscape {
     }
 
 
+    /////////////////////////////////////////////////////////////////////////////////////////////
 
+    private static EntityMarker ret;
+    private static boolean temp;
+
+    public static void setTileDeco(LandscapeTile target, TileDecoration set_value) {
+        if(BUS == null) BUS = LandscapeBus.getInstance();
+        BUS.tileDecoSet(target.tileDecoration,set_value);
+    }
+
+    public static void setBoundary(LandscapeTile target, Boundary set_value) {
+        if(BUS == null) BUS = LandscapeBus.getInstance();
+        BUS.boundarySet(target.boundary, set_value);
+    }
+
+    public static void setBoundaryDeco(LandscapeTile target, BoundaryDecoration set_value) {
+        if(BUS == null) BUS = LandscapeBus.getInstance();
+        BUS.boundaryDecoSet(target.boundaryDecoration, set_value);
+    }
+
+    public static void objectAdded() {
+        if(BUS == null) BUS = LandscapeBus.getInstance();
+        BUS.objectAdded(ret, temp);
+    }
+
+    public static void objectRemoved(EntityMarker m) {
+        if(BUS == null) BUS = LandscapeBus.getInstance();
+        BUS.objectRemoved(m);
+    }
 
 
 

@@ -48,6 +48,8 @@ public class RenderMod extends InjectionModule {
                 stack.add(new InsnNode(RETURN));
                 stack.add(A);
 
+                mn.instructions.insertBefore(mn.instructions.getFirst(),stack);
+
             }
         }
 

@@ -20,6 +20,14 @@ public class GClass {
         return name;
     }
 
+    public GMethod getMethod(String pubName) {
+        return methods.get(pubName);
+    }
+
+    public GField getField(String pubName) {
+        return fields.get(pubName);
+    }
+
     public GField getField(String pubName, String pubDesc, GPatch p) {
         if(fields == null) return null;
         GField field = fields.get(pubName);

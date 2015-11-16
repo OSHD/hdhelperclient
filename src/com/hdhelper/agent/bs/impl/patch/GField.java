@@ -29,6 +29,10 @@ public class GField {
         return pubDesc = p.mapDesc(desc);
     }
 
+    public String getDesc() {
+        return desc;
+    }
+
     public boolean isValid() {
         return owner != null && name != null && desc != null;
     }

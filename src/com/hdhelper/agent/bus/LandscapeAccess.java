@@ -1,20 +1,27 @@
 package com.hdhelper.agent.bus;
 
-import com.hdhelper.agent.peer.RSBoundary;
-import com.hdhelper.agent.peer.RSBoundaryDecoration;
-import com.hdhelper.agent.peer.RSEntityMarker;
-import com.hdhelper.agent.peer.RSTileDecoration;
+import com.hdhelper.agent.peer.*;
+
+// We dont not care about temp entities being added or removed,
+// since they only exist temporally
 
 public interface LandscapeAccess {
 
-    // Hints that all objects are being removed and helps the event handler deal with the extreme load
-    int LANDSCAPE_CLEAR = 0;
+    // Hints that helps the event handler deal with the extreme load
+    int LANDSCAPE_LOAD   = 1 << 1; // The landscape is being loaded
+    int LANDSCAPE_CLEAR  = 1 << 2; // The landscape is being disposed
+    int FLOOR_INIT       = 1 << 3; // An entire floor is being initialized
 
-    void setHints();
+    void setHints(int hint);
 
-    void boundaryRemoved(int floor, int rx, int ry, RSBoundary b);
-    void boundaryDecoRemoved(int floor, int rx, int ry, RSBoundaryDecoration bd);
-    void tileDecoRemoved(int floor, int rx, int ry, RSTileDecoration td);
-    void objectRemoved(int floor, int rx, int ry, RSEntityMarker m);
+    void objectAdded(RSEntityMarker m, boolean temp);
+    void objectRemoved(RSEntityMarker m);
+
+    void boundarySet(RSBoundary old, RSBoundary now);
+    void boundaryDecoSet(RSBoundaryDecoration old, RSBoundaryDecoration now);
+    void tileDecoSet(RSTileDecoration old, RSTileDecoration now);
+
+    void tileDestroyed(RSLandscapeTile t);
+    void tileCreated(RSLandscapeTile t);
 
 }

@@ -58,6 +58,8 @@ public class GPatch {
 
         patch.classes.put("Graphics",new GClass("cv"));
 
+        patch.getGClass("Landscape").methods.put("addObject",new GMethod("cp","x","(IIIIIILcd;III)Z",null));
+        patch.getGClass("Landscape").methods.put("removeObject",new GMethod("cp","u","(III)V",null));
     /*    GClass landscape = patch.getGClass("Landscape");
         landscape.fields.put("visibilityMap",new GField("ci","bw","[[[[Z",null));
 

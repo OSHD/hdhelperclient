@@ -12,6 +12,13 @@ public class GMethod {
 
     int access;
 
+    public GMethod() {}
+
+    public GMethod(String owner, String name, String desc, Number pred) {
+        this.owner = owner;
+        this.name = name;
+        this.desc = desc;
+    }
     private String pubDesc = null;
     public String getPublicDesc(GPatch p) {
         if(pubDesc != null) return pubDesc;

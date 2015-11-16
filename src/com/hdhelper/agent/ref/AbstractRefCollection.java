@@ -13,6 +13,11 @@ public abstract class AbstractRefCollection<R extends Referable> implements Iter
 
     public abstract Ref<R> add(R referent);
 
+    public abstract boolean contains(R referent);
+
+    public abstract boolean remove(R referent);
+
+
     protected Ref<R> addUnsafe(R referent) {
         Ref<R> ref = new Ref<R>(referent);
         add0(ref);
@@ -39,11 +44,20 @@ public abstract class AbstractRefCollection<R extends Referable> implements Iter
         }
     }
 
+
+
+
+
     @Override
     public Iterator<R> iterator() {
         return new RefQueueIterator();
     }
 
+
+
+    public boolean isEmpty() {
+        return root.colNext == root;
+    }
 
     public void clear() {
         CollectionNode root = this.root;
@@ -51,6 +65,12 @@ public abstract class AbstractRefCollection<R extends Referable> implements Iter
             root.colNext.deleteHard();
         }
     }
+
+
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     private final class RefQueueIterator implements Iterator<R> {
 
@@ -92,6 +112,5 @@ public abstract class AbstractRefCollection<R extends Referable> implements Iter
         }
 
     }
-
 
 }

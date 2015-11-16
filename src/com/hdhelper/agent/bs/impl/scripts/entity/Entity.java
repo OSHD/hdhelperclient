@@ -22,6 +22,7 @@ public abstract class Entity extends DualNode implements RSEntity {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    //TODO add constructor merge support for ByteScripts
     private int state = Referable.ACTIVE;
 
     @Override
@@ -32,7 +33,7 @@ public abstract class Entity extends DualNode implements RSEntity {
     //TODO make this private and establish a access interface,
     //its unsafe.
     public void add(RefNode node) {
-     /*   if(state != ACTIVE)
+        /*if(state == INACTIVE)
             throw new IllegalStateException("Dead Object");*/
         if(root == null) {
             root = Access.createRoot();
@@ -40,14 +41,20 @@ public abstract class Entity extends DualNode implements RSEntity {
         Access.add(root,node);
     }
 
+    //TODO remove this from public scope
     public void destroy() {
-        if(root == null) {
+        if(root == null) { // No collections to notify
             state = INACTIVE;
             return;
         }
-        state = Referable.ENQUEUED;
-        Access.destroy(root);
+        state = Referable.PENDING;
+        Access.destroy(root); //Notify interested collections that were being destroyed
         state = Referable.INACTIVE;
+    }
+
+    @Override
+    public boolean exists() {
+        return state == ACTIVE;
     }
 
     private RefNode root;
