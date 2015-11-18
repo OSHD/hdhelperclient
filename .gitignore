@@ -12,3 +12,8 @@ Client.iml
 out/*
 .gitignore
 *.iml
+agent/target
+bytescript/target
+client/target
+injector/target
+loader/target

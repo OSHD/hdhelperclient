@@ -1,10 +1,7 @@
 package com.hdhelper;
 
 
-import com.hdhelper.injector.Injector;
-import com.hdhelper.injector.InjectorConfig;
 import com.hdhelper.io.ParameterLoader;
-import com.hdhelper.ui.ClientCanvas;
 
 import java.applet.Applet;
 import java.applet.AppletContext;
@@ -37,13 +34,13 @@ public class Context implements AppletStub {
 
     private Context() throws IOException {
 
-        ClassLoader loader;
+        ClassLoader loader = null;
 
         try {
 
             LOG.info("Injecting...");
 
-            InjectorConfig cfg = new InjectorConfig();
+        /*    InjectorConfig cfg = new InjectorConfig();
             cfg.setWorld(Environment.WORLD);
             cfg.setClientLocation(Environment.CLIENT);
             cfg.setClientCanvasClass(ClientCanvas.class);
@@ -51,7 +48,7 @@ public class Context implements AppletStub {
 
             Injector injector = new Injector(cfg);
             loader = injector.inject();
-            injector.destroy();
+            injector.destroy();*/
 
             LOG.info("Fetching parameters...");
 

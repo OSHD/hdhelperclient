@@ -17,32 +17,42 @@
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm</artifactId>
-            <version>4.1</version>
+            <version>5.0</version>
         </dependency>
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-parent</artifactId>
-            <version>4.1</version>
+            <version>5.0</version>
         </dependency>
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-tree</artifactId>
-            <version>4.1</version>
+            <version>5.0</version>
         </dependency>
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-util</artifactId>
-            <version>4.1</version>
+            <version>5.0</version>
         </dependency>
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-commons</artifactId>
-            <version>4.1</version>
+            <version>5.0</version>
         </dependency>
         <dependency>
             <groupId>com.hdhelper</groupId>
             <artifactId>bytescript</artifactId>
             <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hdhelper</groupId>
+            <artifactId>agent</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.4</version>
         </dependency>
     </dependencies>
 
