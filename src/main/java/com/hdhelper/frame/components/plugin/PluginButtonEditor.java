@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
-  
+
 public class PluginButtonEditor extends DefaultCellEditor {
 	
   protected JButton button;

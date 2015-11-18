@@ -1,2 +1,3 @@
-# Client
-Game Client
+# HDClient
+
+Root Module containing modules for the HDHelperClient

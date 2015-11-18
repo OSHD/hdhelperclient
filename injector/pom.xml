@@ -4,7 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.hdhelper</groupId>
+    <parent>
+        <artifactId>HDHelper</artifactId>
+        <groupId>com.hdhelper</groupId>
+        <version>1.0</version>
+    </parent>
+
     <artifactId>injector</artifactId>
     <version>1.0</version>
 
@@ -34,7 +39,11 @@
             <artifactId>asm-commons</artifactId>
             <version>4.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.hdhelper</groupId>
+            <artifactId>bytescript</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
-
 
 </project>

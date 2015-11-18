@@ -1,7 +1,4 @@
-/agent/agent.iml
-/bytescript/bytescript.iml
-/injector/injector.iml
-/loader/loader.iml
+/.idea
 /bytecode/
 /bin/
 /hooks.ds2
@@ -11,7 +8,7 @@
 .project
 .settings/
 /log.txt
-.idea/*
 Client.iml
 out/*
 .gitignore
+*.iml

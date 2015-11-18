@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.hdhelper</groupId>
-    <artifactId>Client</artifactId>
+    <artifactId>HDHelper</artifactId>
     <version>1.0</version>
 
     <!-- Project aggregator -->
@@ -16,6 +16,7 @@
         <module>loader</module>
         <module>bytescript</module>
         <module>injector</module>
+        <module>client</module>
     </modules>
 
 </project>
