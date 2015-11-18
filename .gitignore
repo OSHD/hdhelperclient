@@ -1,3 +1,7 @@
+/agent/agent.iml
+/bytescript/bytescript.iml
+/injector/injector.iml
+/loader/loader.iml
 /bytecode/
 /bin/
 /hooks.ds2
