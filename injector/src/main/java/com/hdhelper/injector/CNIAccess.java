@@ -1,10 +1,15 @@
 package com.hdhelper.injector;
 
+import com.hdhelper.agent.ClientCanvas;
 import com.hdhelper.agent.bridge.RenderSwitch;
+import com.hdhelper.injector.util.ASMUtil;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
+import org.objectweb.asm.tree.MethodInsnNode;
+
+import java.awt.*;
 
 //Responsible for acquiring CNI interfaces for dependencies throughout the CNI implement.
 public class CNIAccess {
@@ -19,4 +24,9 @@ public class CNIAccess {
         return stack;
     }
 
+    public static InsnList makeCanvas() {
+        InsnList stack = new InsnList();
+        stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC,"client","createClientCanvas", ASMUtil.getMethodDescriptor(ClientCanvas.class, Component.class), false));
+        return stack;
+    }
 }

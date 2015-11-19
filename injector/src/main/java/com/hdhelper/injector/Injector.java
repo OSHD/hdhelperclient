@@ -23,18 +23,14 @@ import com.hdhelper.injector.bs.scripts.util.ItemTable;
 import com.hdhelper.injector.bs.scripts.util.PlayerConfig;
 import com.hdhelper.injector.mod.*;
 import com.hdhelper.injector.patch.GPatch;
-import com.hdhelper.injector.util.ASMUtil;
 import com.hdhelper.injector.util.ClassWriterFix;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.tree.*;
+import org.objectweb.asm.tree.ClassNode;
 
 import java.io.*;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -61,6 +57,7 @@ public final class Injector extends AbstractInjector {
         Map<String,byte[]> classes = inject0(target);
         System.out.println("Verifying...");
         verifyBytecode(classes);
+        System.out.println("Saving...");
         save(classes, config, cfg.getOutputFile());
         return new JarFile(cfg.getOutputFile(), true, ZipFile.OPEN_READ);
     }
@@ -205,7 +202,7 @@ public final class Injector extends AbstractInjector {
             }
         }*/
 
-      for(MethodNode mn : (List<MethodNode>) classes.get("ae").methods) {
+    /*  for(MethodNode mn : (List<MethodNode>) classes.get("ae").methods) {
             if(mn.name.equals("<init>")) {
                 InsnList stack = new InsnList();
                 stack.add(new VarInsnNode(Opcodes.ILOAD, 1));
@@ -215,7 +212,7 @@ public final class Injector extends AbstractInjector {
                 stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC, Type.getInternalName(Callback.class),"msg",ASMUtil.getMethodDescriptor(Void.TYPE,int.class,String.class,String.class,String.class)));
                 mn.instructions.insertBefore(mn.instructions.getFirst().getNext().getNext().getNext(),stack);
             }
-        }
+        }*/
 
        /* for(MethodNode mn : (List<MethodNode>) classes.get("h").methods) {
             if(mn.name.equals("e")) {
@@ -264,20 +261,20 @@ public final class Injector extends AbstractInjector {
 
 
 
-       for(MethodNode mn : (List<MethodNode>) classes.get("eg").methods) {
+     /*  for(MethodNode mn : (List<MethodNode>) classes.get("eg").methods) {
             if(mn.name.equals("q") && mn.desc.endsWith("Lae;")) {
                 for(AbstractInsnNode ain : mn.instructions.toArray()) {
                     if(ain.getOpcode() == Opcodes.ARETURN) {
                         InsnList stack = new InsnList();
                         stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC,Type.getInternalName(Callback.class),"ok",ASMUtil.getMethodDescriptor(Object.class,Object.class)));
                         stack.add(new TypeInsnNode(Opcodes.CHECKCAST,"ae"));
-                        /*stack.add(new InsnNode(Opcodes.DUP));
+                        *//*stack.add(new InsnNode(Opcodes.DUP));
                         stack.add(new LdcInsnNode(""));
-                        stack.add(new FieldInsnNode(Opcodes.PUTFIELD,"ae","o",Type.getDescriptor(String.class)));*/
+                        stack.add(new FieldInsnNode(Opcodes.PUTFIELD,"ae","o",Type.getDescriptor(String.class)));*//*
                         mn.instructions.insertBefore(ain,stack);
                     }
                 }
-              /*  InsnList stack = new InsnList();
+              *//*  InsnList stack = new InsnList();
                 stack.add(new TypeInsnNode(Opcodes.NEW, "ae"));
                 stack.add(new InsnNode(Opcodes.DUP));
                 stack.add(new LdcInsnNode(90));
@@ -286,9 +283,9 @@ public final class Injector extends AbstractInjector {
                 stack.add(new InsnNode(Opcodes.ACONST_NULL));
                 stack.add(new MethodInsnNode(Opcodes.INVOKESPECIAL,"ae","<init>", ASMUtil.getMethodDescriptor(Void.TYPE,int.class,String.class,String.class,String.class)));
                 stack.add(new InsnNode(Opcodes.ARETURN));
-                mn.instructions.insertBefore(mn.instructions.getFirst(),stack);*/
+                mn.instructions.insertBefore(mn.instructions.getFirst(),stack);*//*
             }
-        }
+        }*/
 
         System.out.println("Compiling...");
         compile(default_def_loader);

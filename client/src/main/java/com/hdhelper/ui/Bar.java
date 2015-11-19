@@ -1,5 +1,6 @@
 package com.hdhelper.ui;
 
+import com.hdhelper.ClientNative;
 import com.hdhelper.Environment;
 
 import javax.swing.*;
@@ -31,8 +32,7 @@ public class Bar extends JMenuBar {
         render_ls.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
-          if (render_ls.isSelected()) Environment.RENDER_LANDSCAPE = true;
-          else Environment.RENDER_LANDSCAPE = false;
+          ClientNative.getRenderSwitch().setDoRenderLandscape(render_ls.isSelected());
          }
         });
         menu.add(render_ls);

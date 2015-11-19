@@ -63,11 +63,13 @@ public class Bootstrap {
 
         JarFile injected = inject(client,config);
 
-
-
         // Start the client:
 
         System.out.println("Starting client...");
+
+
+
+
 
 
 

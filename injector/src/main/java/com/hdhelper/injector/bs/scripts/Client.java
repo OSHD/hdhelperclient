@@ -3,10 +3,7 @@ package com.hdhelper.injector.bs.scripts;
 import com.bytescript.lang.BField;
 import com.bytescript.lang.BMethod;
 import com.bytescript.lang.ByteScript;
-import com.hdhelper.agent.CNIRuntimeArgs;
-import com.hdhelper.agent.CNIVerifyException;
-import com.hdhelper.agent.CanvasFactory;
-import com.hdhelper.agent.ClientCanvas;
+import com.hdhelper.agent.*;
 import com.hdhelper.agent.bridge.RenderSwitch;
 import com.hdhelper.agent.services.*;
 import com.hdhelper.injector.Piston;
@@ -299,6 +296,15 @@ public class Client extends GameEngine implements RSClient {
         super.start();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static ClientCanvas createClientCanvas(Component c) {
+        ClientCanvas canvas = canvas_factory.createClientCanvas();
+        AgentSecrets.getClientCanvasAccess().setDelegate(canvas,c);
+        return canvas;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
     //CNI Bridge
     private static boolean booted = false; // True if the CNI interfaces were successfully established

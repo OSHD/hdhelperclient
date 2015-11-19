@@ -7,6 +7,12 @@ public final class RenderSwitch {
     private boolean renderLandscape;
     private boolean renderOverlays;
 
+    public RenderSwitch() {
+        //By default we shall enable rendering
+        renderOverlays  = true;
+        renderLandscape = true;
+    }
+
     /**
      * Returns true if and only if the client should render the landscape.
      * When the landscape is not rendered, all of the following will, as

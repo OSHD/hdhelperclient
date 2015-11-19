@@ -12,11 +12,18 @@ import java.io.IOException;
 
 public class Main { //Noughty works
 
+    static {
+        //Force the CNI to be initialized before calling any other code.
+        //This enforces the guarantee of RuneTime accessibility of all game services.
+        ClientNative.get();
+    }
+
     public static RSClient client;
 
     public static long startTime;
 
     public static void main(String... args) throws IOException, InterruptedException { //NOOOOB
+        System.out.println("Main Start");
         startTime = System.currentTimeMillis();
         final TimeStamp t = new TimeStamp();
         StatsTab.reportPerformance((int) ((System.currentTimeMillis() - t.duration(false, ""))));

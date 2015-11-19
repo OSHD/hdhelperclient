@@ -1,7 +1,8 @@
 package com.hdhelper.ui;
 
-import com.hdhelper.Context;
+import com.hdhelper.ClientNative;
 import com.hdhelper.Main;
+import com.hdhelper.agent.CNI;
 import com.hdhelper.agent.services.RSClient;
 
 import javax.swing.*;
@@ -47,9 +48,11 @@ public class MainFrame extends JFrame {
 
     private static Applet bootModClient() {
         try {
-            Context c = Context.create();
-            Main.client = (RSClient) c.applet;
-            return c.applet;
+            CNI cni = ClientNative.get();
+            cni.start();
+            RSClient c = cni.get();
+            Main.client = c;
+            return (Applet) c;
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
