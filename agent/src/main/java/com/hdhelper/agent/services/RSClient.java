@@ -1,7 +1,5 @@
 package com.hdhelper.agent.services;
 
-import com.hdhelper.agent.CNIStub;
-
 import java.io.File;
 
 public interface RSClient {
@@ -54,9 +52,5 @@ public interface RSClient {
 
     int getEngineCycle();
     int getConnectionState();
-
-
-    
-    void initCNI(CNIStub stub);
 
 }

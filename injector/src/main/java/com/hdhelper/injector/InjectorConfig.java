@@ -1,25 +1,51 @@
 package com.hdhelper.injector;
 
+import java.io.File;
+import java.util.logging.Logger;
+
 public class InjectorConfig { // We should not have any references to user provided objects
 
-    private String clientCanvasImplementName;
+    private Logger logger;
+    private File outLoc;
 
     public InjectorConfig() {
     }
 
+
+    //Verify config and establish defaults (if possible):
+    //TODO verifyException
     void verify() {
-        if(clientCanvasImplementName == null || clientCanvasImplementName.isEmpty()) {
-            throw new Error("invalid type:" + clientCanvasImplementName);
+        if(outLoc == null) { //TODO default?
+            throw new Error("dest == null");
+        }
+        if(logger == null) {
+            logger = Logger.getLogger("injector"); // Default
         }
     }
 
-    public String getClientCanvasImplementName() {
-        return clientCanvasImplementName;
+
+
+    // Getters:
+
+    public Logger getLogger() {
+        return logger;
+    }
+
+    public File getOutputFile() {
+        return outLoc;
     }
 
 
-    public InjectorConfig setClientCanvasClass(String clazz) {
-        clientCanvasImplementName = clazz;
+
+    // Setters:
+
+    public InjectorConfig setLogger(Logger logger) {
+        this.logger = logger;
+        return this;
+    }
+
+    public InjectorConfig setOutputLoc(File loc) {
+        this.outLoc = loc;
         return this;
     }
 

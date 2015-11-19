@@ -23,9 +23,13 @@ public class ByteClassLoader extends ClassLoader {
         this.classes = classes;
     }
 
-    //loads all the class so java would throw any verify errors if they existed -roughly-
-    public void verify() {
+    public void destroy() {
+        loaded.clear();
+        defined.clear();
+    }
 
+    //loads all the class so java would throw any verify errors if they existed -roughly-
+    public void loadAll() {
         for(String clazz : classes.keySet()) {
             try { Class.forName(clazz,true,this);
             } catch (Throwable e) {
@@ -68,7 +72,7 @@ public class ByteClassLoader extends ClassLoader {
     }
 
     @Override
-    public Class<?> loadClass(final String name) throws ClassNotFoundException {
+    public Class<?> loadClass(String name) throws ClassNotFoundException {
         if (loaded.containsKey(name)) {
             return loaded.get(name);
         } else if (!classes.containsKey(name)) {

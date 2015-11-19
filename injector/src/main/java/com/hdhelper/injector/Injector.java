@@ -38,29 +38,77 @@ import java.util.List;
 import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.jar.JarOutputStream;
 import java.util.logging.Logger;
+import java.util.zip.ZipFile;
 
 
-public final class Injector {
+public final class Injector extends AbstractInjector {
 
     private static final Logger LOG = Logger.getLogger(Injector.class.getName());
 
     private HashMap<String, byte[]> classes_final = new HashMap<String,byte[]>();
     private HashMap<String, ClassNode> classes = new HashMap<String,ClassNode>();
 
-    private final InjectorConfig cfg;
-
     public Injector(InjectorConfig cfg) {
-        this.cfg = cfg;
+        super(cfg);
     }
 
-    private void loadJar() throws InterruptedException, IOException {
-        LOG.info("Loading Jar...");
-       // ClientLoader.loadClient(cfg.getWorld(),cfg.getClientLoc());
+    @Override
+    public JarFile inject(JarFile target) throws Exception {
+        cfg.verify();
+        byte[] config = getConfig(target);
+        Map<String,byte[]> classes = inject0(target);
+        System.out.println("Verifying...");
+        verifyBytecode(classes);
+        save(classes, config, cfg.getOutputFile());
+        return new JarFile(cfg.getOutputFile(), true, ZipFile.OPEN_READ);
     }
 
+    // Verify the bytecode by having the VM load the classes (and in term verify the class).
+    // This assumed class-verification is not disabled within this virtual machine.
+    // TODO verify this VM verifies class defs.
+    private static void verifyBytecode(Map<String, byte[]> classDefs) {
+        ByteClassLoader loader = new ByteClassLoader(classDefs);
+        loader.loadAll();
+        loader.destroy();
+    }
+
+    private static void save(Map<String,byte[]> classes, byte[] config, File dest) throws IOException {
+
+        JarOutputStream out = null;
+
+        try {
+
+            FileOutputStream fos = new FileOutputStream(dest);
+            out = new JarOutputStream(fos);
+            for (Map.Entry<String,byte[]> cn : classes.entrySet()) {
+                JarEntry entry = new JarEntry(cn.getKey().replace( '.', '/' ) + ".class");
+                out.putNextEntry(entry);
+                out.write(cn.getValue());
+                out.closeEntry();
+            }
+
+            // Write the config:
+            JarEntry cfg = new JarEntry("META-INF/config.ws");
+            out.putNextEntry(cfg);
+            out.write(config);
+            out.closeEntry();
+
+        } finally {
+            if(out != null) out.close();
+        }
+    }
+
+    @Override
+    public boolean verifyExisting(JarFile injected) throws Exception {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void destroy() {
         classes.clear();
+        classes_final.clear();
     }
 
     public static String getHooks() throws IOException {
@@ -79,28 +127,15 @@ public final class Injector {
 
     }
 
-    public ClassLoader inject() throws Exception {
-        Map<String,byte[]> classes = inject0();
-        ByteClassLoader loader = new ByteClassLoader(classes);
-        loader.save(new File("")/*cfg.getSaveLoc()*/);
-        loader.verify();
 
-        return loader;
-    }
+    private Map<String,byte[]> inject0(JarFile file) throws Exception {
 
-    private Map<String,byte[]> inject0() throws Exception {
-
-        this.cfg.verify();
-
-        loadJar();
-
-        Map<String,byte[]> defs = inflate();
+        Map<String,byte[]> defs = loadClasses(file);
         ClassLoader default_def_loader = new ByteClassLoader(defs);
 
-
         String gson = getHooks();
-
         GPatch cr = GPatch.parse(gson);
+
         BCompiler compiler = new BCompiler(new ReflectionProfiler(),new ResolverImpl(cr));
 
 
@@ -255,15 +290,34 @@ public final class Injector {
             }
         }
 
+        System.out.println("Compiling...");
         compile(default_def_loader);
 
         return classes_final;
 
     }
 
+    // Gets the config used to define the gamepack, which must be retained
+    private static byte[] getConfig(JarFile file) {
+        JarEntry cfg_entry = file.getJarEntry("META-INF/config.ws"); // We store it within the default package
+        if(cfg_entry == null) return null;
+        try {
+            // Get the config data:
+            InputStream stream = file.getInputStream(cfg_entry);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int r;
+            while ((r = stream.read(buffer)) > 0) {
+                bos.write(buffer, 0, r);
+            }
+            stream.close();
+            return bos.toByteArray();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
-    Map<String,byte[]> inflate() throws IOException {
-        JarFile jar = new JarFile(new File("")/*cfg.getClientLoc()*/);
+    Map<String,byte[]> loadClasses(JarFile jar) throws IOException {
         Enumeration<JarEntry> jarEntries = jar.entries();
         Map<String,byte[]> def_map = new HashMap<String,byte[]>(jar.size());
         while (jarEntries.hasMoreElements()) {
@@ -296,6 +350,10 @@ public final class Injector {
                 throw new Error("Failed to transform " + clazz.getKey(),e);
             }
         }
+    }
+    
+    public static void main(String[] args) {
+    	System.out.println("HI");
     }
 
 }

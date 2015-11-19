@@ -4,17 +4,17 @@ import com.hdhelper.agent.services.RSClient;
 
 import java.io.File;
 
-/**
- * Created by Jamie on 11/17/2015.
- */
-public class CNI {
+// Client Native Interface
+public final class CNI {
+
+    private CNI() {
+    }
 
     public static CNI get(File f) {
         return null;
     }
 
-
-    public void init() {
+    public void init(CNIRuntimeArgs args) {
         // Initialize the CNI
     }
 
@@ -22,11 +22,21 @@ public class CNI {
         // Start the game engine
     }
 
+    public void stop() {
+        // Stop the game engine
+    }
+
+    public void destroy() {
+        // Destory the game engine, and this interface
+    }
+
+    // Get a reference to the game engine
     public RSClient get() {
         // Get a reference to the game engine
         return null;
     }
 
+    // Get the class loader used to load the client and this interface
     public ClassLoader getLoader() {
         return null;
     }

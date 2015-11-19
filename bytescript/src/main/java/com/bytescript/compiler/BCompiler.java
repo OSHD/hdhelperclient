@@ -20,7 +20,6 @@ public class BCompiler {
     BSProfiler profiler;
     BSResolver resolver;
     BSRemaper remaper;
-    BSAdapter adapter;
 
     public BCompiler(BSProfiler profiler, BSResolver resolver) {
         this.profiler = profiler;
@@ -38,6 +37,8 @@ public class BCompiler {
     public ClassNode inject(Class bs, ClassNode target) throws IOException {
         verify(bs, target);
         ClassNode script = load(bs);
+
+        //TODO convert to proper visitor chain
 
         fixStaticOwners(script);
         appyCodec(script);
@@ -336,6 +337,10 @@ public class BCompiler {
         ClassReader reader = new ClassReader(in);
         reader.accept(cn, ClassReader.EXPAND_FRAMES);
         return cn;
+    }
+    
+    public static void main(String[] args) {
+    	System.out.println("HI");
     }
 
 

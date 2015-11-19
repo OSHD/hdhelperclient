@@ -1,14 +1,8 @@
 package com.hdhelper.injector.mod;
 
 import com.hdhelper.injector.InjectorConfig;
-import com.hdhelper.injector.mod.InjectionModule;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.MethodNode;
 
-import java.awt.*;
 import java.util.Map;
 
 public class ClientCanvasMod extends InjectionModule {
@@ -19,7 +13,7 @@ public class ClientCanvasMod extends InjectionModule {
 
     @Override
     public void inject() {
-
+/*
         String super_clazz = cfg.getClientCanvasImplementName().replace('.','/');
         // Replace the super class of Canvas with the defined implement (in which extends canvas)
         for (final ClassNode cn : classes.values()) {
@@ -35,7 +29,7 @@ public class ClientCanvasMod extends InjectionModule {
                     }
                 }
             }
-        }
+        }*/
     }
 
 }

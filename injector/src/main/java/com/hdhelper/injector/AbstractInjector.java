@@ -12,8 +12,7 @@ public abstract class AbstractInjector {
         this.cfg = cfg;
     }
 
-    // Inject the CNI into the target jar and establish a JarFile in memory.
-    // The returned jar file is to not be stored to a local file by the injector.
+    // Inject the CNI into the target jar and establish a new JarFile.
     // Throw any reasons why the injection could not be performed.
     public abstract JarFile inject(JarFile target) throws Exception;
 

@@ -10,6 +10,14 @@
         <version>1.0</version>
     </parent>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.hdhelper</groupId>
+            <artifactId>injector</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
     <artifactId>loader</artifactId>
     <version>1.0</version>
 

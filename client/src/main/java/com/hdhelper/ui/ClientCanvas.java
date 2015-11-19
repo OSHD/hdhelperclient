@@ -20,6 +20,7 @@ public class ClientCanvas extends com.hdhelper.agent.ClientCanvas {
     public static int mouseY = 0;
 
     public ClientCanvas() {
+        setIgnoreRepaint(true);
         attach();
     }
 
@@ -32,10 +33,6 @@ public class ClientCanvas extends com.hdhelper.agent.ClientCanvas {
             }
         });
     }
-
-
-
-
 
     private void validateGraphics() {
         if(cur_shape != reshape_count) {

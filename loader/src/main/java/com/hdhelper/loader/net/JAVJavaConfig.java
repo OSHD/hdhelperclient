@@ -1,9 +1,7 @@
 package com.hdhelper.loader.net;
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -50,57 +48,59 @@ public class JAVJavaConfig {
         return misc.get(INITIAL_CLASS_KEY);
     }
 
+    public String getJarURLSpec() {
+        return getCodeBase() + getInitialJar();
+    }
+
     public URL getJarURL() {
         try {
-            return new URL(getCodeBase() + getInitialJar());
+            return new URL(getJarURLSpec());
         } catch (MalformedURLException ignored) {
-            throw new Error(ignored); //TODO handle this case?
+            throw new Error("bad url:" + ("base=" + getCodeBase() + ",initial=" + getInitialJar() +
+                    ",url" + (getCodeBase() + getInitialJar())) );
         }
     }
 
-    public static JAVJavaConfig parse(BufferedReader in) throws IOException {
-        JAVJavaConfig cfg = new JAVJavaConfig();
-        String line;
-        while ((line = in.readLine()) != null) {
-            int k = line.indexOf('=');
-            String key = line.substring(0, k);
-            String value = line.substring(k + 1, line.length());
-            if(key.equals("param")) {
-                int d = value.indexOf('=');
-                String param_key = value.substring(0, d);
-                String param_val = value.substring(d+1,value.length());
-                cfg.params.put(param_key,param_val);
-                continue;
-            } else if(key.equals("msg")) {
-                int d = value.indexOf('=');
-                String msg_key = value.substring(0, d);
-                String msg_val = value.substring(d+1,value.length());
-                cfg.messages.put(msg_key,msg_val);
-                continue;
-            }
-            cfg.misc.put(key,value);
-        }
-        return cfg;
-    }
-
-    public static void main(String[] args) {
-
+    public static JAVJavaConfig decode(BufferedReader in) throws IOException {
         try {
-
-            URL url = new URL("http://oldschool1.runescape.com/jav_config.ws");
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-
-            System.out.println(parse(in).getInitialJar());
-
-            in.close();
-
-        } catch (MalformedURLException ignored) {
-        } catch (IOException ignored) {
+            JAVJavaConfig cfg = new JAVJavaConfig();
+            String line;
+            while ((line = in.readLine()) != null) {
+                int k = line.indexOf('=');
+                String key   = line.substring(0, k);
+                String value = line.substring(k + 1, line.length());
+                if (key.equals("param")) {
+                    int d = value.indexOf('=');
+                    String param_key = value.substring(0, d);
+                    String param_val = value.substring(d + 1, value.length());
+                    cfg.params.put(param_key, param_val);
+                    continue;
+                } else if (key.equals("msg")) {
+                    int d = value.indexOf('=');
+                    String msg_key = value.substring(0, d);
+                    String msg_val = value.substring(d + 1, value.length());
+                    cfg.messages.put(msg_key, msg_val);
+                    continue;
+                }
+                assert !key.isEmpty();
+                cfg.misc.put(key, value);
+            }
+            return cfg;
+        } catch (IOException stream_err) {
+            throw stream_err; // Not our fault
+        } catch (IndexOutOfBoundsException format_problem) {
+            throw new Error("Decode error"); // Something is wrong with the format
         }
-
     }
 
+    public static JAVJavaConfig decode(InputStream src) throws IOException {
+        Reader reader = new InputStreamReader(src);
+        BufferedReader buff_reader = new BufferedReader(reader);
+        return decode(buff_reader);
+    }
 
+    public static JAVJavaConfig decode(byte[] bytes) throws IOException {
+        return decode(new ByteArrayInputStream(bytes));
+    }
 
 }

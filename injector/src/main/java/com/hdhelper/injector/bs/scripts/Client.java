@@ -3,7 +3,9 @@ package com.hdhelper.injector.bs.scripts;
 import com.bytescript.lang.BField;
 import com.bytescript.lang.BMethod;
 import com.bytescript.lang.ByteScript;
-import com.hdhelper.agent.CNIStub;
+import com.hdhelper.agent.CNIRuntimeArgs;
+import com.hdhelper.agent.CNIVerifyException;
+import com.hdhelper.agent.CanvasFactory;
 import com.hdhelper.agent.ClientCanvas;
 import com.hdhelper.agent.bridge.RenderSwitch;
 import com.hdhelper.agent.services.*;
@@ -289,6 +291,7 @@ public class Client extends GameEngine implements RSClient {
     }
 
 
+
     @Override
     public void start() {
         if(!booted)
@@ -300,22 +303,26 @@ public class Client extends GameEngine implements RSClient {
     //CNI Bridge
     private static boolean booted = false; // True if the CNI interfaces were successfully established
     public static RenderSwitch render_switch;
+    public static CanvasFactory canvas_factory;
     //-----------------------------------------------
 
-    public void initCNI(CNIStub stub) {
-        render_switch = stub.getRenderSwitch();
+    public static void initCNI(CNIRuntimeArgs args) {
+        render_switch = args.ren_switch;
+        canvas_factory = args.canvasFactory;
         //--------------------------------------
         booted = verify();
     }
 
+    // Verify CNI OK to initialize
     private static boolean verify() {
         requireNonNull(render_switch,"render switch must be non-null");
+        requireNonNull(canvas_factory,"canvas factory must be non-null");
         return true;
     }
 
     private static void requireNonNull(Object o, String msg) {
         if(o == null)
-            throw new Error(msg);
+            throw new CNIVerifyException(msg);
     }
 
 
