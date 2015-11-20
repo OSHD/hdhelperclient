@@ -5,6 +5,7 @@ import com.hdhelper.agent.CNIRuntimeArgs;
 import com.hdhelper.agent.CanvasFactory;
 import com.hdhelper.agent.ClientCanvas;
 import com.hdhelper.agent.bridge.RenderSwitch;
+import com.hdhelper.client.ui.HDCanvas;
 
 public final class ClientNative {
 
@@ -44,7 +45,7 @@ public final class ClientNative {
     private static final class HDCanvasFactory implements CanvasFactory {
         @Override
         public ClientCanvas createClientCanvas() {
-            return new ClientCanvas();
+            return new HDCanvas();
         }
     }
 

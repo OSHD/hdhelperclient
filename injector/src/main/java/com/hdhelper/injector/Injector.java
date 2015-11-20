@@ -57,7 +57,7 @@ public final class Injector extends AbstractInjector {
         verifyBytecode(classes);
         System.out.println("Saving...");
         save(classes, config, cfg.getOutputFile());
-        classes.put("META-INF/config.ws",config);
+        classes.put("META-INF/config.ws",config); //Stash the config to be accessible by the class-loader
         return classes;
     }
 
@@ -107,9 +107,7 @@ public final class Injector extends AbstractInjector {
         classes.clear();
     }
 
-    public static String getHooks() throws IOException {
-
-        System.out.println(AbstractInjector.class.getResource("hooks.gson"));
+    public static String getHooks() throws IOException { //TODO put resource on the website, and cache locally in the case of the site being down?
         InputStream input = AbstractInjector.class.getResourceAsStream("hooks.gson");
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(input));

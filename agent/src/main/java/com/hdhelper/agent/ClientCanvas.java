@@ -45,11 +45,6 @@ public class ClientCanvas extends Canvas {
         paint0(g);
     }
 
-    @Override
-    public Graphics getGraphics() {
-        return super.getGraphics();
-    }
-
     public void update0(Graphics g) {
     }
 

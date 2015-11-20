@@ -9,7 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.ImageObserver;
 
-public class ClientCanvas extends com.hdhelper.agent.ClientCanvas {
+public class HDCanvas extends com.hdhelper.agent.ClientCanvas {
 
 
     private RTGraphics g = null;
@@ -19,7 +19,8 @@ public class ClientCanvas extends com.hdhelper.agent.ClientCanvas {
     public static int mouseX = 0;
     public static int mouseY = 0;
 
-    public ClientCanvas() {
+    public HDCanvas() {
+        super();
         setIgnoreRepaint(true);
         attach();
     }
@@ -48,7 +49,7 @@ public class ClientCanvas extends com.hdhelper.agent.ClientCanvas {
 
     Debug debug;
 
-    void draw00(RTGraphics g) {
+    void draw0(RTGraphics g) {
 
         if(engine_raster == null || engine_raster.length == 1) {
             return;
@@ -66,17 +67,19 @@ public class ClientCanvas extends com.hdhelper.agent.ClientCanvas {
 
     @Override
     public Graphics getGraphics() {
-
-        System.out.println("WAT");
+        assert reshape_count > 0;
         // ... Frame complete...
         validateGraphics();
 
-        System.arraycopy(engine_raster, 0, offscreen_buffer, 0, engine_raster.length);
-        draw00(g);
+        System.arraycopy(engine_raster, 0, offscreen_buffer, 0, engine_raster.length); //Update the offscreen frame
+
+        draw0(g); // Drop of top this frame
+
+        //Draw the final frame onto this canvas graphic
         Graphics canvasG = super.getGraphics();
         canvasG.drawImage(g.crate(),0,0,null); //Draw the game
 
-        return new DebugGraphics(canvasG) { // Prevent runescape from rendering //TODO inject into the engine not to draw its frame
+        return new DebugGraphics(canvasG) { // Prevent the game from rendering //TODO inject into the engine not to draw its frame
             @Override
             public boolean drawImage(Image m, int x, int y, ImageObserver o) {
                 return false;

@@ -24,7 +24,7 @@ public class GraphicsEngineMod extends InjectionModule {
             for(AbstractInsnNode ain : mn.instructions.toArray()) {
                 if(ain.getOpcode() == PUTFIELD) {
                     FieldInsnNode fin = (FieldInsnNode) ain;
-                    if(fin.owner.equals(cn.name) && fin.name.equals("l")) {
+                    if(fin.owner.equals(cn.name) && fin.name.equals("a")) {
 
                         InsnList stack = new InsnList();
 

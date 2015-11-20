@@ -11,7 +11,7 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
 
 import java.awt.*;
-import java.util.Map;
+import java.util.*;
 
 public class ClientCanvasMod extends InjectionModule {
 
@@ -63,6 +63,7 @@ public class ClientCanvasMod extends InjectionModule {
 
             }
         }
+
     }
 
 }
