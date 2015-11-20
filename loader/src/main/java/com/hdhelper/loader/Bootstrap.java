@@ -77,6 +77,10 @@ public class Bootstrap {
 
         ClassLoader cni_loader = new ClientLoader(injected);
 
+        System.gc(); // Cleanup the bootstrap...
+        //TODO we need a better way of disposing of bootstrap resources as they
+        //should be visible to the client, and serve no further use...
+
         // Start the client:
 
         System.out.println("Starting client...");
@@ -87,7 +91,7 @@ public class Bootstrap {
     }
 
     //TODO Should the injector be within out class-path or dynamically loaded?
-    //TODO We want to destory any resources the injector uses once its done.
+    //TODO We want to destroy any resources the injector used once its done.
     private static Map<String,byte[]> inject(JarFile client, InjectorConfig cfg) {
         try {
             AbstractInjector injector = new Injector(cfg);

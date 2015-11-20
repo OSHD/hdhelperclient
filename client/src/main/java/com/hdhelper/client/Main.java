@@ -19,13 +19,14 @@ public class Main { //Noughty works
         ClientNative.get();
     }
 
+
     public static RSClient client;
 
     public static long startTime;
 
 
     public static void run() throws Exception{
-        Main.main(null);
+        Main.main();
     }
 
     public static void main(String... args) throws IOException, InterruptedException { //NOOOOB

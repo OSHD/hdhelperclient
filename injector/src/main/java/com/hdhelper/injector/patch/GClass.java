@@ -1,5 +1,6 @@
 package com.hdhelper.injector.patch;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class GClass {
@@ -11,6 +12,8 @@ public class GClass {
 
     public GClass(String name) {
         this.name = name;
+        fields = new HashMap<String, GField>();
+        methods = new HashMap<String, GMethod>();
     }
 
     Map<String,GField> fields;

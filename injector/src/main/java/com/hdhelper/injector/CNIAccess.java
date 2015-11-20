@@ -1,13 +1,11 @@
 package com.hdhelper.injector;
 
-import com.hdhelper.agent.ClientCanvas;
-import com.hdhelper.agent.bridge.RenderSwitch;
-import com.hdhelper.injector.util.ASMUtil;
+import com.hdhelper.agent.CanvasFactory;
+import com.hdhelper.agent.RenderSwitch;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.MethodInsnNode;
 
 //Responsible for acquiring CNI interfaces for dependencies throughout the CNI implement.
 public class CNIAccess {
@@ -22,9 +20,13 @@ public class CNIAccess {
         return stack;
     }
 
-    public static InsnList makeCanvas() {
+    /**
+     * @see com.hdhelper.injector.bs.scripts.Client#canvas_factory
+     * @return The bytecode logic for acquiring the reference to the canvas-factory interface.
+     */
+    public static InsnList getCanvasFactory() {
         InsnList stack = new InsnList();
-        stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC,"client","createClientCanvas", ASMUtil.getMethodDescriptor(ClientCanvas.class), false));
+        stack.add(new FieldInsnNode(Opcodes.GETSTATIC,"client","canvas_factory",Type.getDescriptor(CanvasFactory.class)));
         return stack;
     }
 }

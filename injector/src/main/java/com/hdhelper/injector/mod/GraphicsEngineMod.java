@@ -1,6 +1,6 @@
 package com.hdhelper.injector.mod;
 
-import com.hdhelper.agent.AgentSecrets;
+import com.hdhelper.agent.SharedAgentSecrets;
 import com.hdhelper.agent.ClientCanvas;
 import com.hdhelper.agent.ClientCanvasAccess;
 import com.hdhelper.injector.InjectorConfig;
@@ -32,7 +32,7 @@ public class GraphicsEngineMod extends InjectionModule {
                          * AgentSecrets.getClientCanvasAccess().setBitMap(Client.getCanvas(), this.raster, this.image);
                          */
 
-                        stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC,Type.getInternalName(AgentSecrets.class),
+                        stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC,Type.getInternalName(SharedAgentSecrets.class),
                                 "getClientCanvasAccess",ASMUtil.getMethodDescriptor(ClientCanvasAccess.class),false));
                         stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "client", "getCanvas", ASMUtil.getMethodDescriptor(ClientCanvas.class), false));
 

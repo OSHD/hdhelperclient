@@ -1,6 +1,4 @@
-package com.hdhelper.agent.bridge;
-
-import com.hdhelper.agent.ClientAccessed;
+package com.hdhelper.agent;
 
 public final class RenderSwitch {
 

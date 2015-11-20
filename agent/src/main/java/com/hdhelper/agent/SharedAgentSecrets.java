@@ -1,5 +1,9 @@
 package com.hdhelper.agent;
 
+import com.hdhelper.agent.bus.LandscapeBus;
+import com.hdhelper.agent.bus.MessageBus;
+import com.hdhelper.agent.bus.access.LandscapeBusAccess;
+import com.hdhelper.agent.bus.access.MessageBusAccess;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
@@ -11,16 +15,27 @@ import java.lang.reflect.Field;
  * that interface is provided through a third package to which access is restricted. This framework avoids
  * the primary disadvantage of using reflection for this purpose, namely the loss of compile-time checking.
  */
-public class AgentSecrets {
+public class SharedAgentSecrets {
 
     private static final Unsafe unsafe = getTheUnsafe();
 
     private static ClientCanvasAccess clientCanvasAccess;
 
+    //Buss Access:
+    private static MessageBusAccess messageBusAccess;
+    private static LandscapeBusAccess landscapeBusAccess;
+
     public static void setClientCanvasAccess(ClientCanvasAccess access) {
         clientCanvasAccess = access;
     }
 
+    public static void setMessageBusAccess(MessageBusAccess access) {
+        messageBusAccess = access;
+    }
+
+    public static void setLandscapeBusAccess(LandscapeBusAccess access) {
+        landscapeBusAccess = access;
+    }
 
 
     public static ClientCanvasAccess getClientCanvasAccess() {
@@ -30,6 +45,20 @@ public class AgentSecrets {
             unsafe.ensureClassInitialized(ClientCanvas.class);
         }
         return clientCanvasAccess;
+    }
+
+    public static MessageBusAccess getMessageBusAccess() {
+        if(messageBusAccess == null) {
+            unsafe.ensureClassInitialized(MessageBus.class);
+        }
+        return messageBusAccess;
+    }
+
+    public static LandscapeBusAccess getLandscapeBusAccess() {
+        if(landscapeBusAccess == null) {
+            unsafe.ensureClassInitialized(LandscapeBus.class);
+        }
+        return landscapeBusAccess;
     }
 
 

@@ -1,6 +1,7 @@
 package com.hdhelper.injector.mod;
 
-import com.hdhelper.agent.AgentSecrets;
+import com.hdhelper.agent.SharedAgentSecrets;
+import com.hdhelper.agent.CanvasFactory;
 import com.hdhelper.agent.ClientCanvas;
 import com.hdhelper.agent.ClientCanvasAccess;
 import com.hdhelper.injector.CNIAccess;
@@ -38,15 +39,18 @@ public class ClientCanvasMod extends InjectionModule {
                         MethodInsnNode min = (MethodInsnNode) ain;
                         if(min.name.equals("<init>") && min.owner.equals(canvas_clazz)) {
 
-                            TypeInsnNode make = (TypeInsnNode) ain.getPrevious().getPrevious().getPrevious();
+                            TypeInsnNode make = (TypeInsnNode) ain.getPrevious().getPrevious().getPrevious(); //TODO we assert allot... REDO
                             if(make.getOpcode() != Opcodes.NEW) throw new Error("eek");
 
 
-                            mn.instructions.insertBefore(make, CNIAccess.makeCanvas());
+                            InsnList createCanvas = new InsnList();
+                            createCanvas.add(CNIAccess.getCanvasFactory());
+                            createCanvas.add(new MethodInsnNode(Opcodes.INVOKEINTERFACE,Type.getInternalName(CanvasFactory.class),"createClientCanvas",ASMUtil.getMethodDescriptor(ClientCanvas.class),true));
+                            mn.instructions.insertBefore(make, createCanvas);
                             mn.instructions.remove(make);
 
                             InsnList stack = new InsnList();
-                            stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC,Type.getInternalName(AgentSecrets.class),
+                            stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC,Type.getInternalName(SharedAgentSecrets.class),
                                     "getClientCanvasAccess", ASMUtil.getMethodDescriptor(ClientCanvasAccess.class),false));
                             stack.add(new InsnNode(DUP_X2));
                             stack.add(new InsnNode(POP));

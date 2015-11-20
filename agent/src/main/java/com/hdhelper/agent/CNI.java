@@ -18,6 +18,7 @@ public final class CNI {
     private Class client_class;
     private CNIStub stub;
     private RSClient game;
+    private CNIRuntimeArgs args;
 
     private CNI(ClassLoader loader) {
         this.loader = loader;
@@ -31,14 +32,15 @@ public final class CNI {
         if(did_init) return;
         stub = new CNIStub(getConfig());
         client_class = loader.loadClass("client");
-        initCNI(client_class, args);
+        this.args = args;
+        initCNI(client_class,this,args);
         did_init = true;
     }
 
-    private static void initCNI(Class client, CNIRuntimeArgs args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method init = client.getDeclaredMethod("initCNI", CNIRuntimeArgs.class);
+    private static void initCNI(Class client, CNI cni, CNIRuntimeArgs args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method init = client.getDeclaredMethod("initCNI", CNI.class, CNIRuntimeArgs.class);
         init.setAccessible(true);
-        init.invoke(null,args);
+        init.invoke(null,cni,args);
     }
 
     private JAVConfig cfg = null;

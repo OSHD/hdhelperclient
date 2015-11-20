@@ -1,5 +1,7 @@
 package com.hdhelper.agent.services;
 
+import com.hdhelper.agent.event.MessageListener;
+
 import java.io.File;
 
 public interface RSClient {
@@ -52,5 +54,9 @@ public interface RSClient {
 
     int getEngineCycle();
     int getConnectionState();
+
+
+    void addMessageListener(MessageListener listener);
+    void removeMessageListener(MessageListener listener);
 
 }

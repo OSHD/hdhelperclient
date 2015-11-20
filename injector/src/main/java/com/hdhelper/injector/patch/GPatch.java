@@ -85,6 +85,18 @@ public class GPatch {
         image.fields.put("insetY",new GField(image.name,"f","I",null));
         image.fields.put("maxX",new GField(image.name,"r","I",null));
         image.fields.put("maxY",new GField(image.name,"l","I",null));
+
+
+        //TODO hook
+        GClass message = new GClass("av");
+        message.fields.put("cycle",new GField("av","m","I",29620511));
+        message.fields.put("index",new GField("av","j","I",684019183));
+        message.fields.put("message",new GField("av","a",Type.getDescriptor(String.class),null));
+        message.fields.put("channel",new GField("av","u",Type.getDescriptor(String.class),null));
+        message.fields.put("sender",new GField("av","l",Type.getDescriptor(String.class),null));
+        message.fields.put("type",new GField("av","f","I",-1804049261));
+        patch.classes.put("Message",message);
+
     }
 
     // private -> public

@@ -4,7 +4,10 @@ import com.bytescript.lang.BField;
 import com.bytescript.lang.BMethod;
 import com.bytescript.lang.ByteScript;
 import com.hdhelper.agent.*;
-import com.hdhelper.agent.bridge.RenderSwitch;
+import com.hdhelper.agent.RenderSwitch;
+import com.hdhelper.agent.bus.MessageBus;
+import com.hdhelper.agent.bus.access.MessageBusAccess;
+import com.hdhelper.agent.event.MessageListener;
 import com.hdhelper.agent.services.*;
 import com.hdhelper.injector.Piston;
 import com.hdhelper.injector.bs.scripts.cache.ItemDefinition;
@@ -77,7 +80,7 @@ public class Client extends GameEngine implements RSClient {
     public static Canvas canvas;
 
 
-
+    // Methods
 
     @BMethod(name = "getObjectDefinition")
     public static ObjectDefinition getObjectDefinition0(int id) {
@@ -104,12 +107,7 @@ public class Client extends GameEngine implements RSClient {
         return null;
     }
 
-
-
-
-
-
-
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public RSPlayer getMyPlayer() {
@@ -210,7 +208,6 @@ public class Client extends GameEngine implements RSClient {
         return XTEAKeys;
     }
 
-
     @Override
     public File getCacheDirectory() {
         return cacheDirectory;
@@ -283,6 +280,28 @@ public class Client extends GameEngine implements RSClient {
     }
 
 
+
+
+    // Listener Functions:
+
+    @Override
+    public void addMessageListener(MessageListener l) {
+        if(msgBus == null) {
+            msgBus = msgBusAccess.mkBus(this);
+        }
+        msgBus.addMessageListener(l);
+    }
+
+    @Override
+    public void removeMessageListener(MessageListener l) {
+        if(msgBus == null) return; // No listeners exist
+        msgBus.removeMessageListener(l);
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+
     public static ClientCanvas getCanvas() {
         return (ClientCanvas) canvas;
     }
@@ -298,19 +317,34 @@ public class Client extends GameEngine implements RSClient {
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static ClientCanvas createClientCanvas() {
-        return canvas_factory.createClientCanvas();
+    // Bus/Event functions: Called throughout the client
+    public static void onMessage(Message msg) {
+        if(msgBus == null) return; // We're not interested
+        msgBusAccess.onMessage(msgBus,msg);
     }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
     //CNI Bridge
     private static boolean booted = false; // True if the CNI interfaces were successfully established
+    public static CNI cni;
     public static RenderSwitch render_switch;
     public static CanvasFactory canvas_factory;
     //-----------------------------------------------
+    //Static/Global Buses
+    private static MessageBus msgBus;
 
-    public static void initCNI(CNIRuntimeArgs args) {
+    //Access
+    private static final MessageBusAccess msgBusAccess
+            = SharedAgentSecrets.getMessageBusAccess();
+
+
+
+
+    /** @see CNI#initCNI(Class, CNI, CNIRuntimeArgs) **/
+    public static void initCNI(CNI cni_, CNIRuntimeArgs args) {
+        cni = cni_;
         render_switch = args.ren_switch;
         canvas_factory = args.canvasFactory;
         //--------------------------------------
@@ -319,6 +353,7 @@ public class Client extends GameEngine implements RSClient {
 
     // Verify CNI OK to initialize
     private static boolean verify() {
+        requireNonNull(cni,"cni must be non-null");
         requireNonNull(render_switch,"render switch must be non-null");
         requireNonNull(canvas_factory,"canvas factory must be non-null");
         return true;

@@ -1,7 +1,7 @@
 package com.hdhelper.injector.mod;
 
 
-import com.hdhelper.agent.bridge.RenderSwitch;
+import com.hdhelper.agent.RenderSwitch;
 import com.hdhelper.injector.CNIAccess;
 import com.hdhelper.injector.InjectorConfig;
 import org.objectweb.asm.Label;

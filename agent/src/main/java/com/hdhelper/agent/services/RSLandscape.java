@@ -1,6 +1,6 @@
 package com.hdhelper.agent.services;
 
-public interface RSLandscape {
+public interface RSLandscape extends RSService {
 
     RSLandscapeTile[][][] getTiles();
     RSEntityMarker[] getTempEntities();

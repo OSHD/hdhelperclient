@@ -5,6 +5,7 @@ import com.bytescript.compiler.BCompiler;
 import com.hdhelper.injector.bs.ResolverImpl;
 import com.hdhelper.injector.bs.scripts.Client;
 import com.hdhelper.injector.bs.scripts.GPI;
+import com.hdhelper.injector.bs.scripts.Message;
 import com.hdhelper.injector.bs.scripts.RuneScript;
 import com.hdhelper.injector.bs.scripts.cache.ItemDefinition;
 import com.hdhelper.injector.bs.scripts.cache.NpcDefinition;
@@ -168,6 +169,7 @@ public final class Injector extends AbstractInjector {
         compiler.inject(Image.class, classes);
 
         compiler.inject(RuneScript.class, classes);
+        compiler.inject(Message.class,classes);
 
         compiler.inject(GPI.class, classes);
 
@@ -176,6 +178,8 @@ public final class Injector extends AbstractInjector {
         new ClientCanvasMod(classes,cfg).inject();
         new GraphicsEngineMod(classes,cfg).inject();
         new RenderMod(classes,cfg).inject();
+        new MessageMod(classes,cfg).inject();
+
        // new XTEADumpMod(classes,cfg).inject();
        // new LandscapeMod(classes,cr).inject(classes,cr);
 
@@ -345,10 +349,6 @@ public final class Injector extends AbstractInjector {
             }
         }
         return defs;
-    }
-    
-    public static void main(String[] args) {
-    	System.out.println("HI");
     }
 
 }

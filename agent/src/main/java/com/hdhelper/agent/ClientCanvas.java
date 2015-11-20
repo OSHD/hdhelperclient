@@ -11,11 +11,12 @@ public class ClientCanvas extends Canvas {
     private Component delegate;
 
     static {
-        AgentSecrets.setClientCanvasAccess(new ClientCanvasAccess() {
+        SharedAgentSecrets.setClientCanvasAccess(new ClientCanvasAccess() {
             @Override
             public void setBitmap(ClientCanvas target, int[] raster, Image representative) {
                 target.setBitmap(raster, representative);
             }
+
             @Override
             public void setDelegate(ClientCanvas target, Component c) {
                 target.delegate = c;

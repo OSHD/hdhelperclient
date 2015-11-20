@@ -10,7 +10,8 @@ public class Wormhole {
      * the {@link ClientNative} class without it being initialized.
      * This allows us to essentially pass the client-loader argument
      * into for the static constructor to reference to.
-     * @param loader The ClassLoader to be used to load the CNI/client
+     * @param loader The ClassLoader to be used to load the CNI/client.
+     * @see ClientNative
      */
     public static void setLoader(ClassLoader loader) {
         Wormhole.loader = loader;

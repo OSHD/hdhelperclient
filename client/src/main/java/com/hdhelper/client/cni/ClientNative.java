@@ -4,7 +4,7 @@ import com.hdhelper.agent.CNI;
 import com.hdhelper.agent.CNIRuntimeArgs;
 import com.hdhelper.agent.CanvasFactory;
 import com.hdhelper.agent.ClientCanvas;
-import com.hdhelper.agent.bridge.RenderSwitch;
+import com.hdhelper.agent.RenderSwitch;
 import com.hdhelper.client.ui.HDCanvas;
 
 public final class ClientNative {
@@ -49,6 +49,8 @@ public final class ClientNative {
         }
     }
 
+
+    // CNI bridge objects:
     public static RenderSwitch getRenderSwitch() {
         return args.ren_switch;
     }
