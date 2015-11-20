@@ -36,14 +36,12 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.logging.Logger;
-import java.util.zip.ZipFile;
 
 
 public final class Injector extends AbstractInjector {
 
     private static final Logger LOG = Logger.getLogger(Injector.class.getName());
 
-    private HashMap<String, byte[]> classes_final = new HashMap<String,byte[]>();
     private HashMap<String, ClassNode> classes = new HashMap<String,ClassNode>();
 
     public Injector(InjectorConfig cfg) {
@@ -51,7 +49,7 @@ public final class Injector extends AbstractInjector {
     }
 
     @Override
-    public JarFile inject(JarFile target) throws Exception {
+    public Map<String,byte[]> inject(JarFile target) throws Exception {
         cfg.verify();
         byte[] config = getConfig(target);
         Map<String,byte[]> classes = inject0(target);
@@ -59,7 +57,8 @@ public final class Injector extends AbstractInjector {
         verifyBytecode(classes);
         System.out.println("Saving...");
         save(classes, config, cfg.getOutputFile());
-        return new JarFile(cfg.getOutputFile(), true, ZipFile.OPEN_READ);
+        classes.put("META-INF/config.ws",config);
+        return classes;
     }
 
     // Verify the bytecode by having the VM load the classes (and in term verify the class).
@@ -95,6 +94,7 @@ public final class Injector extends AbstractInjector {
         } finally {
             if(out != null) out.close();
         }
+
     }
 
     @Override
@@ -105,12 +105,12 @@ public final class Injector extends AbstractInjector {
     @Override
     public void destroy() {
         classes.clear();
-        classes_final.clear();
     }
 
     public static String getHooks() throws IOException {
 
-        InputStream input = Injector.class.getResourceAsStream("hooks.gson");
+        System.out.println(AbstractInjector.class.getResource("hooks.gson"));
+        InputStream input = AbstractInjector.class.getResourceAsStream("hooks.gson");
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(input));
 
@@ -127,16 +127,19 @@ public final class Injector extends AbstractInjector {
 
     private Map<String,byte[]> inject0(JarFile file) throws Exception {
 
-        Map<String,byte[]> defs = loadClasses(file);
-        ClassLoader default_def_loader = new ByteClassLoader(defs);
+        Map<String,byte[]> initial_defs = loadClasses(file);
+        ClassLoader default_def_loader = new ByteClassLoader(initial_defs);
+         //TODO ^^ use ASM to get supers instead of creating a new class-loader
 
         String gson = getHooks();
+
+     //   System.out.println(gson);
+
         GPatch cr = GPatch.parse(gson);
 
         BCompiler compiler = new BCompiler(new ReflectionProfiler(),new ResolverImpl(cr));
 
-
-        System.out.println("COMPILE SCRIPTS");
+      //  System.out.println("Compiling Scripts...");
 
         compiler.inject(Client.class, classes);
 
@@ -166,7 +169,7 @@ public final class Injector extends AbstractInjector {
 
         compiler.inject(Image.class, classes);
 
-        compiler.inject(RuneScript.class,classes);
+        compiler.inject(RuneScript.class, classes);
 
         compiler.inject(GPI.class, classes);
 
@@ -175,14 +178,10 @@ public final class Injector extends AbstractInjector {
         new ClientCanvasMod(classes,cfg).inject();
         new GraphicsEngineMod(classes,cfg).inject();
         new RenderMod(classes,cfg).inject();
-        new XTEADumpMod(classes,cfg).inject();
-
-
-        new LandscapeMod(classes,cr).inject(classes,cr);
+       // new XTEADumpMod(classes,cfg).inject();
+       // new LandscapeMod(classes,cr).inject(classes,cr);
 
         EngineMod.inject(classes.get(cr.getGClass("GameEngine").getName()));
-
-        System.out.println("DONE");
 
 /*
         for(InjectionModule mod : InjectionModule.getModules()) {
@@ -288,9 +287,8 @@ public final class Injector extends AbstractInjector {
         }*/
 
         System.out.println("Compiling...");
-        compile(default_def_loader);
 
-        return classes_final;
+        return compile(classes, default_def_loader);
 
     }
 
@@ -334,7 +332,8 @@ public final class Injector extends AbstractInjector {
     }
 
 
-    private void compile(ClassLoader default_loader) {
+    private static Map<String,byte[]> compile(Map<String,ClassNode> classes, ClassLoader default_loader) {
+        Map<String,byte[]> defs = new HashMap<String, byte[]>(classes.size());
         for(Map.Entry<String,ClassNode> clazz : classes.entrySet()) {
             try {
                 String name = clazz.getKey();
@@ -342,11 +341,12 @@ public final class Injector extends AbstractInjector {
                 ClassWriter writer = new ClassWriterFix( ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES, default_loader );
                 node.accept(writer);
                 byte[] def = writer.toByteArray();
-                classes_final.put(name.replace("/", "."),def);
+                defs.put(name.replace("/", "."), def);
             } catch (Throwable e) {
-                throw new Error("Failed to transform " + clazz.getKey(),e);
+                throw new Error( "Failed to compile " + clazz.getKey(), e );
             }
         }
+        return defs;
     }
     
     public static void main(String[] args) {

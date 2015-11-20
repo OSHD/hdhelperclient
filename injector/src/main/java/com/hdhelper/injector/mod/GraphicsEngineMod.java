@@ -4,7 +4,6 @@ import com.hdhelper.agent.AgentSecrets;
 import com.hdhelper.agent.ClientCanvas;
 import com.hdhelper.agent.ClientCanvasAccess;
 import com.hdhelper.injector.InjectorConfig;
-import com.hdhelper.injector.mod.InjectionModule;
 import com.hdhelper.injector.util.ASMUtil;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -38,17 +37,17 @@ public class GraphicsEngineMod extends InjectionModule {
                         stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "client", "getCanvas", ASMUtil.getMethodDescriptor(ClientCanvas.class), false));
 
                         stack.add(new VarInsnNode(ALOAD,0));
-                        stack.add(new FieldInsnNode(GETFIELD,cn.name,"q","[I"));
+                        stack.add(new FieldInsnNode(GETFIELD,cn.name,"f","[I"));
 
-                        stack.add(new VarInsnNode(ALOAD,0));
-                        stack.add(new FieldInsnNode(GETFIELD,cn.name,"m","L" + Type.getInternalName(Image.class) + ";"));
+                        stack.add(new VarInsnNode(ALOAD, 0));
+                        stack.add(new FieldInsnNode(GETFIELD, cn.name, "a", "L" + Type.getInternalName(Image.class) + ";"));
 
                         stack.add(new MethodInsnNode(Opcodes.INVOKEINTERFACE,Type.getInternalName(ClientCanvasAccess.class),"setBitmap",
                                 ASMUtil.getMethodDescriptor(Void.TYPE,ClientCanvas.class,int[].class,Image.class), true));
 
                         mn.instructions.insert(fin, stack);
 
-                        System.out.println("RENDER-HACK");
+                       // System.out.println("RENDER-HACK");
 
                     }
                 }
@@ -61,7 +60,7 @@ public class GraphicsEngineMod extends InjectionModule {
     @Override
     public void inject() {
         for(ClassNode cn : classes.values()) {
-            if(cn.superName.equals("ba")) {
+            if(cn.superName.equals("bv")) {
                 hack(cn);
             }
         }

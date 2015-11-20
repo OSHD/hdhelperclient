@@ -8,7 +8,7 @@ public class ClientCanvas extends Canvas {
     protected Image engine_img;
     protected int reshape_count = 0;
 
-    Component delegate;
+    private Component delegate;
 
     static {
         AgentSecrets.setClientCanvasAccess(new ClientCanvasAccess() {
@@ -45,8 +45,10 @@ public class ClientCanvas extends Canvas {
         paint0(g);
     }
 
-
-
+    @Override
+    public Graphics getGraphics() {
+        return super.getGraphics();
+    }
 
     public void update0(Graphics g) {
     }

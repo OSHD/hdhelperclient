@@ -27,27 +27,33 @@ public class GPatch {
         b.setPrettyPrinting();
         Gson gson0 = b.create();
         GPatch patch = gson0.fromJson(gson, GPatch.class);
+        override(patch);
+        return patch;
 
-        // Override:
+    }
+
+
+    private static void override(GPatch patch) {
 
         GClass client = patch.getGClass("Client");
 
-        client.fields.put("screenScale",new GField( "client", "og", "I", -1119192075 ));
-        client.fields.put("screenWidth",new GField( "client", "os", "I", 1392196225  ));
-        client.fields.put("screenHeight",new GField( "client", "ow", "I", -1996549443  ));
-        client.fields.get("engineCycle").decoder = 1600591593;
-       // client.fields.put("floorLevel",new GField("ez","gn", "I",238600101));
-     //   client.fields.get("regionBaseX").decoder =  -1234650781;
-      //  client.fields.get("regionBaseY").decoder = -706637253;
+        client.fields.put("screenScale",new GField( "client", "oy", "I", 163765829 ));
+        client.fields.put("screenWidth",new GField( "client", "oo", "I", 1797905553  ));
+        client.fields.put("screenHeight",new GField( "client", "oq", "I", 294769919  ));
+        client.fields.put("engineCycle",new GField("client","q","I",-61212269));
+        // client.fields.put("floorLevel",new GField("ez","gn", "I",238600101));
+        //   client.fields.get("regionBaseX").decoder =  -1234650781;
+        //  client.fields.get("regionBaseY").decoder = -706637253;
         client.methods.get("getItemDefinition").predicate = 0;
+
 
         client.fields.put("chunkIds", new GField("fg","dr","[I", null));
         client.fields.put("XTEAKeys", new GField("fu","di","[[I", null));
 
-       GClass character = patch.getGClass("Character");
-        character.fields.put("targetIndex",new GField( character.name, "bb", "I",1495396491 ));
+     /*   GClass character = patch.getGClass("Character");
+        character.fields.put("targetIndex",new GField( character.name, "bb", "I",1495396491 ));*/
 
-       // character.fields.put("orientation",new GField( character.name, "cg","I",527854075));*/
+        // character.fields.put("orientation",new GField( character.name, "cg","I",527854075));*/
 
     /*    GClass player = patch.getGClass("Player");
         player.fields.put("height",new GField(player.name,"h","I",-1507293645));*/
@@ -59,7 +65,7 @@ public class GPatch {
         gpi.fields.put("playerIndices",new GField("ae","p","[I",null));
         gpi.fields.put("playerCount",new GField("ae","s","I",907260627));
 
-        patch.classes.put("Graphics",new GClass("cv"));
+        patch.classes.put("Graphics",new GClass("cb"));
 
         patch.getGClass("Landscape").methods.put("addObject",new GMethod("cp","x","(IIIIIILcd;III)Z",null));
         patch.getGClass("Landscape").methods.put("removeObject",new GMethod("cp","u","(III)V",null));
@@ -69,7 +75,7 @@ public class GPatch {
 
 */
 
-        client.fields.put("canvas", new GField("cl","qb",Type.getDescriptor(Canvas.class),null));
+        client.fields.put("canvas", new GField("n","qd",Type.getDescriptor(Canvas.class),null));
 
         client.getMethod("getRuneScript").predicate = -849079302;
 
@@ -79,9 +85,6 @@ public class GPatch {
         image.fields.put("insetY",new GField(image.name,"f","I",null));
         image.fields.put("maxX",new GField(image.name,"r","I",null));
         image.fields.put("maxY",new GField(image.name,"l","I",null));
-
-        return patch;
-
     }
 
     // private -> public

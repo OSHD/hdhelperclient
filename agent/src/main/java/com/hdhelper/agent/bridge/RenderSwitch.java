@@ -8,9 +8,13 @@ public final class RenderSwitch {
     private boolean renderOverlays;
 
     public RenderSwitch() {
-        //By default we shall enable rendering
-        renderOverlays  = true;
-        renderLandscape = true;
+    }
+
+    public static RenderSwitch renderAll() {
+        RenderSwitch rs = new RenderSwitch();
+        rs.renderLandscape = true;
+        rs.renderOverlays  = true;
+        return rs;
     }
 
     /**

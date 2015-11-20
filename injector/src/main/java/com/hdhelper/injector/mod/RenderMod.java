@@ -4,7 +4,6 @@ package com.hdhelper.injector.mod;
 import com.hdhelper.agent.bridge.RenderSwitch;
 import com.hdhelper.injector.CNIAccess;
 import com.hdhelper.injector.InjectorConfig;
-import com.hdhelper.injector.mod.InjectionModule;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -24,8 +23,8 @@ public class RenderMod extends InjectionModule {
     @Override
     public void inject() {
 
-        for(MethodNode mn : (List<MethodNode>) classes.get("cp").methods) {
-            if(mn.name.equals("ag")) {
+        for(MethodNode mn : (List<MethodNode>) classes.get("ch").methods) {
+            if(mn.name.equals("al")) {
 
                 /**
                  * if(!{@link CNIAccess#getRenderSwitch()}#doRenderLandscape()) {
@@ -50,8 +49,8 @@ public class RenderMod extends InjectionModule {
         }
 
         //AIO method for drawing hitbar, hitsplats, overheadText
-        for(MethodNode mn : (List<MethodNode>) classes.get("es").methods) {
-            if(mn.name.equals("ax")) {
+        for(MethodNode mn : (List<MethodNode>) classes.get("x").methods) {
+            if(mn.name.equals("b")) {
 
                 /**
                  * if(!{@link CNIAccess#getRenderSwitch()}#doRenderOverlays()) {

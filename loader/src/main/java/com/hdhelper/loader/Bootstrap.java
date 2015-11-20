@@ -1,24 +1,36 @@
 package com.hdhelper.loader;
 
+import com.hdhelper.agent.ClientLoader;
+import com.hdhelper.client.cni.Wormhole;
 import com.hdhelper.injector.AbstractInjector;
 import com.hdhelper.injector.Injector;
 import com.hdhelper.injector.InjectorConfig;
-import com.hdhelper.loader.net.JAVJavaConfig;
+import com.hdhelper.loader.net.JAVConfig;
 
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Map;
 import java.util.jar.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class Bootstrap {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
+
+     //   Policy.setPolicy(new BarrierPolicy());
+      //  System.setSecurityManager(new BarrierSecurityManager());
+
+/*
+        Manifest A = getLiveManifest(getLiveOSRSConfig(1).getJarURLSpec());
+        Manifest B = getLiveManifest(getLiveOSRSConfig(2).getJarURLSpec());
+
+        System.out.println(compareSHAs(A,B));
+*/
 
         System.out.println("Start Bootstrap");
-
 
         System.out.println("Loading game-client...");
 
@@ -61,27 +73,25 @@ public class Bootstrap {
         InjectorConfig config = new InjectorConfig();
         config.setOutputLoc(Environment.INJECTED);
 
-        JarFile injected = inject(client,config);
+        Map<String,byte[]> injected = inject(client,config);
+
+        ClassLoader cni_loader = new ClientLoader(injected);
 
         // Start the client:
 
         System.out.println("Starting client...");
 
-
-
-
-
-
-
+        Wormhole.setLoader(cni_loader);
+        Wormhole.runClient();
 
     }
 
-    //TODO should the injector be within out class-path or dynamically loaded?
-    static JarFile inject(JarFile client, InjectorConfig cfg) {
-
+    //TODO Should the injector be within out class-path or dynamically loaded?
+    //TODO We want to destory any resources the injector uses once its done.
+    private static Map<String,byte[]> inject(JarFile client, InjectorConfig cfg) {
         try {
             AbstractInjector injector = new Injector(cfg);
-            JarFile injected = injector.inject(client);
+            Map<String,byte[]> injected = injector.inject(client);
             injector.destroy();
             return injected;
         } catch (Exception e) {
@@ -114,6 +124,8 @@ public class Bootstrap {
 
         try {
 
+            System.out.println("Downloading applet...");
+
             // Download the config for us to use:
             byte[] config_bytes = getLiveOSRSConfigBytes(world);
             if(config_bytes == null) {
@@ -121,7 +133,7 @@ public class Bootstrap {
             }
 
             // Decode the config so we can find the spec for the target jar
-            JAVJavaConfig cfg = JAVJavaConfig.decode(config_bytes); //Assuming read-only
+            JAVConfig cfg = JAVConfig.decode(config_bytes); //Assuming read-only
             if(cfg == null) {
                 return null; // Decode error
             }
@@ -180,12 +192,12 @@ public class Bootstrap {
     }
 
     // Fetch the a live config file.
-    static JAVJavaConfig getLiveOSRSConfig(int world) {
+    static JAVConfig getLiveOSRSConfig(int world) {
         try {
             String cfg_url_str = getOSRSConfigURLSpec(world);
             URL cfg_url = new URL(cfg_url_str);
             InputStream stream = cfg_url.openStream();
-            JAVJavaConfig cfg = JAVJavaConfig.decode(stream);
+            JAVConfig cfg = JAVConfig.decode(stream);
             stream.close();
             return cfg;
         } catch (Exception ignored) {
@@ -204,36 +216,35 @@ public class Bootstrap {
         try {
 
             //TODO verify local RSA/security throughout
-            Manifest raw_man = local_gamepack.getManifest();
-            if(raw_man == null)
+            Manifest local_manifest = local_gamepack.getManifest();
+            if(local_manifest == null)
                 throw new Exception("manifest is missing from local gamepack");
 
-            JAVJavaConfig cfg = getStashedConfig(local_gamepack);
+            JAVConfig cfg = getStashedConfig(local_gamepack);
             if(cfg == null)
                 throw new Exception("stashed config is missing or corrupt");
 
-            Integer live_hash = getLiveHash(cfg.getJarURLSpec());
-            if(live_hash == null)
+            Manifest live_manifest = getLiveManifest(cfg.getJarURLSpec());
+            if(live_manifest == null)
                 throw new Error("Unable to acquire live-client hash"); //TODO try to use sockets/major-version as a fall-back?
 
-            int local_hash = raw_man.hashCode();
+            boolean shas_are_equal = compareSHAs(local_manifest, live_manifest);
 
-            boolean outdated = local_hash != live_hash;
-
-            return !outdated;
+            return shas_are_equal;
 
         } catch (Exception ignored) {
+            ignored.printStackTrace();
         }
         return false;
     }
 
-    static Integer getLiveHash(String spec) {
+    private static Manifest getLiveManifest(String spec) {
         try {
             URL jar_url = new URL( spec);
             JarInputStream jin = new JarInputStream(jar_url.openStream());
             Manifest live_man = jin.getManifest();
-            if(live_man == null) return null;
-            return live_man.hashCode();
+            jin.close();
+            return live_man;
             //TODO verify streamed jarfile security
         } catch (MalformedURLException ignored) {
         } catch (IOException ignored) {
@@ -241,16 +252,48 @@ public class Bootstrap {
         return null;
     }
 
+    // See if the SHA1 hashes are equal
+    private static boolean compareSHAs(Manifest A, Manifest B) {
+
+        Map<String,Attributes> A_att = A.getEntries();
+        Map<String,Attributes> B_att = B.getEntries();
+
+        for(Map.Entry<String,Attributes> a : A_att.entrySet()) {
+
+            String entry_name = a.getKey();
+            Attributes local_att = a.getValue();
+            if(!entry_name.endsWith(".class")) continue;
+
+            Attributes other_att = B_att.get(entry_name);
+
+            if(other_att == null) return false;
+
+            String A_SHA = local_att.getValue("SHA1-Digest");
+            String B_SHA = other_att.getValue("SHA1-Digest");
+
+            if(A_SHA == null || B_SHA == null) return false; //TODO this should not happen? Throw an error?
+
+            if(!A_SHA.equals(B_SHA)) {
+                System.out.println("Mismatch@" + entry_name + "(" + A_SHA + "," + B_SHA + ")");
+                return false;
+            }
+
+        }
+
+        return true;
+
+    }
+
     // Extracts the stashed config used to configure the gamepack.
     // We use the standard config provided by jagex to define meta.
     // We save the respecting config with the gamepack when we download it.
-    static JAVJavaConfig getStashedConfig(JarFile src) {
+    static JAVConfig getStashedConfig(JarFile src) {
         JarEntry cfg_entry = src.getJarEntry("META-INF/config.ws"); // We store it within the default package
         if(cfg_entry == null) return null;
         try {
             InputStream stream = src.getInputStream(cfg_entry);
             BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-            JAVJavaConfig cfg = JAVJavaConfig.decode(reader);
+            JAVConfig cfg = JAVConfig.decode(reader);
             stream.close();
             return cfg;
         } catch (Exception e) {

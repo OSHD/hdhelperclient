@@ -298,10 +298,8 @@ public class Client extends GameEngine implements RSClient {
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static ClientCanvas createClientCanvas(Component c) {
-        ClientCanvas canvas = canvas_factory.createClientCanvas();
-        AgentSecrets.getClientCanvasAccess().setDelegate(canvas,c);
-        return canvas;
+    public static ClientCanvas createClientCanvas() {
+        return canvas_factory.createClientCanvas();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -347,8 +345,24 @@ public class Client extends GameEngine implements RSClient {
     }
 
     public static Thread engine_thread;
-    public static void onBoot() {
-        engine_thread = Thread.currentThread();
+    private static final Object engine_start_lock = new Object();
+    /** Notifies us when the GameEngine Thread has been started.
+     *  Called as the first very frst statement executed within
+     *  the engines thread; before any other code is called.
+     * @see com.hdhelper.injector.mod.EngineMod;
+     */
+    public static void engineStarted() {
+        engine_thread = Thread.currentThread(); //Capture the engines thread
+        engine_thread.setName("GameEngine");
+        synchronized (engine_start_lock) {
+            engine_start_lock.notifyAll();
+        }
+    }
+    // Allows us to wait for the engine to start.
+    public static void awaitEngineStart(long ms) throws InterruptedException {
+        synchronized (engine_start_lock) {
+            engine_start_lock.wait(ms);
+        }
     }
 
 }

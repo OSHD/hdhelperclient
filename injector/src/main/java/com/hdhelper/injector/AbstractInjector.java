@@ -1,5 +1,6 @@
 package com.hdhelper.injector;
 
+import java.util.Map;
 import java.util.jar.JarFile;
 
 public abstract class AbstractInjector {
@@ -14,7 +15,7 @@ public abstract class AbstractInjector {
 
     // Inject the CNI into the target jar and establish a new JarFile.
     // Throw any reasons why the injection could not be performed.
-    public abstract JarFile inject(JarFile target) throws Exception;
+    public abstract Map<String,byte[]> inject(JarFile target) throws Exception;
 
     // Verify the existing jarfile is properly injected, and not tampered with.
     // Throw any invalidating reason.

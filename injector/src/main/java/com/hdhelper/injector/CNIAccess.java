@@ -9,8 +9,6 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodInsnNode;
 
-import java.awt.*;
-
 //Responsible for acquiring CNI interfaces for dependencies throughout the CNI implement.
 public class CNIAccess {
 
@@ -26,7 +24,7 @@ public class CNIAccess {
 
     public static InsnList makeCanvas() {
         InsnList stack = new InsnList();
-        stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC,"client","createClientCanvas", ASMUtil.getMethodDescriptor(ClientCanvas.class, Component.class), false));
+        stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC,"client","createClientCanvas", ASMUtil.getMethodDescriptor(ClientCanvas.class), false));
         return stack;
     }
 }

@@ -1,6 +1,6 @@
 package com.hdhelper.agent;
 
-import com.hdhelper.agent.net.JAVJavaConfig;
+import com.hdhelper.agent.net.JAVConfig;
 
 import java.applet.Applet;
 import java.applet.AppletContext;
@@ -17,8 +17,8 @@ import java.util.Iterator;
 
 public class CNIStub implements AppletStub, AppletContext {
 
-    private final JAVJavaConfig cfg;
-    public CNIStub(JAVJavaConfig cfg) {
+    private final JAVConfig cfg;
+    public CNIStub(JAVConfig cfg) {
         this.cfg = cfg;
     }
 

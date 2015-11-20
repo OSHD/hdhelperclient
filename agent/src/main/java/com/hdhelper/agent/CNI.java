@@ -1,21 +1,17 @@
 package com.hdhelper.agent;
 
-import com.hdhelper.agent.net.JAVJavaConfig;
+import com.hdhelper.agent.net.JAVConfig;
 import com.hdhelper.agent.services.RSClient;
 
 import java.applet.Applet;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 
 // Client Native Interface
 public final class CNI {
 
-    private final File client;
     private boolean did_init = false;
     private boolean did_start = false;
     private ClassLoader loader;
@@ -23,18 +19,16 @@ public final class CNI {
     private CNIStub stub;
     private RSClient game;
 
-    private CNI(File client) {
-        this.client = client;
+    private CNI(ClassLoader loader) {
+        this.loader = loader;
     }
 
-    public static CNI get(File client) {
-        return new CNI(client);
+    public static CNI get(ClassLoader loader) {
+        return new CNI(loader);
     }
 
     public void init(CNIRuntimeArgs args) throws Exception {
         if(did_init) return;
-        loader = new URLClassLoader(new URL[]{client.toURL()});
-         //TODO force a strict classloader to ensure no references to the app are made. SecurityManager should work?
         stub = new CNIStub(getConfig());
         client_class = loader.loadClass("client");
         initCNI(client_class, args);
@@ -47,13 +41,13 @@ public final class CNI {
         init.invoke(null,args);
     }
 
-    private JAVJavaConfig cfg = null;
-    private JAVJavaConfig getConfig() throws IOException {
+    private JAVConfig cfg = null;
+    private JAVConfig getConfig() throws IOException {
         if(cfg != null) return cfg;
         InputStream cfg_stream = loader.getResourceAsStream("META-INF/config.ws");
         if(cfg_stream == null)
             throw new RuntimeException("config is missing");
-        JAVJavaConfig cfg = JAVJavaConfig.decode(cfg_stream);
+        JAVConfig cfg = JAVConfig.decode(cfg_stream);
         if(cfg == null)
             throw new RuntimeException("config is corrupt");
         this.cfg = cfg;

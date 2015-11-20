@@ -15,7 +15,7 @@ public class EngineMod {
         for(MethodNode mn : (List<MethodNode>) game_engine.methods) {
             if(mn.name.equals("run") && mn.desc.equals("()V")) {
                 InsnList stack = new InsnList();
-                stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "client","onBoot","()V",false));
+                stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "client","engineStarted","()V",false));
                 mn.instructions.insertBefore(mn.instructions.getFirst(),stack);
             }
         }

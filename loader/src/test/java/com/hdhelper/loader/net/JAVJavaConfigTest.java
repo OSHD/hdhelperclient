@@ -15,7 +15,7 @@ public class JAVJavaConfigTest {
 
             InputStream stream = url.openStream();
 
-            JAVJavaConfig cfg = JAVJavaConfig.decode(stream);
+            JAVConfig cfg = JAVConfig.decode(stream);
 
             System.out.println(cfg.getJarURL());
 
@@ -26,6 +26,7 @@ public class JAVJavaConfigTest {
         } catch (IOException ignored) {
             ignored.printStackTrace();
         }
+
 
     }
 
