@@ -19,6 +19,8 @@ public class Player extends Character implements RSPlayer {
 
 
 
+
+
     @Override
     public String getName() {
         return name;
@@ -48,4 +50,6 @@ public class Player extends Character implements RSPlayer {
     public int getSkullIcon() {
         return skullIcon;
     }
+
+
 }

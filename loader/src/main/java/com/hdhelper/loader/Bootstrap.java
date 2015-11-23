@@ -16,6 +16,7 @@ import java.util.jar.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+//Unify all the modules
 public class Bootstrap {
 
     public static void main(String[] args) throws Exception {
@@ -31,6 +32,8 @@ public class Bootstrap {
 */
 
         System.out.println("Start Bootstrap");
+
+
 
         System.out.println("Loading game-client...");
 
@@ -49,7 +52,7 @@ public class Bootstrap {
                 if(verifyLocalGamepack(existing)) {
                     // The local gamepack is OK to be re-used...
                     client = existing;
-                } else { // The local gamepack or Outdated
+                } else { // The local gamepack corrupt or outdated
                     client = downloadAndStashLive(world, Environment.CLIENT);
                 }
             } catch (Exception ignored) {
@@ -66,6 +69,8 @@ public class Bootstrap {
             return;
         }
 
+
+
         // Inject the CNI:
 
         System.out.println("Injecting...");
@@ -80,6 +85,8 @@ public class Bootstrap {
         System.gc(); // Cleanup the bootstrap...
         //TODO we need a better way of disposing of bootstrap resources as they
         //should be visible to the client, and serve no further use...
+
+
 
         // Start the client:
 
@@ -185,7 +192,7 @@ public class Bootstrap {
 
             //TODO should/can we keep the jarFile in memory instead of have re-stream is back from the disk?
 
-            return new JarFile(dest_loc, true, ZipFile.OPEN_READ); // Read only
+            return new JarFile(dest_loc, true, ZipFile.OPEN_READ); // Read only TODO maintain RSA/Manifest?
 
         } catch (Throwable e) { // Any and all
             e.printStackTrace();

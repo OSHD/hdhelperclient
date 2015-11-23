@@ -18,6 +18,11 @@ public abstract class Character extends Entity implements RSCharacter {
     @BField int healthBarCycle;
 
 
+    @BField int idleAnimation;
+    @BField int walkAnimation;
+    @BField int runAnimation;
+    @BField int anint2341; //lol
+
 
     @Override
     public int getMaxHitpoints() {
@@ -62,6 +67,26 @@ public abstract class Character extends Entity implements RSCharacter {
     @Override
     public int getOrientation() {
         return orientation;
+    }
+
+    @Override
+    public int getIdleAnimation() {
+        return idleAnimation;
+    }
+
+    @Override
+    public int getWalkAnimation() {
+        return walkAnimation;
+    }
+
+    @Override
+    public int getRunAnimation() {
+        return runAnimation;
+    }
+
+    @Override
+    public int getAnint2341() {
+        return anint2341;
     }
 
 }

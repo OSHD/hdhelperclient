@@ -20,7 +20,7 @@ public class ActionMod extends InjectionModule {
     public void inject() {
 
         for (ClassNode cn : classes.values()) {
-            for (final MethodNode mn : (List<MethodNode>) cn.methods) {
+            for (final MethodNode mn : (List<MethodNode>) cn.methods) { //TODO hook processAction in updater
                 if (!Modifier.isStatic(mn.access)) continue;
                 if (!mn.desc.endsWith("V")) continue;
                 if (!mn.desc.startsWith("(IIIILjava/lang/String;Ljava/lang/String;II")) continue;

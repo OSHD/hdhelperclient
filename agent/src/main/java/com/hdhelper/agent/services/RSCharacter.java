@@ -12,4 +12,9 @@ public interface RSCharacter extends RSEntity {
     int getMaxHitpoints();
     int getHealthBarCycle();
 
+    int getIdleAnimation();
+    int getWalkAnimation();
+    int getRunAnimation();
+    int getAnint2341();
+
 }

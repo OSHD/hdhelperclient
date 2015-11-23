@@ -214,6 +214,7 @@ public class Debug extends BasicOverlay {
                         warrior.drawString("EquipColors = " + Arrays.toString(cfg.getEquipmentColors()), P.x, P.y-s*i++);
                         boolean hp_bar_showing = p.getHealthBarCycle() > client.getEngineCycle();
                         warrior.drawString("BarShowing:" + hp_bar_showing + " HP:(" + p.getHitpoints() + "/" + p.getMaxHitpoints() + ")", P.x, P.y-s*i++);
+                        warrior.drawString("IdleAnim:" + p.getIdleAnimation() + ",WalkAnim:" + p.getWalkAnimation() + ",RunAnim:" + p.getRunAnimation() + ",2341:" + p.getAnint2341(), P.x, P.y-s*i++);
                     }
                     W2S.drawStrictPoint(floor, p.getStrictX(), p.getStrictY(), g, Color.BLUE.getRGB(), Color.GREEN.getRGB());
                 }

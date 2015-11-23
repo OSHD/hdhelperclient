@@ -335,6 +335,7 @@ public abstract class Action implements ActionFilter { // An action has the abil
         return filter.accepts(opcode,arg0,arg1,arg2);
     }
 
+    @Override
     public boolean accepts(int opcode, int arg0, int arg1, int arg2) {
         if( this.opcode != opcode ) return false;
         final int sig = getSignificantArgs();
@@ -344,6 +345,7 @@ public abstract class Action implements ActionFilter { // An action has the abil
         return true;
     }
 
+    @Override
     public String toString() {
         return format( opcode, arg0, arg1, arg2 );
     }
