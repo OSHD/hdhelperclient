@@ -7,10 +7,12 @@ import javax.swing.JFrame;
 
 
 
+
 import com.hdhelper.client.frame.components.FeaturePanel;
 import com.hdhelper.client.frame.components.GameComponent;
 import com.hdhelper.client.frame.components.TopSwiftMenu;
 import com.hdhelper.client.frame.util.KitConstants;
+import com.hdhelper.client.theme.NimbusTheme;
 
 public class KitFrame extends JFrame {
 
@@ -27,6 +29,7 @@ public class KitFrame extends JFrame {
 	
 	public void init() {
 		
+		new NimbusTheme();
 		setResizable(false);
 		//setIconImage(getToolkit().getImage(KitConstants.getImageUrl("favicon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
