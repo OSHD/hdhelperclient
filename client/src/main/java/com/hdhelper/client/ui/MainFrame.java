@@ -1,12 +1,12 @@
 package com.hdhelper.client.ui;
 
+import com.hdhelper.agent.CNI;
 import com.hdhelper.agent.event.MessageEvent;
 import com.hdhelper.agent.event.MessageListener;
+import com.hdhelper.agent.services.RSClient;
+import com.hdhelper.client.Main;
 import com.hdhelper.client.api.Messages;
 import com.hdhelper.client.cni.ClientNative;
-import com.hdhelper.client.Main;
-import com.hdhelper.agent.CNI;
-import com.hdhelper.agent.services.RSClient;
 
 import javax.swing.*;
 import java.applet.Applet;
@@ -46,10 +46,11 @@ public class MainFrame extends JFrame {
                 Messages.addMessageListener(new MessageListener() {
                     @Override
                     public void messageReceived(MessageEvent e) {
-                        System.out.println("HI:" + e.getMessage() + "@" + e.getCycle());
+                        if(e.getMessage().getIndex()%2==0) {
+                            e.getMessage().setVisible(true);
+                        }
                     }
                 });
-
 
             }
         });

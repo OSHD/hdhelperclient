@@ -10,8 +10,8 @@ public final class RenderSwitch {
 
     public static RenderSwitch renderAll() {
         RenderSwitch rs = new RenderSwitch();
-        rs.renderLandscape = true;
-        rs.renderOverlays  = true;
+        rs.setDoRenderLandscape(true);
+        rs.setDoRenderOverlays(true);
         return rs;
     }
 

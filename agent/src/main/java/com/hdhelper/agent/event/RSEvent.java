@@ -8,7 +8,7 @@ import java.util.EventObject;
  * All Events are constructed with a reference to the object, the "source",
  * that is logically deemed to be the object upon which the Event in question
  * initially occurred upon. In cases where the source is non-explicit, its
- * often set to the client of its context, or null.
+ * often set null.
  */
 public abstract class RSEvent extends EventObject {
 
@@ -22,9 +22,20 @@ public abstract class RSEvent extends EventObject {
      */
     public static final long MESSAGE_EVENT_MASK     = 1L << 1;
 
+    /**
+     * The event mask for selecting action events.
+     * @see ActionEvent
+     */
+    public static final long ACTION_EVENT_MASK      = 1L << 2;
+
+    public static final Object NULL_SOURCE = new Object();
+
+    public RSEvent(int id, int cycle) {
+        this(null,id,cycle);
+    }
 
     public RSEvent(Object source, int id, int cycle) {
-        super(source);
+        super(source == null ? NULL_SOURCE : source); //EventObject does not allow for null sources
         this.id = id;
         this.cycle = cycle;
     }

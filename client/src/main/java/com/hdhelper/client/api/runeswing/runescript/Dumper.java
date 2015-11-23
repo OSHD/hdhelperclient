@@ -1,4 +1,4 @@
-package com.hdhelper.client.api.runescript;
+package com.hdhelper.client.api.runeswing.runescript;
 
 import com.hdhelper.agent.services.RSRuneScript;
 

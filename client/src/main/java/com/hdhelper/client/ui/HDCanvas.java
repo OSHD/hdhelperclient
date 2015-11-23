@@ -73,7 +73,7 @@ public class HDCanvas extends com.hdhelper.agent.ClientCanvas {
 
         System.arraycopy(engine_raster, 0, offscreen_buffer, 0, engine_raster.length); //Update the offscreen frame
 
-        draw0(g); // Drop of top this frame
+        draw0(g); // Draw on top this frame
 
         //Draw the final frame onto this canvas graphic
         Graphics canvasG = super.getGraphics();

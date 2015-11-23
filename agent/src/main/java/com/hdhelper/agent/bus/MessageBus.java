@@ -7,8 +7,6 @@ import com.hdhelper.agent.event.MessageListener;
 import com.hdhelper.agent.services.RSClient;
 import com.hdhelper.agent.services.RSMessage;
 
-import java.util.EventListener;
-
 public class MessageBus extends AbstractBus {
 
     private MessageListener messageListeners;
@@ -30,11 +28,11 @@ public class MessageBus extends AbstractBus {
 
 
     public void addMessageListener(MessageListener l)  {
-        messageListeners = MessageMulticaster.add(messageListeners,l);
+        messageListeners = RSEventMulticaster.add(messageListeners,l);
     }
 
     public void removeMessageListener(MessageListener l) {
-        messageListeners = MessageMulticaster.remove(messageListeners, l);
+        messageListeners = RSEventMulticaster.remove(messageListeners, l);
     }
 
 
@@ -55,34 +53,6 @@ public class MessageBus extends AbstractBus {
             }
         });
 
-    }
-
-}
-
-class MessageMulticaster extends Multicaster implements MessageListener {
-
-    protected MessageMulticaster(EventListener a, EventListener b) {
-        super(a, b);
-    }
-
-    @Override
-    public void messageReceived(MessageEvent m) {
-        ((MessageListener)a).messageReceived(m);
-        ((MessageListener)b).messageReceived(m);
-    }
-
-    public static MessageListener add(MessageListener a,MessageListener b) {
-        return (MessageListener)addInternal(a, b);
-    }
-
-    public static MessageListener remove(MessageListener l,MessageListener oldl) {
-        return (MessageListener)removeInternal(l, oldl);
-    }
-
-    protected static MessageListener addInternal(MessageListener a, MessageListener b) {
-        if (a == null)  return b;
-        if (b == null)  return a;
-        return new MessageMulticaster(a, b);
     }
 
 }

@@ -43,11 +43,9 @@ public class Main { //Noughty works
         } catch (final IllegalAccessException ignored) {
         }
 
-        //    SwiftManager.getManager().start();
-        MainFrame frame = new MainFrame();
-        frame.start();
-
-
+    //    SwiftManager.getManager().start();
+         MainFrame frame = new MainFrame();
+         frame.start();
         //  new Ok();
     }
 
@@ -105,6 +103,7 @@ public class Main { //Noughty works
         graphics.drawString((new StringBuilder()).append(c).append("").toString(), 0, y);
 
         g0.drawImage(image, 50, 50, null);
+
     }
 
 }

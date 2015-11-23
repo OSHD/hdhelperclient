@@ -30,7 +30,7 @@ public class MessageMod extends InjectionModule {
 
                             InsnList stack = new InsnList();
                             stack.add(new InsnNode(DUP));
-                            stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC,"client","onMessage","(Lav;)V",false));
+                            stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC,"client","messageReceived","(Lav;)V",false));
                             mn.instructions.insert(min, stack);
                       //      System.out.println("HACK");
                         }

@@ -1,4 +1,4 @@
-package com.hdhelper.client.api.runescript;
+package com.hdhelper.client.api.runeswing.runescript;
 
 /**
  * The Instruction set of the RuneScript Virtual Machine

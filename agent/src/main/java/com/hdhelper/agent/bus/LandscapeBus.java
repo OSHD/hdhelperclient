@@ -67,6 +67,7 @@ public class LandscapeBus extends SourceBus<RSLandscape> {
 
     static {
         SharedAgentSecrets.setLandscapeBusAccess(new LandscapeBusAccess() {
+
             @Override
             public LandscapeBus mkBus(RSLandscape src, RSClient client) {
                 return new LandscapeBus(src, client);
@@ -85,7 +86,6 @@ public class LandscapeBus extends SourceBus<RSLandscape> {
             @Override
             public void objectRemoved(LandscapeBus bus, RSEntityMarker m) {
                 bus.objectRemoved(m);
-                ;
             }
 
             @Override
@@ -112,6 +112,7 @@ public class LandscapeBus extends SourceBus<RSLandscape> {
             public void tileCreated(LandscapeBus bus, RSLandscapeTile t) {
                 bus.tileCreated(t);
             }
+
         });
     }
 }

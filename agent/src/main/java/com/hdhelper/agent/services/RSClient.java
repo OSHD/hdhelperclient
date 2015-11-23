@@ -1,5 +1,6 @@
 package com.hdhelper.agent.services;
 
+import com.hdhelper.agent.event.ActionListener;
 import com.hdhelper.agent.event.MessageListener;
 
 import java.io.File;
@@ -58,5 +59,8 @@ public interface RSClient {
 
     void addMessageListener(MessageListener listener);
     void removeMessageListener(MessageListener listener);
+
+    void addActionListener(ActionListener listener);
+    void removeActionListener(ActionListener listener);
 
 }

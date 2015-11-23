@@ -20,15 +20,17 @@ public class MessageEvent extends RSEvent {
      */
     public static final int MESSAGE_RECEIVED             = MESSAGE_FIRST;
 
+    RSMessage msg;
 
     public MessageEvent(RSMessage msg, int type, int cycle) {
-        super(msg, type, cycle);
+        super(null, type, cycle);
+        this.msg = msg;
     }
 
 
 
     public RSMessage getMessage() {
-        return (RSMessage) source;
+        return msg;
     }
 
     public MessageType getType() {

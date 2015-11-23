@@ -5,8 +5,11 @@ import com.bytescript.lang.BMethod;
 import com.bytescript.lang.ByteScript;
 import com.hdhelper.agent.*;
 import com.hdhelper.agent.RenderSwitch;
+import com.hdhelper.agent.bus.ActionBus;
 import com.hdhelper.agent.bus.MessageBus;
+import com.hdhelper.agent.bus.access.ActionBusAccess;
 import com.hdhelper.agent.bus.access.MessageBusAccess;
+import com.hdhelper.agent.event.ActionListener;
 import com.hdhelper.agent.event.MessageListener;
 import com.hdhelper.agent.services.*;
 import com.hdhelper.injector.Piston;
@@ -286,9 +289,8 @@ public class Client extends GameEngine implements RSClient {
 
     @Override
     public void addMessageListener(MessageListener l) {
-        if(msgBus == null) {
+        if(msgBus == null)
             msgBus = msgBusAccess.mkBus(this);
-        }
         msgBus.addMessageListener(l);
     }
 
@@ -297,6 +299,22 @@ public class Client extends GameEngine implements RSClient {
         if(msgBus == null) return; // No listeners exist
         msgBus.removeMessageListener(l);
     }
+
+
+
+    @Override
+    public void addActionListener(ActionListener l) {
+        if(actBus == null)
+            actBus = actBusAccess.mkBus(this);
+        actBus.addActionListener(l);
+    }
+
+    @Override
+    public void removeActionListener(ActionListener l) {
+        if(actBus == null) return;
+        actBus.removeMessageListener(l);
+    }
+
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -317,12 +335,19 @@ public class Client extends GameEngine implements RSClient {
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-    // Bus/Event functions: Called throughout the client
-    public static void onMessage(Message msg) {
+    // Bus/Event functions: Called throughout the client:
+
+    /** @see com.hdhelper.injector.mod.MessageMod **/
+    public static void messageReceived(Message msg) {
         if(msgBus == null) return; // We're not interested
         msgBusAccess.onMessage(msgBus,msg);
     }
 
+    /** @see com.hdhelper.injector.mod.ActionMod **/
+    public static void actionPerformed(BasicAction ba) {
+        if(actBus == null) return;
+        actBusAccess.onAction(actBus,ba);
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -334,10 +359,13 @@ public class Client extends GameEngine implements RSClient {
     //-----------------------------------------------
     //Static/Global Buses
     private static MessageBus msgBus;
+    private static ActionBus actBus;
 
     //Access
     private static final MessageBusAccess msgBusAccess
             = SharedAgentSecrets.getMessageBusAccess();
+    private static final ActionBusAccess actBusAccess
+            = SharedAgentSecrets.getActionBusAccess();
 
 
 
