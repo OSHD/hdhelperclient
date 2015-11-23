@@ -142,6 +142,7 @@ public final class Injector extends AbstractInjector {
 
 
         new VarChangeMod(classes,cfg).inject();
+        new SkillMod(classes,cfg).inject();
 
         compiler.inject(Client.class, classes);
 

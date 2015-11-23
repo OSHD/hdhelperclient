@@ -5,6 +5,6 @@ import com.hdhelper.agent.services.RSClient;
 import com.hdhelper.agent.services.RSMessage;
 
 public interface MessageBusAccess {
-    MessageBus mkBus(RSClient client);
-    void onMessage(MessageBus mb, RSMessage msg);
+    MessageBus mkMessageBus(RSClient client);
+    void dispatchMessageEvent(MessageBus mb, RSMessage msg);
 }

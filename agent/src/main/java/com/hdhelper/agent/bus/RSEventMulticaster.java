@@ -8,7 +8,8 @@ public class RSEventMulticaster extends Multicaster
     implements
         MessageListener,
         ActionListener,
-        VariableListener
+        VariableListener,
+        SkillListener
 
 {
 
@@ -21,7 +22,7 @@ public class RSEventMulticaster extends Multicaster
 
 
 
-
+    //--------------------------------------------------
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -29,11 +30,15 @@ public class RSEventMulticaster extends Multicaster
         ((ActionListener)b).actionPerformed(e);
     }
 
+    //--------------------------------------------------
+
     @Override
     public void messageReceived(MessageEvent e) {
         ((MessageListener)a).messageReceived(e);
         ((MessageListener)b).messageReceived(e);
     }
+
+    //--------------------------------------------------
 
     @Override
     public void variableChanged(VariableEvent e) {
@@ -41,13 +46,38 @@ public class RSEventMulticaster extends Multicaster
         ((VariableListener)b).variableChanged(e);
     }
 
+    //--------------------------------------------------
+
+    @Override
+    public void realLevelChanged(SkillEvent e) {
+        ((SkillListener)a).realLevelChanged(e);
+        ((SkillListener)b).realLevelChanged(e);
+    }
+
+    @Override
+    public void tempLevelChanged(SkillEvent e) {
+        ((SkillListener)a).tempLevelChanged(e);
+        ((SkillListener)b).tempLevelChanged(e);
+    }
+
+    @Override
+    public void experienceChanged(SkillEvent e) {
+        ((SkillListener)a).experienceChanged(e);
+        ((SkillListener)b).experienceChanged(e);
+    }
+
+    //--------------------------------------------------
+
+
+
+
 
 
 
 
 
     public static MessageListener add(MessageListener a, MessageListener b) {
-        return (MessageListener)addInternal(a,b);
+        return (MessageListener)addInternal(a, b);
     }
 
     public static ActionListener add(ActionListener a, ActionListener b) {
@@ -55,7 +85,11 @@ public class RSEventMulticaster extends Multicaster
     }
 
     public static VariableListener add(VariableListener a, VariableListener b) {
-        return (VariableListener)addInternal(a,b);
+        return (VariableListener)addInternal(a, b);
+    }
+
+    public static SkillListener add(SkillListener a, SkillListener b) {
+        return (SkillListener)addInternal(a,b);
     }
 
 
@@ -76,6 +110,9 @@ public class RSEventMulticaster extends Multicaster
         return (VariableListener) removeInternal(l,oldl);
     }
 
+    public static SkillListener remove(SkillListener l, SkillListener oldl) {
+        return (SkillListener) removeInternal(l,oldl);
+    }
 
 
 

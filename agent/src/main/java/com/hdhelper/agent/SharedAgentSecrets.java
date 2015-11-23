@@ -1,13 +1,7 @@
 package com.hdhelper.agent;
 
-import com.hdhelper.agent.bus.ActionBus;
-import com.hdhelper.agent.bus.LandscapeBus;
-import com.hdhelper.agent.bus.MessageBus;
-import com.hdhelper.agent.bus.VariableBus;
-import com.hdhelper.agent.bus.access.ActionBusAccess;
-import com.hdhelper.agent.bus.access.LandscapeBusAccess;
-import com.hdhelper.agent.bus.access.MessageBusAccess;
-import com.hdhelper.agent.bus.access.VariableBusAccess;
+import com.hdhelper.agent.bus.*;
+import com.hdhelper.agent.bus.access.*;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
@@ -30,6 +24,7 @@ public final class SharedAgentSecrets {
     private static LandscapeBusAccess landscapeBusAccess;
     private static ActionBusAccess actionBusAccess;
     private static VariableBusAccess variableBusAccess;
+    private static SkillBusAccess skillBusAccess;
 
 
     private SharedAgentSecrets() {
@@ -55,6 +50,9 @@ public final class SharedAgentSecrets {
 
     public static void setVariableBusAccess(VariableBusAccess access) { variableBusAccess = access; }
 
+    public static void setSkillBusAccess(SkillBusAccess access) {
+        skillBusAccess = access;
+    }
 
 
 
@@ -94,6 +92,16 @@ public final class SharedAgentSecrets {
         }
         return variableBusAccess;
     }
+
+    public static SkillBusAccess getSkillBusAccess() {
+        if(skillBusAccess == null) {
+            unsafe.ensureClassInitialized(SkillBus.class);
+        }
+        return skillBusAccess;
+    }
+
+
+
 
 
 

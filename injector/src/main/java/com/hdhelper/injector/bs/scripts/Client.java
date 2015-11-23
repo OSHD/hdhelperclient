@@ -7,12 +7,15 @@ import com.hdhelper.agent.*;
 import com.hdhelper.agent.RenderSwitch;
 import com.hdhelper.agent.bus.ActionBus;
 import com.hdhelper.agent.bus.MessageBus;
+import com.hdhelper.agent.bus.SkillBus;
 import com.hdhelper.agent.bus.VariableBus;
 import com.hdhelper.agent.bus.access.ActionBusAccess;
 import com.hdhelper.agent.bus.access.MessageBusAccess;
+import com.hdhelper.agent.bus.access.SkillBusAccess;
 import com.hdhelper.agent.bus.access.VariableBusAccess;
 import com.hdhelper.agent.event.ActionListener;
 import com.hdhelper.agent.event.MessageListener;
+import com.hdhelper.agent.event.SkillListener;
 import com.hdhelper.agent.event.VariableListener;
 import com.hdhelper.agent.services.*;
 import com.hdhelper.injector.Piston;
@@ -293,7 +296,7 @@ public class Client extends GameEngine implements RSClient {
     @Override
     public void addMessageListener(MessageListener l) {
         if(msgBus == null)
-            msgBus = msgBusAccess.mkBus(this);
+            msgBus = msgBusAccess.mkMessageBus(this);
         msgBus.addMessageListener(l);
     }
 
@@ -308,7 +311,7 @@ public class Client extends GameEngine implements RSClient {
     @Override
     public void addActionListener(ActionListener l) {
         if(actBus == null)
-            actBus = actBusAccess.mkBus(this);
+            actBus = actBusAccess.mkActionBus(this);
         actBus.addActionListener(l);
     }
 
@@ -323,7 +326,7 @@ public class Client extends GameEngine implements RSClient {
     @Override
     public void addVariableListener(VariableListener l) {
         if(varBus == null)
-            varBus = varBusAccess.mkBus(this);
+            varBus = varBusAccess.mkVariableBus(this);
         varBus.addListener(l);
     }
 
@@ -335,7 +338,20 @@ public class Client extends GameEngine implements RSClient {
 
     //---------------------------------------------------------
 
+    @Override
+    public void addSkillListener(SkillListener l) {
+        if(skillBus == null)
+            skillBus = skillBusAccess.mkSkillBus(this);
+        skillBus.addListener(l);
+    }
 
+    @Override
+    public void removeSkillListener(SkillListener l) {
+        if(skillBus == null) return;
+        skillBus.removeListener(l);
+    }
+
+    //---------------------------------------------------------
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -364,6 +380,21 @@ public class Client extends GameEngine implements RSClient {
         settings[index] = value; // Actually set it now
     }
 
+    public static void setRealSkillLvl(int[] skills, int skill, int value) {
+        realSkillLvlChanged(skill, skills[skill], value);
+        skills[skill] = value;
+    }
+
+    public static void setTempSkillLvl(int[] skills, int skill, int value) {
+        tempSkillLevelChanged(skill, skills[skill], value);
+        skills[skill] = value;
+    }
+
+    public static void setExp(int[] exps, int skill, int value) {
+        expChanged(skill, exps[skill], value);
+        exps[skill] = value;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////
 
     // Bus/Event functions: Called throughout the client:
@@ -371,20 +402,41 @@ public class Client extends GameEngine implements RSClient {
     /** @see com.hdhelper.injector.mod.MessageMod **/
     public static void messageReceived(Message msg) {
         if(msgBus == null) return; // We're not interested
-        msgBusAccess.onMessage(msgBus,msg);
+        msgBusAccess.dispatchMessageEvent(msgBus, msg);
     }
 
     /** @see com.hdhelper.injector.mod.ActionMod **/
     public static void actionPerformed(BasicAction ba) {
         if(actBus == null) return;
-        actBusAccess.onAction(actBus, ba);
+        actBusAccess.dispatchActionEvent(actBus, ba);
     }
 
     /** @see #setVar(int[], int, int) **/
     public static void varChanged(int var, int old, int now) {
-        if(old == now) return; // Guaranteed change
         if(varBus == null) return;
-        varBusAccess.onVarChange(varBus,var,old,now);
+        if(old == now) return; // Guaranteed change
+        varBusAccess.dispatchVarEvent(varBus, var, old, now);
+    }
+
+    /** @see #setRealSkillLvl(int[], int, int) **/
+    public static void realSkillLvlChanged(int skill, int old, int now) {
+        if(skillBus == null) return;
+        if(old == now) return;
+        skillBusAccess.dispatchRealLevelChangeEvent(skillBus, skill, old, now);
+    }
+
+    /** @see #setTempSkillLvl(int[], int, int) **/
+    public static void tempSkillLevelChanged(int skill, int old, int now) {
+        if(skillBus == null) return;
+        if(old == now) return;
+        skillBusAccess.dispatchTempLevelChangeEvent(skillBus, skill, old, now);
+    }
+
+    /** @see #setExp(int[], int, int) **/
+    public static void expChanged(int skill, int old, int now) {
+        if(skillBus == null) return;
+        if(old == now) return;
+        skillBusAccess.dispatchExpChangeEvent(skillBus, skill, old, now);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -399,14 +451,17 @@ public class Client extends GameEngine implements RSClient {
     private static MessageBus msgBus;
     private static ActionBus actBus;
     private static VariableBus varBus;
+    private static SkillBus skillBus;
 
-    //Access
+    //Bus Accessors
     private static final MessageBusAccess msgBusAccess
             = SharedAgentSecrets.getMessageBusAccess();
     private static final ActionBusAccess actBusAccess
             = SharedAgentSecrets.getActionBusAccess();
     private static final VariableBusAccess varBusAccess
             = SharedAgentSecrets.getVariableBusAccess();
+    private static final SkillBusAccess skillBusAccess
+            = SharedAgentSecrets.getSkillBusAccess();
 
 
 

@@ -2,6 +2,7 @@ package com.hdhelper.agent.services;
 
 import com.hdhelper.agent.event.ActionListener;
 import com.hdhelper.agent.event.MessageListener;
+import com.hdhelper.agent.event.SkillListener;
 import com.hdhelper.agent.event.VariableListener;
 
 import java.io.File;
@@ -66,5 +67,8 @@ public interface RSClient {
 
     void addVariableListener(VariableListener listener);
     void removeVariableListener(VariableListener listener);
+
+    void addSkillListener(SkillListener listener);
+    void removeSkillListener(SkillListener listener);
 
 }

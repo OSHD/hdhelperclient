@@ -5,6 +5,6 @@ import com.hdhelper.agent.bus.ActionBus;
 import com.hdhelper.agent.services.RSClient;
 
 public interface ActionBusAccess {
-    ActionBus mkBus(RSClient client);
-    void onAction(ActionBus bus, BasicAction act);
+    ActionBus mkActionBus(RSClient client);
+    void dispatchActionEvent(ActionBus bus, BasicAction act);
 }

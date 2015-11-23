@@ -9,6 +9,7 @@ import org.objectweb.asm.tree.analysis.AnalyzerException;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class VarChangeMod extends InjectionModule {
 
@@ -19,9 +20,12 @@ public class VarChangeMod extends InjectionModule {
     @Override
     public void inject() {
 
-        ArrayStoreSearcher ass = new ArrayStoreSearcher("fu","f","[I");
 
-        for(ClassNode cn : classes.values()) { //TODO hook in updater and not waist time analyzing
+        final ArrayStoreSearcher.Entry E = new ArrayStoreSearcher.Entry("fu","f","[I");
+
+        ArrayStoreSearcher ass = new ArrayStoreSearcher(E);
+
+        for(ClassNode cn : classes.values()) { //TODO hook in updater and not waist time analyzing (which is costly)
             for(MethodNode mn : (List<MethodNode>) cn.methods) {
 
                 Analyzer a = new Analyzer(ass);
@@ -31,7 +35,11 @@ public class VarChangeMod extends InjectionModule {
                     e.printStackTrace();
                 }
 
-                for(InsnNode insn : ass.getResult()) {
+                Set<InsnNode> results = ass.getResult().get(E);
+
+                if(results == null) continue;
+
+                for(InsnNode insn : results) {
                     InsnList stack = new InsnList();
                     stack.add(new MethodInsnNode(INVOKESTATIC,"client","setVar", ASMUtil.getMethodDescriptor(Void.TYPE, int[].class, int.class, int.class), false));
                     mn.instructions.insertBefore(insn, stack);

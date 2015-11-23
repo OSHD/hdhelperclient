@@ -47,7 +47,7 @@ public class Bootstrap {
         if(Environment.CLIENT.exists()) {
             // See if we can use the existing gamepack instead of downloading it again:
             try {
-                JarFile existing = new JarFile(Environment.CLIENT, false);
+                JarFile existing = new JarFile(Environment.CLIENT, false); //TODO setting this to true throws verify errors for some people (on higher JREs 7/8)
                 // Can/should we use this existing gamepack?
                 if(verifyLocalGamepack(existing)) {
                     // The local gamepack is OK to be re-used...
