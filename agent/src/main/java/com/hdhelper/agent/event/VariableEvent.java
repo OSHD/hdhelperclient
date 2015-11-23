@@ -3,7 +3,7 @@ package com.hdhelper.agent.event;
 public class VariableEvent extends RSEvent {
 
     /**
-     * The first number in the range of ids used for variable change events.
+     * The first number in the range of ids used for variable events.
      */
     public static final int VARIABLE_FIRST = 3001;
 

@@ -28,6 +28,12 @@ public abstract class RSEvent extends EventObject {
      */
     public static final long ACTION_EVENT_MASK      = 1L << 2;
 
+    /**
+     * The event mask for selecting variable events.
+     * @see VariableEvent
+     */
+    public static final long VARIABLE_EVENT_MASK    = 1L << 3;
+
     public static final Object NULL_SOURCE = new Object();
 
     public RSEvent(int id, int cycle) {
@@ -50,7 +56,7 @@ public abstract class RSEvent extends EventObject {
     }
 
     public boolean getStaticEvent() {
-        return source == null;
+        return source == NULL_SOURCE;
     }
 
     public int getEventCycle() {
