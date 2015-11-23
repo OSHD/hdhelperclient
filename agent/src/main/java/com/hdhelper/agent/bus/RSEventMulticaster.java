@@ -1,16 +1,14 @@
 package com.hdhelper.agent.bus;
 
-import com.hdhelper.agent.event.ActionEvent;
-import com.hdhelper.agent.event.ActionListener;
-import com.hdhelper.agent.event.MessageEvent;
-import com.hdhelper.agent.event.MessageListener;
+import com.hdhelper.agent.event.*;
 
 import java.util.EventListener;
 
 public class RSEventMulticaster extends Multicaster
     implements
         MessageListener,
-        ActionListener
+        ActionListener,
+        VariableListener
 
 {
 
@@ -37,6 +35,11 @@ public class RSEventMulticaster extends Multicaster
         ((MessageListener)b).messageReceived(e);
     }
 
+    @Override
+    public void variableChanged(VariableEvent e) {
+        ((VariableListener)a).variableChanged(e);
+        ((VariableListener)b).variableChanged(e);
+    }
 
 
 
@@ -51,6 +54,9 @@ public class RSEventMulticaster extends Multicaster
         return (ActionListener)addInternal(a, b);
     }
 
+    public static VariableListener add(VariableListener a, VariableListener b) {
+        return (VariableListener)addInternal(a,b);
+    }
 
 
 
@@ -59,13 +65,16 @@ public class RSEventMulticaster extends Multicaster
 
 
     public static MessageListener remove(MessageListener l, MessageListener oldl) {
-        return (MessageListener) removeInternal(l,oldl);
+        return (MessageListener) removeInternal(l, oldl);
     }
 
     public static ActionListener remove(ActionListener l, ActionListener oldl) {
         return (ActionListener) removeInternal(l, oldl);
     }
 
+    public static VariableListener remove(VariableListener l, VariableListener oldl) {
+        return (VariableListener) removeInternal(l,oldl);
+    }
 
 
 

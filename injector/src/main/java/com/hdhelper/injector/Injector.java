@@ -140,6 +140,9 @@ public final class Injector extends AbstractInjector {
 
       //  System.out.println("Compiling Scripts...");
 
+
+        new VarChangeMod(classes,cfg).inject();
+
         compiler.inject(Client.class, classes);
 
         compiler.inject(Node.class, classes);
@@ -180,6 +183,7 @@ public final class Injector extends AbstractInjector {
         new RenderMod(classes,cfg).inject();
         new MessageMod(classes,cfg).inject();
         new ActionMod(classes,cfg).inject();
+
 
        // new XTEADumpMod(classes,cfg).inject();
        // new LandscapeMod(classes,cr).inject(classes,cr);

@@ -7,10 +7,13 @@ import com.hdhelper.agent.*;
 import com.hdhelper.agent.RenderSwitch;
 import com.hdhelper.agent.bus.ActionBus;
 import com.hdhelper.agent.bus.MessageBus;
+import com.hdhelper.agent.bus.VariableBus;
 import com.hdhelper.agent.bus.access.ActionBusAccess;
 import com.hdhelper.agent.bus.access.MessageBusAccess;
+import com.hdhelper.agent.bus.access.VariableBusAccess;
 import com.hdhelper.agent.event.ActionListener;
 import com.hdhelper.agent.event.MessageListener;
+import com.hdhelper.agent.event.VariableListener;
 import com.hdhelper.agent.services.*;
 import com.hdhelper.injector.Piston;
 import com.hdhelper.injector.bs.scripts.cache.ItemDefinition;
@@ -300,7 +303,7 @@ public class Client extends GameEngine implements RSClient {
         msgBus.removeMessageListener(l);
     }
 
-
+    //---------------------------------------------------------
 
     @Override
     public void addActionListener(ActionListener l) {
@@ -314,6 +317,24 @@ public class Client extends GameEngine implements RSClient {
         if(actBus == null) return;
         actBus.removeMessageListener(l);
     }
+
+    //---------------------------------------------------------
+
+    @Override
+    public void addVariableListener(VariableListener l) {
+        if(varBus == null)
+            varBus = varBusAccess.mkBus(this);
+        varBus.addListener(l);
+    }
+
+    @Override
+    public void removeVariableListener(VariableListener l) {
+        if(varBus == null) return;
+        varBus.removeListener(l);
+    }
+
+    //---------------------------------------------------------
+
 
 
 
@@ -334,6 +355,16 @@ public class Client extends GameEngine implements RSClient {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
+    // Injection helper functions:
+
+    // Proxies the IASTORE operation (for the settings array) to this method
+    /** @see com.hdhelper.injector.mod.VarChangeMod **/
+    public static void setVar(int[] settings, int index, int value) {
+        varChanged(index, settings[index], value);
+        settings[index] = value; // Actually set it now
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
     // Bus/Event functions: Called throughout the client:
 
@@ -346,7 +377,14 @@ public class Client extends GameEngine implements RSClient {
     /** @see com.hdhelper.injector.mod.ActionMod **/
     public static void actionPerformed(BasicAction ba) {
         if(actBus == null) return;
-        actBusAccess.onAction(actBus,ba);
+        actBusAccess.onAction(actBus, ba);
+    }
+
+    /** @see #setVar(int[], int, int) **/
+    public static void varChanged(int var, int old, int now) {
+        if(old == now) return; // Guaranteed change
+        if(varBus == null) return;
+        varBusAccess.onVarChange(varBus,var,old,now);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -360,13 +398,15 @@ public class Client extends GameEngine implements RSClient {
     //Static/Global Buses
     private static MessageBus msgBus;
     private static ActionBus actBus;
+    private static VariableBus varBus;
 
     //Access
     private static final MessageBusAccess msgBusAccess
             = SharedAgentSecrets.getMessageBusAccess();
     private static final ActionBusAccess actBusAccess
             = SharedAgentSecrets.getActionBusAccess();
-
+    private static final VariableBusAccess varBusAccess
+            = SharedAgentSecrets.getVariableBusAccess();
 
 
 

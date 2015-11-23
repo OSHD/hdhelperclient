@@ -87,7 +87,6 @@ public class Bootstrap {
         //should be visible to the client, and serve no further use...
 
 
-
         // Start the client:
 
         System.out.println("Starting client...");

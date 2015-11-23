@@ -23,6 +23,9 @@ public class RenderMod extends InjectionModule {
     @Override
     public void inject() {
 
+        //TODO hook
+
+
         for(MethodNode mn : (List<MethodNode>) classes.get("ch").methods) {
             if(mn.name.equals("al")) {
 
@@ -69,8 +72,7 @@ public class RenderMod extends InjectionModule {
                 stack.add(new InsnNode(RETURN));
                 stack.add(A);
 
-                mn.instructions.insertBefore(mn.instructions.getFirst(),stack);
-
+                mn.instructions.insertBefore(mn.instructions.getFirst(), stack);
 
             }
         }

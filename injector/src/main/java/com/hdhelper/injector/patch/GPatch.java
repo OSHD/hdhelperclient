@@ -98,7 +98,7 @@ public class GPatch {
         patch.classes.put("Message", message);
 
 
-        GClass character = patch.getGClass("Character");
+        GClass character = patch.getGClass("Character"); //TODO hook
         character.fields.put("idleAnimation",new GField(character.name,"ax","I",-46880891));
         character.fields.put("walkAnimation",new GField(character.name,"av","I",1668954069));
         character.fields.put("runAnimation",new GField(character.name,"ac","I",-288021961));

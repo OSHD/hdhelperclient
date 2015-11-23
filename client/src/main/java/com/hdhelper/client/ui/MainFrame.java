@@ -3,8 +3,6 @@ package com.hdhelper.client.ui;
 import com.hdhelper.agent.CNI;
 import com.hdhelper.agent.services.RSClient;
 import com.hdhelper.client.Main;
-import com.hdhelper.client.api.action.ActionAdapter;
-import com.hdhelper.client.api.action.tree.Action;
 import com.hdhelper.client.cni.ClientNative;
 
 import javax.swing.*;
@@ -41,13 +39,6 @@ public class MainFrame extends JFrame {
                 pack();
 
                 setVisible(true);
-
-                Main.client.addActionListener(new ActionAdapter() {
-                    @Override
-                    public void actionPerformed(Action act) {
-                        System.out.println(act);
-                    }
-                });
 
             }
         });
