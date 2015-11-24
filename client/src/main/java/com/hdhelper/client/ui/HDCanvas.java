@@ -7,6 +7,7 @@ import com.hdhelper.client.api.ge.impl.Debug;
 import com.hdhelper.client.api.plugin.Plugin;
 import com.hdhelper.client.plugins.AltarLocator;
 import com.hdhelper.client.plugins.ClanView;
+import com.hdhelper.client.plugins.ClientPerformance;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,7 +60,8 @@ public class HDCanvas extends com.hdhelper.agent.ClientCanvas {
 
     Plugin[] plugins = new Plugin[] {
             new AltarLocator(),
-            new ClanView()
+            new ClanView(),
+            new ClientPerformance()
     };
 
     void draw0(RTGraphics g) {

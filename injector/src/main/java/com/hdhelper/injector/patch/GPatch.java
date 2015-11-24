@@ -45,6 +45,7 @@ public class GPatch {
         //   client.fields.get("regionBaseX").decoder =  -1234650781;
         //  client.fields.get("regionBaseY").decoder = -706637253;
         client.methods.get("getItemDefinition").predicate = 0;
+        client.fields.put("fps",new GField("eb","qw","I",-587476029));
 
 
         client.fields.put("chunkIds", new GField("fg","dr","[I", null));
