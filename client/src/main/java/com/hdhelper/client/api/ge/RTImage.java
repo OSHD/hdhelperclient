@@ -2,8 +2,12 @@ package com.hdhelper.client.api.ge;
 
 import com.hdhelper.agent.services.RSImage;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public final class RTImage extends RTGraphics {
 
@@ -15,8 +19,8 @@ public final class RTImage extends RTGraphics {
     int maxX;
     int maxY;
 
-    int insetX;
-    int insetY;
+    public int insetX;
+   public int insetY;
 
     public int getWidth() {
         return width;
@@ -26,12 +30,18 @@ public final class RTImage extends RTGraphics {
         return height;
     }
 
+    public int getMaxX() {
+        return maxX;
+    }
 
+    public int getMaxY() {
+        return maxY;
+    }
     public static RTImage create(RSImage src, boolean unsafe) {
         RTImage dest = new RTImage();
         dest.pixels = unsafe ? src.getPixels() : src.getPixels().clone();
-        dest.width = src.getHeight();
-        dest.height = src.getWidth();
+        dest.width = src.getWidth();
+        dest.height = src.getHeight();
         dest.insetX = src.getInsetX();
         dest.insetY = src.getInsetY();
         dest.maxX = src.getMaxX();
@@ -465,7 +475,7 @@ public final class RTImage extends RTGraphics {
     }
 
     //draw
-    public void s(int var1, int var2) {
+    public void draw(int var1, int var2) {
         var1 += this.insetX;
         var2 += this.insetY;
         int var3 = var1 + var2 * rasterWidth;
@@ -1439,5 +1449,18 @@ public final class RTImage extends RTGraphics {
             ;
         }
 
+    }
+
+    public void save(OutputStream dest) throws IOException {
+        crop();
+        draw(0, 0);
+        BufferedImage img = crate();
+        System.out.println(width + "," + height + "," + pixels.length);
+        /*for(int x = 0; x < width; x++) {
+            for(int y = 0; y < height; y++) {
+                img.setRGB(x,y,pixels[ (y*height) + x ]);
+            }
+        }*/
+        ImageIO.write(img, "png", dest);
     }
 }

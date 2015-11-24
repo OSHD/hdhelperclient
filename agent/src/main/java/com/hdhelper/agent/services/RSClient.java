@@ -57,7 +57,13 @@ public interface RSClient {
 
     int getEngineCycle();
     int getConnectionState();
+    int getBootState();
 
+    RSWidget[][] getWidgets();
+
+    int getMinimapScale();
+    int getMinimapRotation();
+    int getViewRotation();
 
     void addMessageListener(MessageListener listener);
     void removeMessageListener(MessageListener listener);

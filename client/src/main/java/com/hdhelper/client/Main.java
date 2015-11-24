@@ -43,9 +43,9 @@ public class Main { //Noughty works
         } catch (final IllegalAccessException ignored) {
         }
 
-        SwiftManager.getManager().start();
-        // MainFrame frame = new MainFrame();
-        // frame.start();
+     //   SwiftManager.getManager().start();
+         MainFrame frame = new MainFrame();
+         frame.start();
         //  new Ok();
     }
 

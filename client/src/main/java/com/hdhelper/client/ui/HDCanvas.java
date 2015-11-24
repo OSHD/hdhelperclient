@@ -1,7 +1,10 @@
 package com.hdhelper.client.ui;
 
+import com.hdhelper.client.api.Game;
+import com.hdhelper.client.api.ge.Overlay;
 import com.hdhelper.client.api.ge.RTGraphics;
 import com.hdhelper.client.api.ge.impl.Debug;
+import com.hdhelper.client.plugins.AltarLocator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,20 +52,45 @@ public class HDCanvas extends com.hdhelper.agent.ClientCanvas {
 
     Debug debug;
 
+    AltarLocator altarLocator = new AltarLocator();
+    boolean init = false;
+
     void draw0(RTGraphics g) {
 
         if(engine_raster == null || engine_raster.length == 1) {
             return;
         }
 
-        if(debug == null) {
-            debug = new Debug();
+
+
+        if(Game.isLoaded()) {
+
+            if(debug == null) {
+                debug = new Debug();
+            }
+            debug.render(g);
+
+            if(!init) {
+                altarLocator.init();
+                init = true;
+            }
+
+            //Plugins...
+            renderSafe(altarLocator,g);
+
+
         }
 
-        debug.render(g);
 
     }
 
+    private static void renderSafe(Overlay o, RTGraphics g) {
+        final int[] raster = g.raster;
+        final int rw       = g.rasterWidth;
+        final int rh       = g.rasterHeight;
+        o.render(g);
+        g.setRaster(raster,rw,rh); //Set the raster back
+    }
 
 
     @Override

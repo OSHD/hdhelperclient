@@ -1,12 +1,17 @@
 package com.hdhelper.client.api.plugin;
 
+import com.hdhelper.agent.services.RSClient;
+import com.hdhelper.client.Main;
+import com.hdhelper.client.api.ge.Overlay;
 import com.hdhelper.client.api.ge.RTGraphics;
 
-public abstract class Plugin {
+public abstract class Plugin implements Overlay {
 
     protected boolean enabled;
+    protected final RSClient client;
 
     public Plugin() {
+        client = Main.client;
     }
 
 
@@ -42,7 +47,7 @@ public abstract class Plugin {
 
 
 
-
+    @Override
     public void render(RTGraphics g) {
     }
 

@@ -87,6 +87,16 @@ public class Client extends GameEngine implements RSClient {
     public static int connectionState;
     @BField
     public static Canvas canvas;
+    @BField(name = "interfaces")
+    public static Widget[][] widgets;
+    @BField
+    public static int bootState;
+    @BField
+    public static int minimapScale;
+    @BField
+    public static int minimapRotation;
+    @BField
+    public static int viewRotation;
 
 
     // Methods
@@ -251,6 +261,30 @@ public class Client extends GameEngine implements RSClient {
     @Override
     public int getConnectionState() { return connectionState; }
 
+    @Override
+    public RSWidget[][] getWidgets() {
+        return widgets;
+    }
+
+    @Override
+    public int getBootState() {
+        return bootState;
+    }
+
+    @Override
+    public int getMinimapScale() {
+        return minimapScale;
+    }
+
+    @Override
+    public int getMinimapRotation() {
+        return minimapRotation;
+    }
+
+    @Override
+    public int getViewRotation() {
+        return viewRotation;
+    }
 
     // Methods //////////////////////////////////////////////////////////////////////
 
@@ -370,6 +404,25 @@ public class Client extends GameEngine implements RSClient {
         super.start();
     }
 
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static String curFont;
+    public static void captureGlyphVector(byte[] meta,
+                                          int[] xOffsets,int[] yOffsets,
+                                          int[] widths,int[] heights,
+                                          int[] colorMap,byte[][] bitmap) {
+        // 1. Load the font  -> Grab the name
+        // 2. Init the font  -> Grab the args
+        if(curFont == null) return; //Unknown capture
+        GlyphCapture capture = glyphCaptureFactory.getCapture(curFont);
+        if(capture == null)
+            throw new RuntimeException(curFont + " capture == null");
+        capture.capture(meta, xOffsets, yOffsets, widths, heights, colorMap, bitmap);
+        curFont = null;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////
     // Injection helper functions:
 
@@ -446,6 +499,7 @@ public class Client extends GameEngine implements RSClient {
     public static CNI cni;
     public static RenderSwitch render_switch;
     public static CanvasFactory canvas_factory;
+    public static GlyphCaptureFactory glyphCaptureFactory;
     //-----------------------------------------------
     //Static/Global Buses
     private static MessageBus msgBus;
@@ -465,11 +519,14 @@ public class Client extends GameEngine implements RSClient {
 
 
 
+
+
     /** @see CNI#initCNI(Class, CNI, CNIRuntimeArgs) **/
     public static void initCNI(CNI cni_, CNIRuntimeArgs args) {
         cni = cni_;
         render_switch = args.ren_switch;
         canvas_factory = args.canvasFactory;
+        glyphCaptureFactory = args.glyphCaptureFactory;
         //--------------------------------------
         booted = verify();
     }
@@ -479,6 +536,7 @@ public class Client extends GameEngine implements RSClient {
         requireNonNull(cni,"cni must be non-null");
         requireNonNull(render_switch,"render switch must be non-null");
         requireNonNull(canvas_factory,"canvas factory must be non-null");
+        requireNonNull(glyphCaptureFactory,"glyph capture factory must be non-null");
         return true;
     }
 

@@ -1,5 +1,6 @@
 package com.hdhelper.client.api.action.tree;
 
+import com.hdhelper.agent.services.RSWidget;
 import com.hdhelper.client.api.action.ActionTypes;
 import com.hdhelper.client.api.runeswing.Widget;
 
@@ -62,10 +63,24 @@ public abstract class ButtonAction extends Action {
         return Widget.getChildIndex(getButtonUID());
     }
 
+    public RSWidget get0() {
+        final int UID = getButtonUID();
+        final int parent0 = Widget.getParentIndex(UID);
+        final int child0  = Widget.getChildIndex(UID);
+        return client.getWidgets()[parent0][child0];
+    }
+
     @Override
     public final boolean accepts(int opcode, int arg0, int arg1, int arg2) {
         // Only arg2 (WUID) is significant
         return this.opcode == opcode && this.arg2 == arg2;
+    }
+
+    @Override
+    public String toString() {
+        int p = getButtonParent();
+        int c = getButtonChild();
+        return p + "#" + c + ":" + get0();
     }
 
 }

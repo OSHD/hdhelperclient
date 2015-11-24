@@ -5,7 +5,7 @@ import java.util.Random;
 //Some functions are left private since I have yet to figure out its exact mechanics.
 public abstract class RTFont extends RTGraphics {
 
-    RTIcon[] images;
+    RTImage[] images;
     Random fieldAs = new Random();
     String[] CACHE = new String[100];
 
@@ -44,6 +44,14 @@ public abstract class RTFont extends RTGraphics {
         this.maxAscent  = glyphs.maxAscent;
         this.maxDescent = glyphs.maxDescent;
         this.baseLine   = glyphs.baseLine;
+    }
+
+    public void setImages(RTImage[] images) {
+        this.images = images;
+    }
+
+    public int getBaseLine() {
+        return baseLine;
     }
 
     // Publically exposed methods, ignore the rest for now
@@ -645,8 +653,9 @@ public abstract class RTFont extends RTGraphics {
 
                                         ++var8;
                                         var14 = Util.method305(var11.substring(4), 1058201672);
-                                        RTIcon var18 = images[var14];
-                                        var18.draw(var2 + var12, var3 + this.baseLine - var18.height + var13);
+                                        RTImage var18 = images[var14];
+                                        var18.setGraphics(this);
+                                        var18.f(var2 + var12, var3 + this.baseLine - var18.height + var13);
                                         var2 += var18.width;
                                         var7 = -1;
                                     } catch (Exception var16) {
@@ -813,12 +822,17 @@ public abstract class RTFont extends RTGraphics {
                                 if (var8.startsWith("img=")) {
                                     try {
                                         var9 = Util.method305(var8.substring(4), -1274458779);
-                                        RTIcon var13 = images[var9];
-                                        var13.draw(x, y + this.baseLine - var13.height);
-                                        x += var13.width;
+                                        RTImage var13 = images[var9];
+                                        var13.crop();
+                                        var13.setGraphics(this);
+                                     //   System.out.println(var13.width + "," + var13.height);
+                                        var13.x(x, y + this.baseLine - 16, 16, 16);
+                                      //  System.out.println(maxAscent);
+                                        //var13.drawRectangle(x, y + this.baseLine -maxAscent, 16, maxAscent, Color.GREEN.getRGB());
+                                        x += 16;
                                         var5 = -1;
                                     } catch (Exception var11) {
-                                        ;
+                                       var11.printStackTrace();
                                     }
                                 } else {
                                     this.procConfig(var8);

@@ -1,5 +1,6 @@
 package com.hdhelper.client.api;
 
+import com.hdhelper.agent.services.RSEntityMarker;
 import com.hdhelper.client.Main;
 import com.hdhelper.client.api.ge.RTGraphics;
 import com.hdhelper.agent.services.RSClient;
@@ -213,22 +214,22 @@ public class W2S {
         if(TD == null) return;
         
         //Bottom
-        drawLine(BA,BB,g);
-        drawLine(BB,BC,g);
-        drawLine(BC,BD,g);
-        drawLine(BD,BA,g);
+        drawLine(BA, BB, g);
+        drawLine(BB, BC, g);
+        drawLine(BC, BD, g);
+        drawLine(BD, BA, g);
 
         //Top
-        drawLine(TA,TB,g);
-        drawLine(TB,TC,g);
-        drawLine(TC,TD,g);
-        drawLine(TD,TA,g);
+        drawLine(TA, TB, g);
+        drawLine(TB, TC, g);
+        drawLine(TC, TD, g);
+        drawLine(TD, TA, g);
 
         //Sides
-        drawLine(BA,TA,g);
-        drawLine(BB,TB,g);
-        drawLine(BC,TC,g);
-        drawLine(BD,TD,g);
+        drawLine(BA, TA, g);
+        drawLine(BB, TB, g);
+        drawLine(BC, TC, g);
+        drawLine(BD, TD, g);
 
     }
 
@@ -310,5 +311,21 @@ public class W2S {
     
     private static void drawLine(Point A, Point B, Graphics2D g) {
         g.drawLine(A.x,A.y,B.x,B.y);
+    }
+
+    public static void drawEntityBounds(RSEntityMarker m, int bounds_color, int wall_color, RTGraphics g) {
+
+        int x = m.getRootRegionX();
+        int y = m.getRootRegionY();
+        int floor = m.getFloorLevel();
+
+        int width = m.getMaxX()-x+1;
+        int height = m.getMaxY()-y+1;
+
+        int h = m.getEntity().getHeight();
+        if(h == 1000) return; //No height computed
+
+        W2S.draw3DBox(floor, x, y, width, height, h, wall_color, g);
+
     }
 }

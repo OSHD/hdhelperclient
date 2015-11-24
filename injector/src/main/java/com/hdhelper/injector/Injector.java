@@ -3,10 +3,7 @@ package com.hdhelper.injector;
 import com.bytescript.common.ReflectionProfiler;
 import com.bytescript.compiler.BCompiler;
 import com.hdhelper.injector.bs.ResolverImpl;
-import com.hdhelper.injector.bs.scripts.Client;
-import com.hdhelper.injector.bs.scripts.GPI;
-import com.hdhelper.injector.bs.scripts.Message;
-import com.hdhelper.injector.bs.scripts.RuneScript;
+import com.hdhelper.injector.bs.scripts.*;
 import com.hdhelper.injector.bs.scripts.cache.ItemDefinition;
 import com.hdhelper.injector.bs.scripts.cache.NpcDefinition;
 import com.hdhelper.injector.bs.scripts.cache.ObjectDefinition;
@@ -174,6 +171,7 @@ public final class Injector extends AbstractInjector {
 
         compiler.inject(RuneScript.class, classes);
         compiler.inject(Message.class,classes);
+        compiler.inject(Widget.class,classes);
 
         compiler.inject(GPI.class, classes);
 
@@ -184,7 +182,7 @@ public final class Injector extends AbstractInjector {
         new RenderMod(classes,cfg).inject();
         new MessageMod(classes,cfg).inject();
         new ActionMod(classes,cfg).inject();
-
+        new FontMod(classes,cfg).inject();
 
        // new XTEADumpMod(classes,cfg).inject();
        // new LandscapeMod(classes,cr).inject(classes,cr);

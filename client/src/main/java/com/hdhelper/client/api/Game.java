@@ -8,4 +8,8 @@ public class Game {
         return Main.client.getConnectionState() == 30;
     }
 
+    public static boolean isLoaded() {
+        return Main.client.getBootState() == 140;
+    }
+
 }
