@@ -1,7 +1,13 @@
 package com.hdhelper.client.ui;
 
+import com.hdhelper.client.api.Game;
+import com.hdhelper.client.api.ge.Overlay;
 import com.hdhelper.client.api.ge.RTGraphics;
 import com.hdhelper.client.api.ge.impl.Debug;
+import com.hdhelper.client.api.plugin.Plugin;
+import com.hdhelper.client.plugins.AltarLocator;
+import com.hdhelper.client.plugins.ClanView;
+import com.hdhelper.client.plugins.ClientPerformance;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,20 +55,54 @@ public class HDCanvas extends com.hdhelper.agent.ClientCanvas {
 
     Debug debug;
 
+
+    boolean init = false;
+
+    Plugin[] plugins = new Plugin[] {
+            new AltarLocator(),
+            new ClanView(),
+            new ClientPerformance()
+    };
+
     void draw0(RTGraphics g) {
 
         if(engine_raster == null || engine_raster.length == 1) {
             return;
         }
 
-        if(debug == null) {
-            debug = new Debug();
+
+
+        if(Game.isLoaded()) {
+
+            if(debug == null) {
+                debug = new Debug();
+            }
+            debug.render(g);
+
+            if(!init) { //TODO init on luanch
+                for(Plugin p : plugins) {
+                    p.init();
+                }
+                init = true;
+            }
+
+            //Plugins...
+            for(Plugin p : plugins) {
+                renderSafe(p, g);
+            }
+
         }
 
-        debug.render(g);
 
     }
 
+    private static void renderSafe(Overlay o, RTGraphics g) {
+        final int[] raster = g.raster;
+        final int rw       = g.rasterWidth;
+        final int rh       = g.rasterHeight;
+        o.render(g);
+        g.setRaster(raster,rw,rh); //Set the raster back
+    }
 
 
     @Override

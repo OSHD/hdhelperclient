@@ -54,6 +54,7 @@ public class Landscape implements RSLandscape {
         if(var4 != null) {
             for (int var5 = 0; var5 < LandscapeTile.MAX_ENTITIES; ++var5) {
                 EntityMarker var6 = var4.markers[var5];
+                if(var6 == null) continue;
                 if ((var6.uid >> 29 & 3) == 2 && var6.regionX == regionX && var6.regionY == regionY) {
                     return var6;
                 }

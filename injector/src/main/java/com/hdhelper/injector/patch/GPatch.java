@@ -45,6 +45,7 @@ public class GPatch {
         //   client.fields.get("regionBaseX").decoder =  -1234650781;
         //  client.fields.get("regionBaseY").decoder = -706637253;
         client.methods.get("getItemDefinition").predicate = 0;
+        client.fields.put("fps",new GField("eb","qw","I",-587476029));
 
 
         client.fields.put("chunkIds", new GField("fg","dr","[I", null));
@@ -81,11 +82,17 @@ public class GPatch {
 
         //TODO hook
         GClass image = patch.getGClass("Sprite");
-        image.fields.put("insetX",new GField(image.name,"d","I",null));
-        image.fields.put("insetY",new GField(image.name,"f","I",null));
-        image.fields.put("maxX",new GField(image.name,"r","I",null));
-        image.fields.put("maxY",new GField(image.name,"l","I",null));
+        image.fields.put("insetX",new GField(image.name,"l","I",null));
+        image.fields.put("insetY",new GField(image.name,"u","I",null));
+        image.fields.put("maxX",new GField(image.name,"a","I",null));
+        image.fields.put("maxY",new GField(image.name,"h","I",null));
+        image.fields.put("height",new GField(image.name,"f","I",null));
+        image.fields.put("width",new GField(image.name,"m","I",null));
 
+        GClass widget = patch.getGClass("Widget");
+        if(widget.methods==null) widget.methods = new HashMap<String, GMethod>();
+        widget.methods.put("getImage",new GMethod(widget.name,"e","(II)Lcq;",null));
+        widget.fields.put("spriteIds", new GField(widget.name, "cp", "[I", null));
 
         //TODO hook
         GClass message = new GClass("av");

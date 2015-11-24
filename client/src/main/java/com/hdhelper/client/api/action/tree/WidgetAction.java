@@ -1,5 +1,6 @@
 package com.hdhelper.client.api.action.tree;
 
+import com.hdhelper.agent.services.RSWidget;
 import com.hdhelper.client.api.action.ActionTypes;
 import com.hdhelper.client.api.runeswing.Widget;
 
@@ -56,19 +57,18 @@ public class WidgetAction extends Action {
         return opcode == ActionTypes.WIDGET_ACTION_2;
     }
 
-   /* public Widget get() {
-        final int UID = getParentUID();
-        final int parent0 = Interface.getParentIndex(UID);
-        final int child0  = Interface.getChildIndex(UID);
+    public RSWidget get0() {
+        final int UID = getWidgetUID();
+        final int parent0 = Widget.getParentIndex(UID);
+        final int child0  = Widget.getChildIndex(UID);
         final int index0  = getWidgetIndex();
-        RSClient client = Game.getClient();
-        RSInterface parent = client.getInterfaces()[parent0][child0];
+        RSWidget parent = client.getWidgets()[parent0][child0];
         if(parent == null) return null;
-        RSInterface[] children = parent.getChildren();
+        RSWidget[] children = parent.getChildren();
         if(children != null && index0 > 0 && index0 < children.length)
             return children[index0];
         return parent;
-    }*/
+    }
 
 
     @Override
@@ -87,7 +87,7 @@ public class WidgetAction extends Action {
         final int index  = getWidgetIndex();
         final int action = getActionIndex();
         final int type = isType2() ? 2 : 1;
-        return "WidgetAction:[Address=<" + parent + "#" + child + "#" + index + "> | ActonIndex=" + action + " | ActionType=" + type + "]" /*+ get()*/;
+        return "WidgetAction:[Address=<" + parent + "#" + child + "#" + index + "> | ActonIndex=" + action + " | ActionType=" + type + "]" + get0();
     }
 
 }

@@ -69,7 +69,11 @@ public class ResolverImpl implements BSResolver {
             return null;
         }
 
+
+
         GMethod method = clazz.getMethod(name, desc, resolver);
+
+
         methodCache.put(key, method);
 
         return method;

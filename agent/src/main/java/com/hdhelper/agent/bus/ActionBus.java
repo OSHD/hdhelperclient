@@ -41,14 +41,13 @@ public class ActionBus extends AbstractBus {
 
     static {
         SharedAgentSecrets.setActionBusAccess(new ActionBusAccess() {
-
             @Override
-            public ActionBus mkBus(RSClient client) {
+            public ActionBus mkActionBus(RSClient client) {
                 return new ActionBus(client);
             }
 
             @Override
-            public void onAction(ActionBus bus, BasicAction act) {
+            public void dispatchActionEvent(ActionBus bus, BasicAction act) {
                 bus.onAction(act);
             }
         });

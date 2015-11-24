@@ -64,6 +64,9 @@ public class Debug extends BasicOverlay {
 
     void drawNewDebug(RTGraphics g) {
 
+    //    System.out.println(Main.client.getBootState());
+        if(!Game.isLoaded()) return;
+
         if(warrior == null) {
             warrior = new TextWarrior();
         }
@@ -477,6 +480,10 @@ public class Debug extends BasicOverlay {
 
             }
 
+       //     warrior.drawString("<img=0><col=76EE00>5M</col> <img=1><col=76EE00>10M</col> ", HDCanvas.mouseX, HDCanvas.mouseY);
+
+            warrior.draw();
+
 
 
            /* if(money == null) {
@@ -502,6 +509,7 @@ public class Debug extends BasicOverlay {
         } catch (Exception e) {
            e.printStackTrace();
         } finally {
+
             warrior.finish(); //Help the GC
         }
 
@@ -699,10 +707,21 @@ public class Debug extends BasicOverlay {
             init();
         }
 
+        TextBlocker b = new TextBlocker(2000);
+
         void init() {
             System.out.println("Building Font...");
-            Font font = new Font("Helvetica", 0, 12);
+            Font font = new Font("Helvetica", 0, 14);
             f = GlyphFactory.create(font);
+
+            RSImage ge = CachedImaged.getImage(CachedImaged.GRAND_EXCHANGE_OFFER);
+            RSImage ha = CachedImaged.getImage(CachedImaged.HIGH_ALCH);
+
+            RTImage ge0 = RTImage.create(ge,false);
+            RTImage ha0 = RTImage.create(ha,false);
+
+            f.setImages(new RTImage[] { ge0, ha0 });
+
             System.out.println("...Font generated");
         }
 
@@ -719,13 +738,33 @@ public class Debug extends BasicOverlay {
         }
 
         public void drawString(String str, int x, int y) {
-            f.drawString(str,x,y,color);
+
+          //  int w = f.getStringWidth(str)/2;
+          //  int h = f.getBaseLine();
+
+          //  b.put(x,y,w,h,str);
+
+            f.drawString(str, x - (f.getStringWidth(str)/2),y,color);
+        }
+
+        public void draw() {
+         /*   while (b.hasNext()) {
+                b.next();
+                int x = b.getX();
+                int y = b.getY();
+          //      System.out.println(x + "," + y);
+                String str = (String) b.getEntry();
+                f.drawString(str,x,y,color);
+            }*/
         }
 
         public void finish() {
+            b.reset();
             f.flush(); // Release our reference to the graphics...
         }
 
     }
+
+
 
 }

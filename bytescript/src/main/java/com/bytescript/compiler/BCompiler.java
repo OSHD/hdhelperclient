@@ -42,6 +42,7 @@ public class BCompiler {
 
         fixStaticOwners(script);
         appyCodec(script);
+  //      genPredicates(script);
 
         BSAdapter adapter = new BSAdapter(target, remaper);
         script.accept(adapter);
@@ -94,10 +95,14 @@ public class BCompiler {
 
     private void genPredicates(ClassNode cn) {
         for (MethodNode mn : (List<MethodNode>) cn.methods) {
+
             for (AbstractInsnNode ain : mn.instructions.toArray()) {
+
                 if (ain instanceof MethodInsnNode) {
 
                     MethodInsnNode min = (MethodInsnNode) ain;
+
+                    if(min.name.startsWith("<")) continue;
 
                     if (profiler.getMethodDef(min.owner, min.name, min.desc) == null) { // Not invoking a rs-method
                         continue;
@@ -205,9 +210,12 @@ public class BCompiler {
                     String name = getFieldName(fin);
                     String desc = remaper.mapDesc0(fin.desc);
 
+
+
                     fin.owner = resolver.resolveStaticFieldOwner(owner, name, desc);
                     fin.name  = resolver.resolveFieldName(owner, name, desc, false);
                     fin.desc  = remaper.mapDesc(fin.desc);
+
 
                     if (resolver.hasCodec(owner, name, desc, true)) {
                         Number codec = resolver.getDecoder(owner, name, desc, true);

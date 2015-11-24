@@ -48,6 +48,51 @@ public class RTGlyphVector {
         computeRanges();
     }
 
+
+
+
+
+
+
+    private static RTGlyphVector P11_FULL;
+    private static RTGlyphVector P12_FULL;
+    private static RTGlyphVector B12_FULL;
+
+    private static RTGlyphVector lookup(String name) {
+        RTGlyphCapture capture = RTGlyphCapture.get(name);
+        if(capture.isCaptured()) return capture.vector;
+        return null;
+    }
+
+    // Standard font styles:
+
+    public static RTGlyphVector getP11Full() {
+        if(P11_FULL == null) {
+             P11_FULL = lookup("p11_full");
+        }
+        return P11_FULL;
+    }
+
+    public static RTGlyphVector getP12Full() {
+        if(P12_FULL == null) {
+            P12_FULL = lookup("p12_full");
+        }
+        return P12_FULL;
+    }
+
+    public static RTGlyphVector getB12Full() {
+        if(B12_FULL == null) {
+            B12_FULL = lookup("b12_full");
+        }
+        return B12_FULL;
+    }
+
+
+
+
+
+
+
     public RTGlyphVector copy() {
 
         RTGlyphVector dest = new RTGlyphVector();

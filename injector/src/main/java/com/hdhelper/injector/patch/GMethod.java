@@ -28,6 +28,9 @@ public class GMethod {
     private String pubDescNoPred = null;
     public String getPubDescNoPred(GPatch p) {
         if(pubDescNoPred != null) return pubDescNoPred;
+        if(predicate == null) {
+            return pubDescNoPred = getPublicDesc(p);
+        }
         return pubDescNoPred = removePred(getPublicDesc(p));
     }
 

@@ -38,6 +38,7 @@ public class Main { //Noughty works
         startTime = System.currentTimeMillis();
         final TimeStamp t = new TimeStamp();
         StatsTab.reportPerformance((int) ((System.currentTimeMillis() - t.duration(false, ""))));
+
         SwingUtilities.invokeAndWait(new Runnable() {
         	@Override
         	public void run() {
@@ -57,6 +58,19 @@ public class Main { //Noughty works
         SwiftManager.getManager().start();
         // MainFrame frame = new MainFrame();
         // frame.start();
+
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            UIManager.put("PopupMenu.consumeEventOnClose", Boolean.TRUE);
+        } catch (final ClassNotFoundException ignored) {
+        } catch (final UnsupportedLookAndFeelException ignored) {
+        } catch (final InstantiationException ignored) {
+        } catch (final IllegalAccessException ignored) {
+        }
+
+     //   SwiftManager.getManager().start();
+         MainFrame frame = new MainFrame();
+         frame.start();
         //  new Ok();
     }
 

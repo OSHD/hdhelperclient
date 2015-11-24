@@ -38,12 +38,12 @@ public class VariableBus extends AbstractBus {
     static {
         SharedAgentSecrets.setVariableBusAccess(new VariableBusAccess() {
             @Override
-            public VariableBus mkBus(RSClient client) {
+            public VariableBus mkVariableBus(RSClient client) {
                 return new VariableBus(client);
             }
 
             @Override
-            public void onVarChange(VariableBus bus, int var, int old, int set) {
+            public void dispatchVarEvent(VariableBus bus, int var, int old, int set) {
                 bus.variableChanged(var, old, set);
             }
         });

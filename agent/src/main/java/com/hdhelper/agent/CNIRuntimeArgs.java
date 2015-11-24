@@ -8,5 +8,6 @@ public final class CNIRuntimeArgs {
 
     public RenderSwitch ren_switch;
     public CanvasFactory canvasFactory;
+    public GlyphCaptureFactory glyphCaptureFactory;
 
 }

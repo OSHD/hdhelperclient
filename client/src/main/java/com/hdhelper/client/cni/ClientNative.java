@@ -5,6 +5,7 @@ import com.hdhelper.agent.CNIRuntimeArgs;
 import com.hdhelper.agent.CanvasFactory;
 import com.hdhelper.agent.ClientCanvas;
 import com.hdhelper.agent.RenderSwitch;
+import com.hdhelper.client.api.ge.RTGlyphCapture;
 import com.hdhelper.client.ui.HDCanvas;
 
 public final class ClientNative {
@@ -39,6 +40,7 @@ public final class ClientNative {
         CNIRuntimeArgs args = new CNIRuntimeArgs();
         args.ren_switch    = RenderSwitch.renderAll();
         args.canvasFactory = new HDCanvasFactory();
+        args.glyphCaptureFactory = RTGlyphCapture.FACTORY;
         return args;
     }
 
@@ -54,6 +56,7 @@ public final class ClientNative {
     public static RenderSwitch getRenderSwitch() {
         return args.ren_switch;
     }
+
 
 }
 

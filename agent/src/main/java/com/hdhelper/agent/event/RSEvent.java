@@ -34,6 +34,14 @@ public abstract class RSEvent extends EventObject {
      */
     public static final long VARIABLE_EVENT_MASK    = 1L << 3;
 
+    /**
+     * The event mask for selecting skill events.
+     * @see VariableEvent
+     */
+    public static final long SKILL_EVENT_MASK       = 1L << 4;
+
+
+
     public static final Object NULL_SOURCE = new Object();
 
     public RSEvent(int id, int cycle) {

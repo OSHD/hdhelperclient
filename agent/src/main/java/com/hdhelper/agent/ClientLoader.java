@@ -22,7 +22,7 @@ public final class ClientLoader extends SecureClassLoader {
         this.resources = secureResources(resources);
     }
 
-    public void destroy() { //TODO remove/revoke any permissions given to the client?
+    public void destroy() { //TODO remove/revoke any permissions given to the client (SecurityManager)?
         loaded.clear();
         defined.clear();
         resources.clear();

@@ -7,12 +7,15 @@ import com.hdhelper.agent.*;
 import com.hdhelper.agent.RenderSwitch;
 import com.hdhelper.agent.bus.ActionBus;
 import com.hdhelper.agent.bus.MessageBus;
+import com.hdhelper.agent.bus.SkillBus;
 import com.hdhelper.agent.bus.VariableBus;
 import com.hdhelper.agent.bus.access.ActionBusAccess;
 import com.hdhelper.agent.bus.access.MessageBusAccess;
+import com.hdhelper.agent.bus.access.SkillBusAccess;
 import com.hdhelper.agent.bus.access.VariableBusAccess;
 import com.hdhelper.agent.event.ActionListener;
 import com.hdhelper.agent.event.MessageListener;
+import com.hdhelper.agent.event.SkillListener;
 import com.hdhelper.agent.event.VariableListener;
 import com.hdhelper.agent.services.*;
 import com.hdhelper.injector.Piston;
@@ -84,6 +87,16 @@ public class Client extends GameEngine implements RSClient {
     public static int connectionState;
     @BField
     public static Canvas canvas;
+    @BField(name = "interfaces")
+    public static Widget[][] widgets;
+    @BField
+    public static int bootState;
+    @BField
+    public static int minimapScale;
+    @BField
+    public static int minimapRotation;
+    @BField
+    public static int viewRotation;
 
 
     // Methods
@@ -248,6 +261,30 @@ public class Client extends GameEngine implements RSClient {
     @Override
     public int getConnectionState() { return connectionState; }
 
+    @Override
+    public RSWidget[][] getWidgets() {
+        return widgets;
+    }
+
+    @Override
+    public int getBootState() {
+        return bootState;
+    }
+
+    @Override
+    public int getMinimapScale() {
+        return minimapScale;
+    }
+
+    @Override
+    public int getMinimapRotation() {
+        return minimapRotation;
+    }
+
+    @Override
+    public int getViewRotation() {
+        return viewRotation;
+    }
 
     // Methods //////////////////////////////////////////////////////////////////////
 
@@ -293,7 +330,7 @@ public class Client extends GameEngine implements RSClient {
     @Override
     public void addMessageListener(MessageListener l) {
         if(msgBus == null)
-            msgBus = msgBusAccess.mkBus(this);
+            msgBus = msgBusAccess.mkMessageBus(this);
         msgBus.addMessageListener(l);
     }
 
@@ -308,7 +345,7 @@ public class Client extends GameEngine implements RSClient {
     @Override
     public void addActionListener(ActionListener l) {
         if(actBus == null)
-            actBus = actBusAccess.mkBus(this);
+            actBus = actBusAccess.mkActionBus(this);
         actBus.addActionListener(l);
     }
 
@@ -323,7 +360,7 @@ public class Client extends GameEngine implements RSClient {
     @Override
     public void addVariableListener(VariableListener l) {
         if(varBus == null)
-            varBus = varBusAccess.mkBus(this);
+            varBus = varBusAccess.mkVariableBus(this);
         varBus.addListener(l);
     }
 
@@ -335,7 +372,20 @@ public class Client extends GameEngine implements RSClient {
 
     //---------------------------------------------------------
 
+    @Override
+    public void addSkillListener(SkillListener l) {
+        if(skillBus == null)
+            skillBus = skillBusAccess.mkSkillBus(this);
+        skillBus.addListener(l);
+    }
 
+    @Override
+    public void removeSkillListener(SkillListener l) {
+        if(skillBus == null) return;
+        skillBus.removeListener(l);
+    }
+
+    //---------------------------------------------------------
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -354,6 +404,25 @@ public class Client extends GameEngine implements RSClient {
         super.start();
     }
 
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static String curFont;
+    public static void captureGlyphVector(byte[] meta,
+                                          int[] xOffsets,int[] yOffsets,
+                                          int[] widths,int[] heights,
+                                          int[] colorMap,byte[][] bitmap) {
+        // 1. Load the font  -> Grab the name
+        // 2. Init the font  -> Grab the args
+        if(curFont == null) return; //Unknown capture
+        GlyphCapture capture = glyphCaptureFactory.getCapture(curFont);
+        if(capture == null)
+            throw new RuntimeException(curFont + " capture == null");
+        capture.capture(meta, xOffsets, yOffsets, widths, heights, colorMap, bitmap);
+        curFont = null;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////
     // Injection helper functions:
 
@@ -364,6 +433,21 @@ public class Client extends GameEngine implements RSClient {
         settings[index] = value; // Actually set it now
     }
 
+    public static void setRealSkillLvl(int[] skills, int skill, int value) {
+        realSkillLvlChanged(skill, skills[skill], value);
+        skills[skill] = value;
+    }
+
+    public static void setTempSkillLvl(int[] skills, int skill, int value) {
+        tempSkillLevelChanged(skill, skills[skill], value);
+        skills[skill] = value;
+    }
+
+    public static void setExp(int[] exps, int skill, int value) {
+        expChanged(skill, exps[skill], value);
+        exps[skill] = value;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////
 
     // Bus/Event functions: Called throughout the client:
@@ -371,20 +455,41 @@ public class Client extends GameEngine implements RSClient {
     /** @see com.hdhelper.injector.mod.MessageMod **/
     public static void messageReceived(Message msg) {
         if(msgBus == null) return; // We're not interested
-        msgBusAccess.onMessage(msgBus,msg);
+        msgBusAccess.dispatchMessageEvent(msgBus, msg);
     }
 
     /** @see com.hdhelper.injector.mod.ActionMod **/
     public static void actionPerformed(BasicAction ba) {
         if(actBus == null) return;
-        actBusAccess.onAction(actBus, ba);
+        actBusAccess.dispatchActionEvent(actBus, ba);
     }
 
     /** @see #setVar(int[], int, int) **/
     public static void varChanged(int var, int old, int now) {
-        if(old == now) return; // Guaranteed change
         if(varBus == null) return;
-        varBusAccess.onVarChange(varBus,var,old,now);
+        if(old == now) return; // Guaranteed change
+        varBusAccess.dispatchVarEvent(varBus, var, old, now);
+    }
+
+    /** @see #setRealSkillLvl(int[], int, int) **/
+    public static void realSkillLvlChanged(int skill, int old, int now) {
+        if(skillBus == null) return;
+        if(old == now) return;
+        skillBusAccess.dispatchRealLevelChangeEvent(skillBus, skill, old, now);
+    }
+
+    /** @see #setTempSkillLvl(int[], int, int) **/
+    public static void tempSkillLevelChanged(int skill, int old, int now) {
+        if(skillBus == null) return;
+        if(old == now) return;
+        skillBusAccess.dispatchTempLevelChangeEvent(skillBus, skill, old, now);
+    }
+
+    /** @see #setExp(int[], int, int) **/
+    public static void expChanged(int skill, int old, int now) {
+        if(skillBus == null) return;
+        if(old == now) return;
+        skillBusAccess.dispatchExpChangeEvent(skillBus, skill, old, now);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -394,19 +499,25 @@ public class Client extends GameEngine implements RSClient {
     public static CNI cni;
     public static RenderSwitch render_switch;
     public static CanvasFactory canvas_factory;
+    public static GlyphCaptureFactory glyphCaptureFactory;
     //-----------------------------------------------
     //Static/Global Buses
     private static MessageBus msgBus;
     private static ActionBus actBus;
     private static VariableBus varBus;
+    private static SkillBus skillBus;
 
-    //Access
+    //Bus Accessors
     private static final MessageBusAccess msgBusAccess
             = SharedAgentSecrets.getMessageBusAccess();
     private static final ActionBusAccess actBusAccess
             = SharedAgentSecrets.getActionBusAccess();
     private static final VariableBusAccess varBusAccess
             = SharedAgentSecrets.getVariableBusAccess();
+    private static final SkillBusAccess skillBusAccess
+            = SharedAgentSecrets.getSkillBusAccess();
+
+
 
 
 
@@ -415,6 +526,7 @@ public class Client extends GameEngine implements RSClient {
         cni = cni_;
         render_switch = args.ren_switch;
         canvas_factory = args.canvasFactory;
+        glyphCaptureFactory = args.glyphCaptureFactory;
         //--------------------------------------
         booted = verify();
     }
@@ -424,6 +536,7 @@ public class Client extends GameEngine implements RSClient {
         requireNonNull(cni,"cni must be non-null");
         requireNonNull(render_switch,"render switch must be non-null");
         requireNonNull(canvas_factory,"canvas factory must be non-null");
+        requireNonNull(glyphCaptureFactory,"glyph capture factory must be non-null");
         return true;
     }
 

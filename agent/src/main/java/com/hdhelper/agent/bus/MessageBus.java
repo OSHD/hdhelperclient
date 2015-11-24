@@ -43,12 +43,12 @@ public class MessageBus extends AbstractBus {
 
         SharedAgentSecrets.setMessageBusAccess(new MessageBusAccess() {
             @Override
-            public MessageBus mkBus(RSClient client) {
+            public MessageBus mkMessageBus(RSClient client) {
                 return new MessageBus(client);
             }
 
             @Override
-            public void onMessage(MessageBus mb, RSMessage msg) {
+            public void dispatchMessageEvent(MessageBus mb, RSMessage msg) {
                 mb.onMessage(msg);
             }
         });
