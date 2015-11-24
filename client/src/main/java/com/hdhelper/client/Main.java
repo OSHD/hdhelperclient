@@ -4,12 +4,16 @@ import com.hdhelper.agent.services.RSClient;
 import com.hdhelper.client.cni.ClientNative;
 import com.hdhelper.client.frame.components.varbos.StatsTab;
 import com.hdhelper.client.frame.util.TimeStamp;
+import com.hdhelper.client.theme.NimbusTheme;
 import com.hdhelper.client.ui.MainFrame;
 
 import javax.swing.*;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public class Main { //Noughty works
 
@@ -29,20 +33,27 @@ public class Main { //Noughty works
         Main.main();
     }
 
-    public static void main(String... args) throws IOException, InterruptedException { //NOOOOB
+    public static void main(String... args) throws IOException, InterruptedException, InvocationTargetException { //NOOOOB
         System.out.println("Main Start");
         startTime = System.currentTimeMillis();
         final TimeStamp t = new TimeStamp();
         StatsTab.reportPerformance((int) ((System.currentTimeMillis() - t.duration(false, ""))));
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            UIManager.put("PopupMenu.consumeEventOnClose", Boolean.TRUE);
-        } catch (final ClassNotFoundException ignored) {
-        } catch (final UnsupportedLookAndFeelException ignored) {
-        } catch (final InstantiationException ignored) {
-        } catch (final IllegalAccessException ignored) {
-        }
-
+        SwingUtilities.invokeAndWait(new Runnable() {
+        	@Override
+        	public void run() {
+		        try {
+		        	new NimbusTheme();
+			        for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+			            if ("Nimbus".equals(info.getName())) {
+			                UIManager.setLookAndFeel(info.getClassName());
+			                break;
+			            }
+			        }
+		        } catch (Exception e) {
+				    // If Nimbus is not available, you can set the GUI to another look and feel.
+				}
+        	}
+        });
         SwiftManager.getManager().start();
         // MainFrame frame = new MainFrame();
         // frame.start();

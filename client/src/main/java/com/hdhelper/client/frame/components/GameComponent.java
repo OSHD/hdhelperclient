@@ -16,9 +16,11 @@ public class GameComponent extends JPanel {
 		setBackground(Color.black);
 		setOpaque(false);
 		setLocation(0, 20);
-		setSize(new Dimension(765, 528));
+		setSize(new Dimension(767, 549));
 
 		Applet a = bootModClient();
+		
+		a.setSize(767, 549);
 
 		//thought u set it to canvas here?, idk i was fucking with it, should have 
 		// not pushed this
