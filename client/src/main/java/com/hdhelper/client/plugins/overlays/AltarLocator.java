@@ -1,4 +1,4 @@
-package com.hdhelper.client.plugins;
+package com.hdhelper.client.plugins.overlays;
 
 import com.hdhelper.agent.services.RSEntityMarker;
 import com.hdhelper.agent.services.RSObjectDefinition;

@@ -1,4 +1,4 @@
-package com.hdhelper.client.plugins;
+package com.hdhelper.client.plugins.overlays;
 
 import com.hdhelper.client.api.ge.RTFont;
 import com.hdhelper.client.api.ge.RTFontImpl;
@@ -14,7 +14,7 @@ public class ClientPerformance extends Plugin {
 
     @Override
     public void init() {
-        font = new RTFontImpl(RTGlyphVector.getB12Full());
+        font = new RTFontImpl(RTGlyphVector.getP12Full());
     }
 
     @Override

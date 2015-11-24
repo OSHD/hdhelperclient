@@ -5,9 +5,10 @@ import com.hdhelper.client.api.ge.Overlay;
 import com.hdhelper.client.api.ge.RTGraphics;
 import com.hdhelper.client.api.ge.impl.Debug;
 import com.hdhelper.client.api.plugin.Plugin;
-import com.hdhelper.client.plugins.AltarLocator;
-import com.hdhelper.client.plugins.ClanView;
-import com.hdhelper.client.plugins.ClientPerformance;
+import com.hdhelper.client.plugins.overlays.AltarLocator;
+import com.hdhelper.client.plugins.overlays.ClanView;
+import com.hdhelper.client.plugins.overlays.ClientPerformance;
+import com.hdhelper.client.plugins.overlays.Cooking;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,7 +62,8 @@ public class HDCanvas extends com.hdhelper.agent.ClientCanvas {
     Plugin[] plugins = new Plugin[] {
             new AltarLocator(),
             new ClanView(),
-            new ClientPerformance()
+            new ClientPerformance(),
+            new Cooking()
     };
 
     void draw0(RTGraphics g) {

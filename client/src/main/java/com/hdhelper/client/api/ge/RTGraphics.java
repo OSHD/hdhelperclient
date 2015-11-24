@@ -407,7 +407,7 @@ public class RTGraphics {
         viewportMaxY = var0[3];
     }
 
-    void drawVerticalLine(int var0, int var1, int var2, int var3, int var4) {
+    public void drawVerticalLine(int var0, int var1, int var2, int var3, int var4) {
         if (var0 >= viewportX && var0 < viewportMaxX) {
             if (var1 < viewportY) {
                 var2 -= viewportY - var1;
