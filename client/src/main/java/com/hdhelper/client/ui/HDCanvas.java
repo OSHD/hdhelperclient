@@ -4,7 +4,9 @@ import com.hdhelper.client.api.Game;
 import com.hdhelper.client.api.ge.Overlay;
 import com.hdhelper.client.api.ge.RTGraphics;
 import com.hdhelper.client.api.ge.impl.Debug;
+import com.hdhelper.client.api.plugin.Plugin;
 import com.hdhelper.client.plugins.AltarLocator;
+import com.hdhelper.client.plugins.ClanView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,8 +54,13 @@ public class HDCanvas extends com.hdhelper.agent.ClientCanvas {
 
     Debug debug;
 
-    AltarLocator altarLocator = new AltarLocator();
+
     boolean init = false;
+
+    Plugin[] plugins = new Plugin[] {
+            new AltarLocator(),
+            new ClanView()
+    };
 
     void draw0(RTGraphics g) {
 
@@ -70,14 +77,17 @@ public class HDCanvas extends com.hdhelper.agent.ClientCanvas {
             }
             debug.render(g);
 
-            if(!init) {
-                altarLocator.init();
+            if(!init) { //TODO init on luanch
+                for(Plugin p : plugins) {
+                    p.init();
+                }
                 init = true;
             }
 
             //Plugins...
-            renderSafe(altarLocator,g);
-
+            for(Plugin p : plugins) {
+                renderSafe(p, g);
+            }
 
         }
 

@@ -15,6 +15,7 @@ public class Player extends Character implements RSPlayer {
     @BField PlayerConfig config;
     @BField int prayerIcon;
     @BField int skullIcon;
+    @BField int team;
 
 
 
@@ -51,5 +52,8 @@ public class Player extends Character implements RSPlayer {
         return skullIcon;
     }
 
-
+    @Override
+    public int getTeam() {
+        return team;
+    }
 }

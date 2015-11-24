@@ -7,5 +7,5 @@ public interface RSPlayer extends RSCharacter {
     int getZ();
     int getPrayerIcon();
     int getSkullIcon();
-
+    int getTeam();
 }
