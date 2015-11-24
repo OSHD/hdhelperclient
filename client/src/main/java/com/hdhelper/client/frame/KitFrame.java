@@ -29,16 +29,15 @@ public class KitFrame extends JFrame {
 	
 	public void init() {
 		
-		new NimbusTheme();
+		//new NimbusTheme();
 		setResizable(false);
 		//setIconImage(getToolkit().getImage(KitConstants.getImageUrl("favicon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(KitConstants.SIZE);
 		setLayout(null);
-		game_component = new GameComponent(); 
 		//addWindowListener(new SwiftFrameAdapter());
 		getContentPane().setLayout(null);
-		getContentPane().add(game_component);
+		getContentPane().add(game_component = new GameComponent());
 		getContentPane().add((topMenu = TopSwiftMenu.create()));
 		getContentPane().add((featurePanel = new FeaturePanel()));
 		this.setLocation(KitConstants.getCenterPoint(null));

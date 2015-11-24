@@ -3,6 +3,7 @@ package com.hdhelper.client;
 import java.awt.EventQueue;
 
 import com.hdhelper.client.frame.KitFrame;
+import com.hdhelper.client.theme.NimbusTheme;
 
 /**
  * Manages the users swift client.
@@ -49,7 +50,7 @@ public class SwiftManager {
 	 * Sets the look and feel.
 	 */
 	private final void setLookAndFeel() {
-		
+		new NimbusTheme();
 	}
 	/**
 	 * Gets the manager.
