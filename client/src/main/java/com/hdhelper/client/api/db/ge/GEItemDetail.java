@@ -18,5 +18,9 @@ public final class GEItemDetail {
     GEItemTrend day90;
     GEItemTrend day180;
 
+    public GEItemPrice getCurrentPrice() {
+        return current;
+    }
+
 
 }

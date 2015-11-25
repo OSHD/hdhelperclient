@@ -6,6 +6,9 @@ import com.hdhelper.agent.services.*;
 import com.hdhelper.client.Environment;
 import com.hdhelper.client.Main;
 import com.hdhelper.client.api.*;
+import com.hdhelper.client.api.db.ItemValue;
+import com.hdhelper.client.api.db.ItemValueDatabase;
+import com.hdhelper.client.api.db.ItemValueDatabases;
 import com.hdhelper.client.api.ge.*;
 
 import java.awt.*;
@@ -245,6 +248,9 @@ public class Debug extends BasicOverlay {
                 }
             }
 
+
+            ItemValueDatabase db = ItemValueDatabases.getGeValueDatabase();
+
             if(Environment.RENDER_GROUND_ITEM_DEBUG) {
                 //Render GroundItems:
                 warrior.setColor(Color.YELLOW);
@@ -267,7 +273,13 @@ public class Debug extends BasicOverlay {
                             RSItemDefinition def = client.getItemDef(id);
                             Point P = W2S.tileToViewport(sx, sy, floor, pile0.getHeight() + gi.getHeight() );
                             if (P.x == -1) continue;
-                            warrior.drawString(def.getName() + "(" + id + ") x " + gi.getQuantity(), P.x, P.y);
+
+                            ItemValue v = db.getValue(id);
+                            String str = v.info();
+
+                            warrior.drawString(def.getName() + "(" + id + ",price=" + str + ") x " + gi.getQuantity(), P.x, P.y);
+
+
                         }
                     }
                 }

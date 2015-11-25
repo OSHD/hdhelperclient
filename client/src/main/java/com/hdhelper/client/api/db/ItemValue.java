@@ -5,6 +5,7 @@ public abstract class ItemValue {
     public static final int STATE_UPDATED  = 3;  // Our item is a 'updated' state. Which is deemed by the database
     public static final int STATE_OUTDATED = 2;  // We have a value, but its not up-to-date
     public static final int STATE_UNKNOWN  = 1;  // No value has not been figured yet
+    public static final int STATE_ERROR    = 0;    // Error fetching acquiring any value for this item
 
     protected final int id;
     // Updated by the database thread
@@ -30,6 +31,11 @@ public abstract class ItemValue {
         return getState() == STATE_UNKNOWN;
     }
 
+    // No value can or will ever be determined
+    public boolean isError() {
+        return getState() == STATE_ERROR;
+    }
+
     //We have some value to work with...
     public boolean isReady() {
         return getState() >= 2;
@@ -47,4 +53,9 @@ public abstract class ItemValue {
         return id;
     }
 
+    public String info() {
+        if(isError()) return "ERR";
+        if(isUnknown()) return "...";
+        return String.valueOf(getValue());
+    }
 }

@@ -183,6 +183,7 @@ public final class Injector extends AbstractInjector {
         new MessageMod(classes,cfg).inject();
         new ActionMod(classes,cfg).inject();
         new FontMod(classes,cfg).inject();
+        new XTEADumpMod(classes,cfg).inject();
 
        // new XTEADumpMod(classes,cfg).inject();
        // new LandscapeMod(classes,cr).inject(classes,cr);

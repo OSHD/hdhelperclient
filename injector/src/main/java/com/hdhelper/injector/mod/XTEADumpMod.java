@@ -1,9 +1,9 @@
 package com.hdhelper.injector.mod;
 
 import com.hdhelper.injector.InjectorConfig;
-import com.hdhelper.injector.mod.InjectionModule;
-import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,13 +17,13 @@ public class XTEADumpMod extends InjectionModule {
 
     @Override
     public void inject() {
-       /* for (ClassNode cn : classes.values()) {
+        for (ClassNode cn : classes.values()) {
             for (MethodNode mn : (List<MethodNode>) cn.methods) {
 
                 for (AbstractInsnNode ain : mn.instructions.toArray()) {
                     if (ain.getOpcode() == INVOKEVIRTUAL) {
                         MethodInsnNode min = (MethodInsnNode) ain;
-                        if (LOOKUP_FILE_ID.match(min)) {
+                        if (min.owner.equals("fg") && min.name.equals("n") && min.desc.equals("(Ljava/lang/String;B)I")) {
 
                             boolean hit = false;
 
@@ -46,7 +46,7 @@ public class XTEADumpMod extends InjectionModule {
                             InsnList stack = new InsnList();
                             stack.add(new InsnNode(DUP2));
                             stack.add(new InsnNode(POP));
-                            stack.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Callback.class), "dump", "(I)V", false));
+                            stack.add(new MethodInsnNode(INVOKESTATIC, "com/hdhelper/client/SuperDirtyHacks", "dump", "(I)V", false));
 
                             mn.instructions.insert(ain, stack);
 
@@ -55,7 +55,7 @@ public class XTEADumpMod extends InjectionModule {
                 }
 
             }
-        }*/
+        }
     }
 
 }

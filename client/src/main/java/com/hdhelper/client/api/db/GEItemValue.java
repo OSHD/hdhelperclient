@@ -2,7 +2,7 @@ package com.hdhelper.client.api.db;
 
 public final class GEItemValue extends ItemValue {
 
-    protected GEItemValue(int id) {
+    GEItemValue(int id) {
         super(id);
     }
 
