@@ -48,8 +48,8 @@ public class GPatch {
         client.fields.put("fps",new GField("eb","qw","I",-587476029));
         client.fields.get("floorLevel").decoder = -1222407947;
 
-        client.fields.put("chunkIds", new GField("fg","dr","[I", null));
-        client.fields.put("XTEAKeys", new GField("fu","di","[[I", null));
+        client.fields.put("chunkIds", new GField("ad","dv","[I", null));
+        client.fields.put("XTEAKeys", new GField("z","ds","[[I", null));
 
      /*   GClass character = patch.getGClass("Character");
         character.fields.put("targetIndex",new GField( character.name, "bb", "I",1495396491 ));*/

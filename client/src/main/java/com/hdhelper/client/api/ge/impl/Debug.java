@@ -744,7 +744,7 @@ public class Debug extends BasicOverlay {
 
           //  b.put(x,y,w,h,str);
 
-            f.drawString(str, x - (f.getStringWidth(str)/2),y,color);
+            f.drawString(str, x,y,color);
         }
 
         public void draw() {
