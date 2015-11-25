@@ -1,6 +1,4 @@
-package com.hdhelper.client.cni;
-
-import com.hdhelper.client.Main;
+package com.hdhelper.client;
 
 // Access point for the Loader Module
 public class Wormhole {

@@ -1,6 +1,6 @@
 package com.hdhelper.client.ui;
 
-import com.hdhelper.client.cni.ClientNative;
+import com.hdhelper.client.ClientNative;
 import com.hdhelper.client.Environment;
 
 import javax.swing.*;
@@ -15,9 +15,6 @@ public class Bar extends JMenuBar {
 
 
     private void build() {
-
-
-        ;
 
         //Create the menu bar.
 

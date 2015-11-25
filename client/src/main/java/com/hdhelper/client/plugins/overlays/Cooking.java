@@ -17,12 +17,11 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Cooking extends Plugin {
-
+public final class Cooking extends Plugin {
 
     private RTFont font;
     private Set<Profile> profiles;
-    DecimalFormat myFormatter;
+    private DecimalFormat myFormatter;
 
     @Override
     public void init() {
@@ -79,8 +78,8 @@ public class Cooking extends Plugin {
         final Pattern pattern;
         final int foodId;
 
-        int totalCooked = 30;
-        int totalBurned = 7;
+        int totalCooked = 0;
+        int totalBurned = 0;
         RTImage img;
 
         public Profile(String foodName, int foodId) {
@@ -117,13 +116,13 @@ public class Cooking extends Plugin {
                 // We successfully cooked it!
                 totalCooked++;
 
-                System.out.println("We cooked a " + foodName);
+                //System.out.println("We cooked a " + foodName);
             } else {
                 assert result.equals("accidentally burn the");
                 // We burned it!
                 totalBurned++;
 
-                System.out.println("We burned a " + foodName);
+               // System.out.println("We burned a " + foodName);
             }
         }
 

@@ -34,6 +34,7 @@ public final class CNI {
         client_class = loader.loadClass("client");
         this.args = args;
         initCNI(client_class,this,args);
+        game = (RSClient) client_class.newInstance(); //Empty constructor
         did_init = true;
     }
 
@@ -56,35 +57,32 @@ public final class CNI {
         return cfg;
     }
 
-    public void start() {
+
+    public void initAndStartGame() {
 
         if(!did_init)
-            throw new IllegalStateException("CNI must be initialized, call init()");
+            throw new IllegalStateException("CNI must be initialized");
         if(did_start) // One engine per CNI
             return;
 
-        try {
-            game = (RSClient) client_class.newInstance();
-            Applet app = (Applet) game;
-            app.setStub(stub);
-            app.init();
-            app.start();
-            did_start = true;
-        } catch (InstantiationException ignored) {
-            ignored.printStackTrace();
-        } catch (IllegalAccessException ignored) {
-            ignored.printStackTrace();
-        }
+        Applet app = (Applet) game;
+        app.setStub(stub);
+        app.init();
+        app.start();
+
+        did_start = true;
 
         // Start the game engine
     }
 
     public void stop() {
         // Stop the game engine
+
     }
 
     public void destroy() {
-        // Destory the game engine, and this interface
+        // Destroy the game engine, and this interface
+
     }
 
     // Get a reference to the game engine

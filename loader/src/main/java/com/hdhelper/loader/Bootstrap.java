@@ -1,7 +1,7 @@
 package com.hdhelper.loader;
 
 import com.hdhelper.agent.ClientLoader;
-import com.hdhelper.client.cni.Wormhole;
+import com.hdhelper.client.Wormhole;
 import com.hdhelper.injector.AbstractInjector;
 import com.hdhelper.injector.Injector;
 import com.hdhelper.injector.InjectorConfig;

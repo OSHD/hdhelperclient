@@ -1,6 +1,6 @@
 package com.hdhelper.client.frame.components;
 
-import com.hdhelper.client.cni.ClientNative;
+import com.hdhelper.client.ClientNative;
 import com.hdhelper.client.Main;
 import com.hdhelper.agent.CNI;
 import com.hdhelper.agent.services.RSClient;
@@ -34,7 +34,7 @@ public class GameComponent extends JPanel {
 	private static Applet bootModClient() {
         try {
 			CNI cni = ClientNative.get();
-			cni.start();
+			cni.initAndStartGame();
 			RSClient c = cni.get();
 			Main.client = c;
 			return (Applet) c;

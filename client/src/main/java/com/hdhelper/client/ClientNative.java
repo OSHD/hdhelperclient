@@ -1,4 +1,4 @@
-package com.hdhelper.client.cni;
+package com.hdhelper.client;
 
 import com.hdhelper.agent.CNI;
 import com.hdhelper.agent.CNIRuntimeArgs;
@@ -14,18 +14,19 @@ public final class ClientNative {
     private static final CNIRuntimeArgs args;
 
     static {
-        // The CNI must be initialized at runtime before anything else.
-        /** @see Wormhole#setLoader(ClassLoader) **/
-        if(Wormhole.loader == null)
-            throw new RuntimeException("loader == null");
-        cni = CNI.get(Wormhole.loader);
-      //  System.out.println("Initializing CNI...");
-        args = getArgs();
         try {
+            // The CNI must be initialized at runtime before anything else.
+            /** @see Wormhole#setLoader(ClassLoader) **/
+            if(Wormhole.loader == null)
+                throw new RuntimeException("loader == null");
+            cni = CNI.get(Wormhole.loader);
+            //  System.out.println("Initializing CNI...");
+            args = getArgs();
             cni.init(args);
         } catch (Throwable e) {
             e.printStackTrace();
             System.exit(-1); // CNI init failed
+            throw new Error(e); // Please the compiler due to finials
         }
     }
 
@@ -38,8 +39,8 @@ public final class ClientNative {
 
     private static CNIRuntimeArgs getArgs() {
         CNIRuntimeArgs args = new CNIRuntimeArgs();
-        args.ren_switch    = RenderSwitch.renderAll();
-        args.canvasFactory = new HDCanvasFactory();
+        args.ren_switch     = RenderSwitch.renderAll();
+        args.canvasFactory  = new HDCanvasFactory();
         args.glyphCaptureFactory = RTGlyphCapture.FACTORY;
         return args;
     }

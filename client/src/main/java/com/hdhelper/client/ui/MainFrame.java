@@ -4,13 +4,9 @@ import com.hdhelper.agent.CNI;
 import com.hdhelper.agent.services.RSClient;
 import com.hdhelper.agent.services.RSImage;
 import com.hdhelper.agent.services.RSWidget;
+import com.hdhelper.client.ClientNative;
 import com.hdhelper.client.Main;
-import com.hdhelper.client.api.ItemTable;
-import com.hdhelper.client.api.action.ActionAdapter;
-import com.hdhelper.client.api.action.tree.Action;
-import com.hdhelper.client.api.action.tree.ExamineItemAction;
 import com.hdhelper.client.api.ge.RTImage;
-import com.hdhelper.client.cni.ClientNative;
 
 import javax.swing.*;
 import java.applet.Applet;
@@ -49,7 +45,7 @@ public class MainFrame extends JFrame {
 
                 setVisible(true);
 
-                Main.client.addActionListener(new ActionAdapter() {
+              /*  Main.client.addActionListener(new ActionAdapter() {
                     @Override
                     public void actionPerformed(Action act) {
                         if(act instanceof ExamineItemAction) {
@@ -58,7 +54,7 @@ public class MainFrame extends JFrame {
 
                     }
                 });
-
+*/
             }
         });
     }
@@ -92,7 +88,7 @@ public class MainFrame extends JFrame {
     private static Applet bootModClient() {
         try {
             CNI cni = ClientNative.get();
-            cni.start();
+            cni.initAndStartGame();
             RSClient c = cni.get();
             Main.client = c;
             return (Applet) c;

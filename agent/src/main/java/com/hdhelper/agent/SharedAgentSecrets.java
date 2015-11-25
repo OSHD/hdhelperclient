@@ -1,5 +1,7 @@
 package com.hdhelper.agent;
 
+import com.hdhelper.agent.beacon.Beacon;
+import com.hdhelper.agent.beacon.BeaconAccess;
 import com.hdhelper.agent.bus.*;
 import com.hdhelper.agent.bus.access.*;
 import sun.misc.Unsafe;
@@ -18,6 +20,7 @@ public final class SharedAgentSecrets {
     private static final Unsafe unsafe = getTheUnsafe();
 
     private static ClientCanvasAccess clientCanvasAccess;
+    private static BeaconAccess beaconAccess;
 
     //Buss Access:
     private static MessageBusAccess messageBusAccess;
@@ -54,6 +57,9 @@ public final class SharedAgentSecrets {
         skillBusAccess = access;
     }
 
+    public static void setBeaconAccess(BeaconAccess access) {
+        beaconAccess = access;
+    };
 
 
     public static ClientCanvasAccess getClientCanvasAccess() {
@@ -100,7 +106,12 @@ public final class SharedAgentSecrets {
         return skillBusAccess;
     }
 
-
+    public static BeaconAccess getBeaconAccess() {
+        if(beaconAccess == null) {
+            unsafe.ensureClassInitialized(Beacon.class);
+        }
+        return beaconAccess;
+    }
 
 
 

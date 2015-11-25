@@ -1,15 +1,11 @@
 package com.hdhelper.client;
 
 import com.hdhelper.agent.services.RSClient;
-import com.hdhelper.client.cni.ClientNative;
 import com.hdhelper.client.frame.components.varbos.StatsTab;
 import com.hdhelper.client.frame.util.TimeStamp;
-import com.hdhelper.client.theme.NimbusTheme;
 import com.hdhelper.client.ui.MainFrame;
 
 import javax.swing.*;
-import javax.swing.UIManager.LookAndFeelInfo;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -39,7 +35,7 @@ public class Main { //Noughty works
         final TimeStamp t = new TimeStamp();
         StatsTab.reportPerformance((int) ((System.currentTimeMillis() - t.duration(false, ""))));
 
-        SwingUtilities.invokeAndWait(new Runnable() {
+      /*  SwingUtilities.invokeAndWait(new Runnable() {
         	@Override
         	public void run() {
 		        try {
@@ -55,7 +51,7 @@ public class Main { //Noughty works
 				}
         	}
         });
-        SwiftManager.getManager().start();
+        SwiftManager.getManager().start();*/
         // MainFrame frame = new MainFrame();
         // frame.start();
 
