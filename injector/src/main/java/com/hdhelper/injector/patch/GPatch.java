@@ -47,7 +47,7 @@ public class GPatch {
         client.methods.get("getItemDefinition").predicate = 0;
         client.fields.put("fps",new GField("eb","qw","I",-587476029));
         client.fields.get("floorLevel").decoder = -1222407947;
-
+        client.fields.get("regionBaseY").decoder = -1440649607;
         client.fields.put("chunkIds", new GField("ad","dv","[I", null));
         client.fields.put("XTEAKeys", new GField("z","ds","[[I", null));
 
