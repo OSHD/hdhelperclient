@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public final class GEItemPrice {
 
     private static final Pattern PRICE_PATTERN =
-            Pattern.compile("^([\\+|\\-]{0,1})([0-9]+[\\.]{0,1}[0-9]{1})([k,m]{0,1})$");
+            Pattern.compile("^([\\+|\\-]{0,1})([0-9]+[\\.]{0,1}[0-9]{0,1})([k,m]{0,1})$");
 
     String trend;
     String price;

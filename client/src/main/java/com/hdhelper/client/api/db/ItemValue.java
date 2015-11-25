@@ -55,7 +55,7 @@ public abstract class ItemValue {
 
     public String info() {
         if(isError()) return "ERR";
-        if(isUnknown()) return "...";
+        if(isUnknown()) return "N/A";
         return String.valueOf(getValue());
     }
 }

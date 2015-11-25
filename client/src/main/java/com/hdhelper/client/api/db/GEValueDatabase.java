@@ -65,15 +65,11 @@ class GEUpdateThread extends Thread  {
 
 
     void updateLater(GEItemValue item) {
-        synchronized (this) {
-            deque.add(item);
-        }
+        deque.add(item);
     }
 
     GEItemValue poll() throws InterruptedException {
-        synchronized (this) {
-            return deque.take();
-        }
+        return deque.take();
     }
 
     @Override
@@ -81,9 +77,7 @@ class GEUpdateThread extends Thread  {
         while (doRun && !isInterrupted()) {
             try {
                 GEItemValue next = poll();
-                System.out.println("Update:" + next.getId());
                 doUpdate(next);
-                System.out.println("Updated:" + next.getId());
             } catch (InterruptedException e) {
                 //Respect the interrupt
                 break;
@@ -108,7 +102,7 @@ class GEUpdateThread extends Thread  {
             int price = detail.getCurrentPrice().getPrice();
 
             p.setValue(price);
-            p.setValue(ItemValue.STATE_UPDATED);
+            p.setState(ItemValue.STATE_UPDATED);
 
         } catch (Throwable ignored) {
 
