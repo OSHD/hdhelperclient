@@ -22,6 +22,8 @@ public class HDCanvas extends com.hdhelper.agent.ClientCanvas {
 
     public static int mouseX = 0;
     public static int mouseY = 0;
+    public static int width = 0;
+    public static int height = 0;
 
     public HDCanvas() {
         super();
@@ -37,6 +39,14 @@ public class HDCanvas extends com.hdhelper.agent.ClientCanvas {
                 mouseY = e.getY();
             }
         });
+    }
+    
+    @Override
+    public void setSize(int width, int height) {
+    	
+    	super.setSize(width, height);
+    	HDCanvas.width = width;
+    	HDCanvas.height = height;
     }
 
     private void validateGraphics() {
@@ -61,7 +71,8 @@ public class HDCanvas extends com.hdhelper.agent.ClientCanvas {
             new ClanView(),
             new ClientPerformance(),
             new Cooking(),
-            new CurrentBoosts()
+            new CurrentBoosts(),
+            new ActionDisplay()
     };
 
     void draw0(RTGraphics g) {

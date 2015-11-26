@@ -229,11 +229,11 @@ public class RTGraphics {
 
     }
 
-    public void drawRectangle(int var0, int var1, int var2, int var3, int var4) {
-        drawHorizontalLine(var0, var1, var2, var4);
-        drawHorizontalLine(var0, var1 + var3 - 1, var2, var4);
-        drawVerticalLine(var0, var1, var3, var4);
-        drawVerticalLine(var0 + var2 - 1, var1, var3, var4);
+    public void drawRectangle(int x, int var1, int var2, int var3, int var4) {
+        drawHorizontalLine(x, var1, var2, var4);
+        drawHorizontalLine(x, var1 + var3 - 1, var2, var4);
+        drawVerticalLine(x, var1, var3, var4);
+        drawVerticalLine(x + var2 - 1, var1, var3, var4);
     }
 
     public void drawHorizontalLine(int var0, int var1, int var2, int var3) {

@@ -30,6 +30,6 @@ public class PlayerAction extends CharacterAction {
     }
 
     public String toString() {
-        return "Player Action[" + getPlayerIndex() + "](" + "@" + getActionIndex() + ") on " + getPlayer0();
+        return "Player Action[" + getPlayerIndex() + "](" + "@" + getActionIndex() + ") on " + getPlayer0().getName();
     }
 }
