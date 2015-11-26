@@ -101,6 +101,23 @@ public class Client extends GameEngine implements RSClient {
     public static int[] currentLevels;
     @BField
     public static int[] levels;
+    @BField
+    public static boolean menuOpen;
+    @BField
+    public static int menuItemCount;
+    @BField
+    public static int[] menuOpcodes;
+    @BField
+    public static int[] menuArg0;
+    @BField
+    public static int[] menuArg1;
+    @BField
+    public static int[] menuArg2;
+    @BField
+    public static String[] menuNouns;
+    @BField
+    public static String[] menuActions;
+
 
 
     // Methods
@@ -298,6 +315,47 @@ public class Client extends GameEngine implements RSClient {
     public int[] getLevels() {
         return levels;
     }
+
+    @Override
+    public boolean isMenuOpen() {
+        return menuOpen;
+    }
+
+    @Override
+    public int getMenuCount() {
+        return menuItemCount;
+    }
+
+    @Override
+    public int[] getMenuOpcodes() {
+        return menuOpcodes;
+    }
+
+    @Override
+    public int[] getMenuArg0s() {
+        return menuArg0;
+    }
+
+    @Override
+    public int[] getMenuArg1s() {
+        return menuArg1;
+    }
+
+    @Override
+    public int[] getMenuArg2s() {
+        return menuArg2;
+    }
+
+    @Override
+    public String[] getMenuOptions() {
+        return menuNouns;
+    }
+
+    @Override
+    public String[] getMenuActions() {
+        return menuActions;
+    }
+
 
     // Methods //////////////////////////////////////////////////////////////////////
 

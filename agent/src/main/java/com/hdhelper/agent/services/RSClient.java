@@ -68,6 +68,17 @@ public interface RSClient {
     int[] getCurrentLevels();
     int[] getLevels();
 
+
+    boolean isMenuOpen();
+    int getMenuCount();
+    int[] getMenuOpcodes();
+    int[] getMenuArg0s();
+    int[] getMenuArg1s();
+    int[] getMenuArg2s();
+    String[] getMenuOptions();
+    String[] getMenuActions();
+
+
     void addMessageListener(MessageListener listener);
     void removeMessageListener(MessageListener listener);
 
