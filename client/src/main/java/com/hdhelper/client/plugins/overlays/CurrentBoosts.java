@@ -150,5 +150,5 @@ public class CurrentBoosts extends Plugin {
         }
 
     }
-    
+
 }
