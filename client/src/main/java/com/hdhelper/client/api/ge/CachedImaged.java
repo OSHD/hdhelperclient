@@ -51,15 +51,20 @@ public class CachedImaged {
         if(img != null) return img;
         try {
             ClassLoader loader = Main.client.getClass().getClassLoader();
-            Field f = loader.loadClass("bj").getDeclaredField("u");
-            Method m = loader.loadClass("ar").getDeclaredMethod("j", loader.loadClass("fa"), int.class, int.class, int.class);
+            Field f = loader.loadClass("fd").getDeclaredField("m");
+            Method m = loader.loadClass("ew").getDeclaredMethod("i",f.getType(), int.class, int.class, int.class);
             f.setAccessible(true);
             m.setAccessible(true);
             Object o = f.get(null);
-            Object oo = m.invoke(null, o, id, 0, 2097572161);
-            RSImage hit = (RSImage) oo;
-            cache.put(id,hit);
-            return hit;
+            Object oo = m.invoke(null, o, id, 0, 1608847139);
+            if(((Boolean)oo)) {
+                Method k = loader.loadClass("ha").getDeclaredMethod("n", int.class);
+                k.setAccessible(true);
+                Object img0 = k.invoke(null, 1218899001);
+                RSImage hit = (RSImage) img0;
+                cache.put(id, hit);
+                return (RSImage) img0;
+            }
         } catch (Throwable e) {
             e.printStackTrace();
         }

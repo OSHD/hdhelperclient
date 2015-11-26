@@ -10,8 +10,8 @@ public class Image extends Graphics implements RSImage {
     @BField public int[] pixels;
     @BField public int width;
     @BField public int height;
-    @BField public int insetX;
-    @BField public int insetY;
+    @BField(name = "paddingX") public int insetX;
+    @BField(name = "paddingY") public int insetY;
     @BField public int maxX;
     @BField public int maxY;
 

@@ -24,7 +24,7 @@ public class GraphicsEngineMod extends InjectionModule {
             for(AbstractInsnNode ain : mn.instructions.toArray()) {
                 if(ain.getOpcode() == PUTFIELD) {
                     FieldInsnNode fin = (FieldInsnNode) ain;
-                    if(fin.owner.equals(cn.name) && fin.name.equals("a")) {
+                    if(fin.owner.equals(cn.name) && fin.name.equals("t")) {
 
                         InsnList stack = new InsnList();
 
@@ -37,10 +37,10 @@ public class GraphicsEngineMod extends InjectionModule {
                         stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "client", "getCanvas", ASMUtil.getMethodDescriptor(ClientCanvas.class), false));
 
                         stack.add(new VarInsnNode(ALOAD,0));
-                        stack.add(new FieldInsnNode(GETFIELD,cn.name,"f","[I"));
+                        stack.add(new FieldInsnNode(GETFIELD,cn.name,"q","[I"));
 
                         stack.add(new VarInsnNode(ALOAD, 0));
-                        stack.add(new FieldInsnNode(GETFIELD, cn.name, "a", "L" + Type.getInternalName(Image.class) + ";"));
+                        stack.add(new FieldInsnNode(GETFIELD, cn.name, "t", "L" + Type.getInternalName(Image.class) + ";"));
 
                         stack.add(new MethodInsnNode(Opcodes.INVOKEINTERFACE,Type.getInternalName(ClientCanvasAccess.class),"setBitmap",
                                 ASMUtil.getMethodDescriptor(Void.TYPE,ClientCanvas.class,int[].class,Image.class), true));
@@ -60,7 +60,7 @@ public class GraphicsEngineMod extends InjectionModule {
     @Override
     public void inject() {
         for(ClassNode cn : classes.values()) {
-            if(cn.superName.equals("bv")) {
+            if(cn.superName.equals("by")) {
                 hack(cn);
             }
         }

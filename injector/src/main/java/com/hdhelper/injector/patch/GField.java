@@ -16,10 +16,14 @@ public class GField {
     public GField() {
     }
 
+    public GField(String owner, String name, String desc) {
+        this(owner, name, desc, null);
+    }
+
     public GField(String owner, String name, String desc, Number decoder) {
         this.owner = owner;
-        this.name  = name;
-        this.desc  = desc;
+        this.name = name;
+        this.desc = desc;
         this.decoder = decoder;
     }
 

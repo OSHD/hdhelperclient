@@ -26,8 +26,8 @@ public class RenderMod extends InjectionModule {
         //TODO hook
 
 
-        for(MethodNode mn : (List<MethodNode>) classes.get("ch").methods) {
-            if(mn.name.equals("al")) {
+        for(MethodNode mn : (List<MethodNode>) classes.get("cl").methods) {
+            if(mn.name.equals("aq")) {
 
                 /**
                  * if(!{@link CNIAccess#getRenderSwitch()}#doRenderLandscape()) {

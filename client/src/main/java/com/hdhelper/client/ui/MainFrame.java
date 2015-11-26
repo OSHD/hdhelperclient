@@ -2,17 +2,13 @@ package com.hdhelper.client.ui;
 
 import com.hdhelper.agent.CNI;
 import com.hdhelper.agent.services.RSClient;
-import com.hdhelper.agent.services.RSImage;
 import com.hdhelper.agent.services.RSWidget;
 import com.hdhelper.client.ClientNative;
 import com.hdhelper.client.Main;
-import com.hdhelper.client.api.ge.RTImage;
 
 import javax.swing.*;
 import java.applet.Applet;
 import java.awt.*;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class MainFrame extends JFrame {
 
@@ -67,20 +63,6 @@ public class MainFrame extends JFrame {
             }
         }
 
-        if(w.getSpriteIds() == null) return;
-
-        for(int i = 0; i < w.getSpriteIds().length; i++) {
-            RSImage img = w.getImage(i);
-            if(img == null) return;
-            RTImage img0 = RTImage.create(img,true);
-            img0.setRaster(new int[img0.getWidth() * img0.getHeight()], img0.getWidth(), img0.getHeight());
-            try {
-                img0.save(new FileOutputStream("./images/" + w.getSpriteIds()[i] + ".png"));
-                System.out.println("Save:" + w.getId());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
     }
 

@@ -1,8 +1,9 @@
-package com.hdhelper.client.api.ge;
+package com.hdhelper.client.api;
 
 import com.hdhelper.agent.services.RSClient;
 import com.hdhelper.agent.services.RSPlayer;
 import com.hdhelper.client.Main;
+import com.hdhelper.client.api.ge.RTGraphics2D;
 
 import java.awt.*;
 

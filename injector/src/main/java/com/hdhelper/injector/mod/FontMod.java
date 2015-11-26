@@ -18,17 +18,24 @@ public class FontMod extends InjectionModule {
     public void inject() {
 
         // CreateFont.... (unpack images) //TODO hook (look for "p12_full"..)
-        for(MethodNode mn : (List<MethodNode>)classes.get("dt").methods) {
-            if(mn.name.equals("h") && mn.desc.endsWith("Lhj;")) {
-                InsnList stack = new InsnList();
-                stack.add(new VarInsnNode(ALOAD,2));
-                stack.add(new FieldInsnNode(PUTSTATIC,"client","curFont", Type.getDescriptor(String.class)));
-                mn.instructions.insertBefore(mn.instructions.getFirst(),stack);
+        for(ClassNode cn : classes.values()) {
+            for(MethodNode mn : (List<MethodNode>) cn.methods) {
+                for(AbstractInsnNode ain : mn.instructions.toArray()) {
+                    if(ain.getOpcode() == LDC) {
+                        LdcInsnNode ldc = (LdcInsnNode) ain;
+                        if(ldc.cst.equals("p11_full") || ldc.cst.equals("p12_full") || ldc.cst.equals("b12_full")) {
+                            InsnList stack = new InsnList();
+                            stack.add(new InsnNode(DUP));
+                            stack.add(new FieldInsnNode(PUTSTATIC,"client","curFont", Type.getDescriptor(String.class)));
+                            mn.instructions.insert(ain,stack);
+                        }
+                    }
+                }
             }
         }
 
         // createFont
-        for(MethodNode mn : (List<MethodNode>)classes.get("hj").methods) {
+        for(MethodNode mn : (List<MethodNode>)classes.get("hb").methods) {
             if(mn.name.equals("<init>") && mn.desc.endsWith("[[B)V")) {
                 InsnList stack = new InsnList();
                 stack.add(new VarInsnNode(ALOAD,1));

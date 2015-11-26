@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import org.objectweb.asm.Type;
 
 import java.awt.*;
+import java.io.File;
 import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,19 +38,22 @@ public class GPatch {
 
         GClass client = patch.getGClass("Client");
 
-        client.fields.put("screenScale",new GField( "client", "oy", "I", 163765829 ));
-        client.fields.put("screenWidth",new GField( "client", "oo", "I", 1797905553  ));
-        client.fields.put("screenHeight",new GField( "client", "oq", "I", 294769919  ));
-        client.fields.put("engineCycle",new GField("client","q","I",-61212269));
+        client.fields.put("screenScale",new GField( "client", "om", "I", 1189283231 ));
+
+        client.fields.put("screenHeight",new GField( "client", "oe", "I", 124139643  ));
+        client.fields.put("screenWidth",new GField( "client", "od", "I", -655618925  ));
+
+        client.fields.put("engineCycle",new GField("client","u","I",2011978051));
         // client.fields.put("floorLevel",new GField("ez","gn", "I",238600101));
         //   client.fields.get("regionBaseX").decoder =  -1234650781;
         //  client.fields.get("regionBaseY").decoder = -706637253;
-        client.methods.get("getItemDefinition").predicate = 0;
-        client.fields.put("fps",new GField("eb","qw","I",-587476029));
-        client.fields.get("floorLevel").decoder = -1222407947;
-        client.fields.get("regionBaseY").decoder = -1440649607;
-        client.fields.put("chunkIds", new GField("ad","dv","[I", null));
-        client.fields.put("XTEAKeys", new GField("z","ds","[[I", null));
+   //     client.methods.get("getItemDefinition").predicate = 0;
+        //client.fields.put("fps",new GField("eb","qw","I",-587476029));
+    //    client.fields.get("floorLevel").decoder = -1222407947;
+      //  client.fields.get("regionBaseY").decoder = -1440649607;
+        client.fields.put("chunkIds", new GField("ad","dv","[I"));
+        client.fields.put("XTEAKeys", new GField("z","ds","[[I"));
+        client.fields.put("cacheDirectory",new GField("ey","s",Type.getDescriptor(File.class)));
 
      /*   GClass character = patch.getGClass("Character");
         character.fields.put("targetIndex",new GField( character.name, "bb", "I",1495396491 ));*/
@@ -66,20 +70,20 @@ public class GPatch {
         gpi.fields.put("playerIndices",new GField("ae","p","[I",null));
         gpi.fields.put("playerCount",new GField("ae","s","I",907260627));
 
-        patch.classes.put("Graphics",new GClass("cb"));
+        patch.classes.put("Graphics",new GClass("cr"));
 
-        patch.getGClass("Landscape").methods.put("addObject",new GMethod("cp","x","(IIIIIILcd;III)Z",null));
-        patch.getGClass("Landscape").methods.put("removeObject",new GMethod("cp","u","(III)V",null));
+    //    patch.getGClass("Landscape").methods.put("addObject",new GMethod("cp","x","(IIIIIILcd;III)Z",null));
+     //   patch.getGClass("Landscape").methods.put("removeObject",new GMethod("cp","u","(III)V",null));
     /*    GClass landscape = patch.getGClass("Landscape");
         landscape.fields.put("visibilityMap",new GField("ci","bw","[[[[Z",null));
 
 
 */
 
-        client.fields.put("canvas", new GField("n","qd",Type.getDescriptor(Canvas.class),null));
+        client.fields.put("canvas", new GField("v","qx",Type.getDescriptor(Canvas.class),null));
 
         client.getMethod("getRuneScript").predicate = -849079302;
-
+/*
         //TODO hook
         GClass image = patch.getGClass("Sprite");
         image.fields.put("insetX",new GField(image.name,"l","I",null));
@@ -87,21 +91,21 @@ public class GPatch {
         image.fields.put("maxX",new GField(image.name,"a","I",null));
         image.fields.put("maxY",new GField(image.name,"h","I",null));
         image.fields.put("height",new GField(image.name,"f","I",null));
-        image.fields.put("width",new GField(image.name,"m","I",null));
+        image.fields.put("width",new GField(image.name,"m","I",null));*/
 
-        GClass widget = patch.getGClass("Widget");
+/*        GClass widget = patch.getGClass("Widget");
         if(widget.methods==null) widget.methods = new HashMap<String, GMethod>();
         widget.methods.put("getImage",new GMethod(widget.name,"e","(II)Lcq;",null));
-        widget.fields.put("spriteIds", new GField(widget.name, "cp", "[I", null));
+        widget.fields.put("spriteIds", new GField(widget.name, "cp", "[I", null));*/
 
         //TODO hook
-        GClass message = new GClass("av");
-        message.fields.put("cycle",new GField("av","m","I",29620511));
-        message.fields.put("index",new GField("av","j","I",684019183));
-        message.fields.put("message",new GField("av","a",Type.getDescriptor(String.class),null));
-        message.fields.put("channel",new GField("av","u",Type.getDescriptor(String.class),null));
-        message.fields.put("sender",new GField("av","l",Type.getDescriptor(String.class),null));
-        message.fields.put("type",new GField("av","f","I",-1804049261));
+        GClass message = new GClass("ar");
+        message.fields.put("cycle",new GField(message.name,"s","I",-846165087));
+        message.fields.put("index",new GField(message.name,"f","I", 578445479));
+        message.fields.put("message",new GField(message.name,"t",Type.getDescriptor(String.class),null));
+        message.fields.put("channel",new GField(message.name,"m",Type.getDescriptor(String.class),null));
+        message.fields.put("sender",new GField(message.name,"g",Type.getDescriptor(String.class),null));
+        message.fields.put("type",new GField(message.name,"q","I",259791789));
         patch.classes.put("Message", message);
 
 
@@ -110,6 +114,8 @@ public class GPatch {
         character.fields.put("walkAnimation",new GField(character.name,"av","I",1668954069));
         character.fields.put("runAnimation",new GField(character.name,"ac","I",-288021961));
         character.fields.put("anint2341",new GField(character.name,"bq","I",932293205));
+       /* character.fields.get("strictX").decoder = 728554543;
+        character.fields.get("strictY").decoder = -334453713;*/
 
     }
 

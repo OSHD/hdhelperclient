@@ -1,6 +1,7 @@
 package com.hdhelper.client.plugins.overlays;
 
 import com.hdhelper.agent.services.RSPlayer;
+import com.hdhelper.client.api.Minimap;
 import com.hdhelper.client.api.W2S;
 import com.hdhelper.client.api.ge.*;
 import com.hdhelper.client.api.plugin.Plugin;
@@ -32,7 +33,7 @@ public class ClanView extends Plugin {
 
         if(my_team == 0) return; // We're not in any team
 
-        Point C =  Minimap.tileToMinimap(me.getStrictX()>>7, me.getStrictY()>>7);
+        Point C =  Minimap.tileToMinimap(me.getStrictX() >> 7, me.getStrictY() >> 7);
 
         for(RSPlayer p : client.getPlayers()) {
 
