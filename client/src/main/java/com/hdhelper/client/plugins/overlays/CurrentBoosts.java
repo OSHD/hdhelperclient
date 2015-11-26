@@ -1,6 +1,7 @@
 package com.hdhelper.client.plugins.overlays;
 
 import com.hdhelper.agent.services.RSImage;
+import com.hdhelper.client.api.Game;
 import com.hdhelper.client.api.Skill;
 import com.hdhelper.client.api.ge.*;
 import com.hdhelper.client.api.plugin.Plugin;
@@ -66,6 +67,8 @@ public class CurrentBoosts extends Plugin {
 
     @Override
     public void render(RTGraphics g) {
+
+        if(!Game.isLoggedIn()) return;
 
         //Skill Boots:
 
@@ -151,7 +154,7 @@ public class CurrentBoosts extends Plugin {
 
         font.drawCenterString("Change in:" + remaining + "s", x + width / 2, y - 2, Color.WHITE.getRGB());
 
-        g.drawHorizontalLine(x+2,y+4,width-10,Color.BLACK.getRGB());
+        g.drawHorizontalLine(x + 2, y + 4, width - 10, Color.BLACK.getRGB());
 
         y += 6;
 
