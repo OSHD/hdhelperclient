@@ -4,10 +4,9 @@ import com.hdhelper.agent.services.RSImage;
 import com.hdhelper.client.api.Skill;
 import com.hdhelper.client.api.ge.*;
 import com.hdhelper.client.api.plugin.Plugin;
-import com.hdhelper.client.ui.HDCanvas;
 
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
 
 public class CurrentBoosts extends Plugin {
 
@@ -72,8 +71,8 @@ public class CurrentBoosts extends Plugin {
 
         RTFont font = this.font;
 
-        int x = HDCanvas.mouseX;
-        int y = HDCanvas.mouseY;
+        int x = 15;
+        int y = 45;
 
         int[] curLevels = client.getCurrentLevels();
         int[] realLevels = client.getLevels();
