@@ -157,7 +157,6 @@ public final class Cooking extends Plugin {
             sx += 3;
             font.setGraphics(g);
             font.drawWordWrap(foodName, sx, y, width, image.getHeight(), Color.YELLOW.getRGB(), -1, RTFont.ROW_LAYOUT_CENTER, RTFont.TEXT_LAYOUT_BASELINE, 0);
-
             font.drawWordWrap(txt, sx, y, width, image.getHeight(), Color.YELLOW.getRGB(), -1, RTFont.ROW_LAYOUT_CENTER, RTFont.TEXT_LAYOUT_TOP, 0);
         }
 

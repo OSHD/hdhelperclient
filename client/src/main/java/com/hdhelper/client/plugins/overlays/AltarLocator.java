@@ -22,9 +22,13 @@ public class AltarLocator extends Plugin  {
 
     @Override
     public void init() {
-        assert Game.isLoaded();
         altars = new HashSet<RSEntityMarker>();
         b12_full = new RTFontImpl(RTGlyphVector.getB12Full());
+    }
+
+    @Override
+    public void destroy() {
+        altars.clear();
     }
 
     /**

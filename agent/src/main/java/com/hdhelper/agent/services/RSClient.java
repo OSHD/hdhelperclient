@@ -65,6 +65,9 @@ public interface RSClient {
     int getMinimapRotation();
     int getViewRotation();
 
+    int[] getCurrentLevels();
+    int[] getLevels();
+
     void addMessageListener(MessageListener listener);
     void removeMessageListener(MessageListener listener);
 

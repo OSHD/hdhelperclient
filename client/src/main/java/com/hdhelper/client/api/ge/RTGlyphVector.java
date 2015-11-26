@@ -1,5 +1,7 @@
 package com.hdhelper.client.api.ge;
 
+//TODO ability to turn into a standard font.
+//TODO ability to display the font like: http://www.microsoft.com/en-us/Typography/TrueTypeInstall.aspx
 public class RTGlyphVector {
 
     int[] absWidth;
@@ -7,7 +9,7 @@ public class RTGlyphVector {
     int[] insetY;
     int[] widths;
     int[] heights;
-    byte[][] glyphs = new byte[256][];
+    byte[][] glyphs;
     byte[] fieldK;
     int maxAscent;
     int maxDescent;
@@ -17,7 +19,7 @@ public class RTGlyphVector {
     }
 
     RTGlyphVector(byte[] meta) {
-        this.unpackMeta(meta);
+        unpackMeta(meta);
     }
 
     RTGlyphVector(int[] absWidth, int baseLine, int[] drawOffsetX, int[] drawOffsetY, int[] widths, int[] heights, int[] colorMap, byte[][] bitmap) {

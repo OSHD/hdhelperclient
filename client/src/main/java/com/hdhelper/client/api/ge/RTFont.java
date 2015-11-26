@@ -50,8 +50,8 @@ public abstract class RTFont extends RTGraphics {
         this.images = images;
     }
 
-    public int getBaseLine() {
-        return baseLine;
+    public int getHeight() {
+        return maxAscent + maxDescent;
     }
 
     // Publically exposed methods, ignore the rest for now

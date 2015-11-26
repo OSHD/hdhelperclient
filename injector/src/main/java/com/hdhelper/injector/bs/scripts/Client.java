@@ -97,6 +97,10 @@ public class Client extends GameEngine implements RSClient {
     public static int minimapRotation;
     @BField
     public static int viewRotation;
+    @BField
+    public static int[] currentLevels;
+    @BField
+    public static int[] levels;
 
 
     // Methods
@@ -284,6 +288,15 @@ public class Client extends GameEngine implements RSClient {
     @Override
     public int getViewRotation() {
         return viewRotation;
+    }
+
+    @Override
+    public int[] getCurrentLevels() {
+        return currentLevels;
+    }
+    @Override
+    public int[] getLevels() {
+        return levels;
     }
 
     // Methods //////////////////////////////////////////////////////////////////////
