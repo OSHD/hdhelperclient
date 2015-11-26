@@ -192,8 +192,8 @@ public class Debug extends BasicOverlay {
 
             if(renderMinX < 0)   renderMinX = 0;
             if(renderMinY < 0)   renderMinY = 0;
-            if(renderMinX > 103) renderMaxX = 103;
-            if(renderMinY > 103) renderMaxY = 103;
+            if(renderMaxX > 104) renderMaxX = 104;
+            if(renderMaxY > 104) renderMaxY = 104;
 
 
             warrior.drawString("Logged in:" + Game.isLoggedIn(), lol.x(), lol.y());

@@ -1,61 +1,27 @@
 package com.hdhelper.client.plugins.overlays;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import com.hdhelper.agent.services.RSClient;
 import com.hdhelper.agent.services.RSItemDefinition;
 import com.hdhelper.agent.services.RSPlayer;
 import com.hdhelper.client.api.action.ActionTypes;
-import com.hdhelper.client.api.action.tree.Action;
-import com.hdhelper.client.api.action.tree.ExamineEntityAction;
-import com.hdhelper.client.api.action.tree.GroundItemAction;
-import com.hdhelper.client.api.action.tree.ItemOnItemAction;
-import com.hdhelper.client.api.action.tree.NpcAction;
-import com.hdhelper.client.api.action.tree.ObjectAction;
-import com.hdhelper.client.api.action.tree.PlayerAction;
-import com.hdhelper.client.api.action.tree.TableItemAction;
-import com.hdhelper.client.api.ge.GlyphFactory;
-import com.hdhelper.client.api.ge.RTFont;
+import com.hdhelper.client.api.action.tree.*;
 import com.hdhelper.client.api.ge.RTFontImpl;
 import com.hdhelper.client.api.ge.RTGlyphVector;
 import com.hdhelper.client.api.ge.RTGraphics;
-import com.hdhelper.client.api.ge.RTImage;
 import com.hdhelper.client.api.plugin.Plugin;
 import com.hdhelper.client.ui.HDCanvas;
 
+import java.awt.*;
+
 public class ActionDisplay extends Plugin {
-	
-	
-	RTImage lol;
-	
+
 	@Override
 	public void init() {
-		
-	  /*	Font java_font = new Font("Verdana", Font.BOLD, 12);
-	  	RTGlyphVector rs_font_data = GlyphFactory.createVector(java_font);*/
-	  	
-		Image img;
-		try {
-			img = ImageIO.read(new File("C:/Users/Jacob/Desktop/apple.png"));
-			lol = new RTImage(img);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
 		 font = new RTFontImpl(RTGlyphVector.getP12Full());
 	}
-	
-	
+
 	String getTopString() {
+
 		RSClient engine = super.client;
 
 		if (engine.getMenuCount() > 0) {
@@ -74,9 +40,9 @@ public class ActionDisplay extends Plugin {
 
 				Action act = Action.valueOf(opcode, arg0, arg1, arg2);
 
-				String tryAct = acceptAction(option,actionStr,act); //See if this is somthing we like...
+				String tryAct = acceptAction(option,actionStr,act); //See if this is something we like...
 				
-				if(tryAct != null) return tryAct; //We hit somthing interesting!
+				if(tryAct != null) return tryAct; //We hit something interesting!
 
 			}
 
@@ -151,7 +117,7 @@ public class ActionDisplay extends Plugin {
 		
 		if(act instanceof ObjectAction) {
 			if(action.equalsIgnoreCase("Bank")) return action;
-			return action + " <col=fd9900>" + option + "</col>";
+			return "<col=FFFFFF>" + action + "</col> " + option;
 		}
 		
 		if(action.equalsIgnoreCase("Cast")) {
@@ -178,7 +144,7 @@ public class ActionDisplay extends Plugin {
 			return action + " " + option;
 		}
 		
-		if(act instanceof ItemOnItemAction) {
+		if(act instanceof ItemOnItemAction) { //TODO
 			
 			ItemOnItemAction item = (ItemOnItemAction) act;
 			

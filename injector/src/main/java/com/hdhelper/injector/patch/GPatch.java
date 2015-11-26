@@ -134,7 +134,6 @@ public class GPatch {
         switch(var2.getSort()) {
             case Type.ARRAY: {
 
-                System.out.println(var2.getDimensions() + "," + var2.getElementType());
                 String var3 = mapDesc(var2.getElementType().getDescriptor());
 
                 for (int var5 = 0; var5 < var2.getDimensions(); ++var5) {

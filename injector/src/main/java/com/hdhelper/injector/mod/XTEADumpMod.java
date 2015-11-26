@@ -40,7 +40,7 @@ public class XTEADumpMod extends InjectionModule {
 
                             if (!hit) continue;
 
-                            System.out.println("XTEA @ " + cn.name + "#" + mn.name + "@" + mn.desc);
+                      //      System.out.println("XTEA @ " + cn.name + "#" + mn.name + "@" + mn.desc);
 
                             //Copy the array-store index
                             InsnList stack = new InsnList();
