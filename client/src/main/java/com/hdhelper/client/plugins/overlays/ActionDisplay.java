@@ -1,8 +1,6 @@
 package com.hdhelper.client.plugins.overlays;
 
 import com.hdhelper.agent.services.RSClient;
-import com.hdhelper.agent.services.RSItemDefinition;
-import com.hdhelper.agent.services.RSPlayer;
 import com.hdhelper.client.api.action.ActionTypes;
 import com.hdhelper.client.api.action.tree.*;
 import com.hdhelper.client.api.ge.RTFontImpl;
@@ -69,12 +67,14 @@ public class ActionDisplay extends Plugin {
 		//Complex checks...
 		
 		if(act instanceof PlayerAction) {
+
+			return option;
 			
-			PlayerAction pact = (PlayerAction) act;
+		/*	PlayerAction pact = (PlayerAction) act;
 			
 			RSPlayer p = pact.getPlayer0();
 			
-			return "<col=ee04f0>" + p.getName() + "</col>";
+			return "<col=ee04f0>" + p.getName() + "</col>";*/
 			
 		}
 		
@@ -85,65 +85,15 @@ public class ActionDisplay extends Plugin {
 		}*/
 		
 		if(action.equalsIgnoreCase("Drop")) return null;
-		
-		if(act instanceof TableItemAction) {
-			TableItemAction tia = (TableItemAction) act;
-			int item_id = tia.getItemID();
-			RSItemDefinition def = client.getItemDef(item_id);
-			def.getName();
-			
-			return action + " <col=fd9900>" + def.getName() + "</col>";
-			
-		}
-		
-		if(action.equalsIgnoreCase("Add friend") || action.equalsIgnoreCase("Message")) {
-			String player = option;
-			
-			return action + " " + player;
-		}
-		
-		if(act instanceof NpcAction) {
-				
-			NpcAction npc_action = (NpcAction) act;
-			
-			return action + " " + option;
-			
-		}
-		
-		if(act instanceof GroundItemAction) {
-			return action + " " + option;
-		}
-		
+
 		
 		if(act instanceof ObjectAction) {
 			if(action.equalsIgnoreCase("Bank")) return action;
 			return "<col=FFFFFF>" + action + "</col> " + option;
 		}
 		
-		if(action.equalsIgnoreCase("Cast")) {
-			return action + " " + option;
-		}
-		
-		if(action.equalsIgnoreCase("Value")) {
-			return action + " " + option;
-		}
-		
-		if(action.contains("Remove")) {
-			return action + " " + option;
-		}
-		
-		if(action.equalsIgnoreCase("Store")) {
-			return action + " " + option;
-		}
-		
-		if(action.contains("Withdraw")) {
-			return action + " " + option;
-		}
-		
-		if(action.contains("Deposit")) {
-			return action + " " + option;
-		}
-		
+
+
 		if(act instanceof ItemOnItemAction) { //TODO
 			
 			ItemOnItemAction item = (ItemOnItemAction) act;
@@ -156,7 +106,7 @@ public class ActionDisplay extends Plugin {
 		
 		if(act instanceof ExamineEntityAction) return null;
 		
-		return action;
+		return action + " " + option;
 	}
 	
 	
