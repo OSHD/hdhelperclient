@@ -13,6 +13,8 @@ public abstract class Plugin implements Overlay {
     protected final RSClient client;
     private PluginStub stub;
 
+
+
     public Plugin() {
         client = Game.get();
     }

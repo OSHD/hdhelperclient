@@ -2,9 +2,9 @@ package com.hdhelper.client.api;
 
 public enum Skill {
 
-    ATTACK,
-    DEFENCE,
-    STRENGTH,
+    ATTACK, // 197
+    DEFENCE, // 199
+    STRENGTH, // 198
     HITPOINTS,
     RANGED,
     PRAYER,
@@ -24,6 +24,10 @@ public enum Skill {
     FARMING,
     RUNECRAFTING,
     HUNTER,
-    CONSTRUCTION
+    CONSTRUCTION;
+
+    public int getId() {
+        return ordinal();
+    }
 
 }

@@ -1,10 +1,8 @@
 package com.hdhelper.client.plugins.overlays;
 
+import com.hdhelper.agent.services.RSImage;
 import com.hdhelper.client.api.Skill;
-import com.hdhelper.client.api.ge.RTFont;
-import com.hdhelper.client.api.ge.RTFontImpl;
-import com.hdhelper.client.api.ge.RTGlyphVector;
-import com.hdhelper.client.api.ge.RTGraphics;
+import com.hdhelper.client.api.ge.*;
 import com.hdhelper.client.api.plugin.Plugin;
 import com.hdhelper.client.ui.HDCanvas;
 
@@ -16,11 +14,22 @@ public class CurrentBoosts extends Plugin {
     RTFont font;
     RTFont bold;
 
+    RTImage[] skillImages;
+
+
     @Override
     public void init() {
         font = new RTFontImpl(RTGlyphVector.getP12Full());
         bold = new RTFontImpl(RTGlyphVector.getB12Full());
         lastTick = System.currentTimeMillis();
+        skillImages = new RTImage[Skill.values().length];
+        for(Skill skill : Skill.values()) {
+            int imageId = CachedImaged.SKILL2IMAGE[skill.getId()];
+            RSImage img0 = CachedImaged.getImage(imageId);
+            RTImage img = RTImage.create(img0,false);
+            img.crop();
+            skillImages[skill.getId()] = img;
+        }
     }
 
     int[] prevLevels;
@@ -73,13 +82,16 @@ public class CurrentBoosts extends Plugin {
 
 
         class Boost {
-            String skill;
+            Skill skill;
             String info;
+            int infoWidth;
         }
 
         java.util.List<Boost> boosts = new ArrayList<Boost>();
 
         for(int i = 0; i < curLevels.length; i++) {
+
+            if(i == Skill.PRAYER.getId()) continue;
 
             int curLevel = curLevels[i];
             int realLevel = realLevels[i];
@@ -103,7 +115,7 @@ public class CurrentBoosts extends Plugin {
                              + " ETA:" + timeText;
 
             Boost boost = new Boost();
-            boost.skill = Skill.values()[i].name();
+            boost.skill = Skill.values()[i];
             boost.info = boostText;
 
             boosts.add(boost);
@@ -112,40 +124,55 @@ public class CurrentBoosts extends Plugin {
 
         if(boosts.isEmpty()) return;
 
-        int boostHeight = font.getHeight() * 2 + 4;
-        int height = font.getHeight() + boosts.size() * boostHeight;
+        int boostHeight = 25 + 2;
+        int height = font.getHeight() + boosts.size() * boostHeight + 4 + 4 + 4;
         int width = 0;
         for(Boost boost : boosts) {
             int txtWidth = font.getStringWidth(boost.info);
+            boost.infoWidth = txtWidth;
             if(txtWidth > width) width = txtWidth;
         }
 
-        width += 6;
-        height += 6;
+        width += 25 + 4 + 4 + 4;
+
 
         g.fillRectangle(x, y, width, height, Color.BLACK.getRGB(), 128);
-        g.drawRectangle(x, y, width, height, Color.BLUE.getRGB(), 128);
 
-        x += 3;
-        y += 3;
+        g.drawRectangle(x, y, width, height, Color.BLACK.getRGB(), 64);
+        g.drawRectangle(x+1, y+1, width-2, height-2, Color.BLACK.getRGB(), 64);
+
+        x++;
+        y++;
 
         font.setGraphics(g);
         bold.setGraphics(g);
 
-        y += font.getHeight();
-        y -= 3;
 
-        font.drawString("Change in:" + remaining + "s", x, y - 2, Color.WHITE.getRGB());
+        y += font.getHeight();
+
+        font.drawCenterString("Change in:" + remaining + "s", x + width / 2, y - 2, Color.WHITE.getRGB());
+
+        g.drawHorizontalLine(x+2,y+4,width-10,Color.BLACK.getRGB());
+
+        y += 6;
 
         int index = 0;
         for(Boost boost : boosts) {
 
-            bold.drawWordWrap("<u=FFFF00>" + boost.skill + "</u>",x,y+2, width, font.getHeight(), Color.ORANGE.getRGB(), -1, RTFont.ROW_LAYOUT_CENTER, RTFont.TEXT_LAYOUT_CENTER,0);
-            font.drawString(boost.info, x, y + font.getHeight() * 2, Color.YELLOW.getRGB());
+            RTImage img = skillImages[boost.skill.getId()];
+
+            img.setGraphics(g);
+            img.f(x, y + ((boostHeight - 25) / 2)-1);
+
+            int x0 = x;
+            x += (img.getWidth() + 4);
+
+            font.drawString(boost.info, x, y + boostHeight/2 + 4, Color.YELLOW.getRGB());
             if(index != (boosts.size()-1)) {
-                g.drawHorizontalLine(x + 2, y + boostHeight + 1, width - 8, Color.BLUE.getRGB());
+                g.drawHorizontalLine(x0 + 2, y + boostHeight + 1, width - 10, Color.BLACK.getRGB());
             }
-            y += boostHeight + 1;
+            y += boostHeight + 4;
+            x = x0;
             index++;
         }
 

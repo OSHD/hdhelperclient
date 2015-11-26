@@ -14,6 +14,8 @@ public class Bar extends JMenuBar {
     }
 
 
+
+
     private void build() {
 
         //Create the menu bar.
@@ -123,7 +125,6 @@ public class Bar extends JMenuBar {
             }
         });
         menu.add(draw_misc_items);
-
         this.add(menu);
 
     }
