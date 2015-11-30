@@ -6,9 +6,9 @@ import com.hdhelper.agent.services.*;
 import com.hdhelper.client.Environment;
 import com.hdhelper.client.Main;
 import com.hdhelper.client.api.*;
-import com.hdhelper.client.api.db.ItemValue;
-import com.hdhelper.client.api.db.ItemValueDatabase;
-import com.hdhelper.client.api.db.ItemValueDatabases;
+import com.hdhelper.client.api.db.iv.ItemValue;
+import com.hdhelper.client.api.db.iv.ItemValueDatabase;
+import com.hdhelper.client.api.db.iv.ItemValueDatabases;
 import com.hdhelper.client.api.ge.*;
 
 import java.awt.*;

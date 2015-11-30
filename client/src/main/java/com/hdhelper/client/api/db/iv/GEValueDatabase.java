@@ -1,7 +1,7 @@
-package com.hdhelper.client.api.db;
+package com.hdhelper.client.api.db.iv;
 
-import com.hdhelper.client.api.db.ge.GE;
-import com.hdhelper.client.api.db.ge.GEItemDetail;
+import com.hdhelper.client.api.db.iv.ge.GE;
+import com.hdhelper.client.api.db.iv.ge.GEItemDetail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.hdhelper.client.api.db;
+package com.hdhelper.client.api.db.iv;
 
 public abstract class ItemValue {
 

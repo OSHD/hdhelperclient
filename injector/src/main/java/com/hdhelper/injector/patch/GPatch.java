@@ -39,7 +39,6 @@ public class GPatch {
         GClass client = patch.getGClass("Client");
 
         client.fields.put("screenScale",new GField( "client", "om", "I", 1189283231 ));
-
         client.fields.put("screenHeight",new GField( "client", "oe", "I", 124139643  ));
         client.fields.put("screenWidth",new GField( "client", "od", "I", -655618925  ));
 

@@ -1,4 +1,4 @@
-package com.hdhelper.client.api.db.ge;
+package com.hdhelper.client.api.db.iv.ge;
 
 public enum Trend {
 

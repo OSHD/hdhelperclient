@@ -1,4 +1,4 @@
-package com.hdhelper.client.api.db.ge;
+package com.hdhelper.client.api.db.iv.ge;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -55,7 +55,6 @@ public class GE {
     }
 
     public static GEItemDetail parse(String json) {
-        Gson handle = GSON.get();
         return parse(GSON.get(),json);
     }
 
