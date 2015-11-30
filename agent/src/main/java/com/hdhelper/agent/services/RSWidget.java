@@ -14,4 +14,7 @@ public interface RSWidget {
     int getWidth();
     int getHeight();
 
+    int[] getItemIds();
+    int[] getItemQuantities();
+
 }

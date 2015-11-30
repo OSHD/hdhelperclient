@@ -19,6 +19,8 @@ public class Widget extends Node implements RSWidget {
     @BField int relativeY;
     @BField int width;
     @BField int height;
+    @BField int[] itemIds;
+    @BField int[] itemQuantities;
 
     @Override
     public int getId() {
@@ -73,5 +75,15 @@ public class Widget extends Node implements RSWidget {
     @Override
     public int getHeight() {
         return height;
+    }
+
+    @Override
+    public int[] getItemIds() {
+        return itemIds;
+    }
+
+    @Override
+    public int[] getItemQuantities() {
+        return itemQuantities;
     }
 }

@@ -1,7 +1,7 @@
 package com.hdhelper.client.api.plugin;
 
 import com.hdhelper.agent.services.RSClient;
-import com.hdhelper.client.Game;
+import com.hdhelper.client.Client;
 import com.hdhelper.client.api.ge.Overlay;
 import com.hdhelper.client.api.ge.RTGraphics;
 
@@ -16,7 +16,7 @@ public abstract class Plugin implements Overlay {
 
 
     public Plugin() {
-        client = Game.get();
+        client = Client.get();
     }
 
     public final void setStub(PluginStub stub) {

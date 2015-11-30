@@ -1,11 +1,16 @@
 package com.hdhelper.client.api;
 
-import com.hdhelper.client.Main;
 import com.hdhelper.agent.services.RSItemDefinition;
+import com.hdhelper.client.Client;
 
 public class Item {
-    private int id;
-    private int q;
+
+    protected int id;
+    protected int q;
+
+    public Item() {
+        this(-1,-1);
+    }
 
     public Item(int id, int q) {
         this.id = id;
@@ -21,7 +26,7 @@ public class Item {
     }
 
     public RSItemDefinition getDef() {
-        return Main.client.getItemDef(getId());
+        return Client.get().getItemDef(getId());
     }
 
     public String name() {

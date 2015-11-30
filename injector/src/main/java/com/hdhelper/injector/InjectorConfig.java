@@ -7,6 +7,7 @@ public class InjectorConfig { // We should not have any references to user provi
 
     private Logger logger;
     private File outLoc;
+    private boolean useCaches; // If we have an inject client, and its valid, should we use that?
 
     public InjectorConfig() {
     }
@@ -35,6 +36,9 @@ public class InjectorConfig { // We should not have any references to user provi
         return outLoc;
     }
 
+    public boolean useCaches() {
+        return useCaches;
+    }
 
 
     // Setters:
@@ -46,6 +50,11 @@ public class InjectorConfig { // We should not have any references to user provi
 
     public InjectorConfig setOutputLoc(File loc) {
         this.outLoc = loc;
+        return this;
+    }
+
+    public InjectorConfig setUseCaches(boolean caches) {
+        this.useCaches = caches;
         return this;
     }
 

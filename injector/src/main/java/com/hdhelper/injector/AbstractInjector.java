@@ -1,7 +1,10 @@
 package com.hdhelper.injector;
 
+import java.io.DataInputStream;
+import java.io.IOException;
 import java.util.Map;
 import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 public abstract class AbstractInjector {
 
@@ -23,6 +26,27 @@ public abstract class AbstractInjector {
 
     // Gives the injector a change to clean up and release any system resources.
     public void destroy() {
+    }
+
+
+    // The version of the injector that was used to inject the target client
+    public static int getInjectorVersion(JarFile client) {
+        ZipEntry entry = client.getEntry("META-INF/iv");
+        if(entry == null) return -1;
+        DataInputStream dis = null;
+        try {
+            dis = new DataInputStream(client.getInputStream(entry));
+            return dis.readInt();
+        } catch (IOException ignored) {
+        } finally {
+            if(dis != null) {
+                try {
+                    dis.close();
+                } catch (IOException ignored) {
+                }
+            }
+        }
+        return -1;
     }
 
 }

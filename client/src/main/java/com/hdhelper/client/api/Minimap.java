@@ -20,13 +20,9 @@ public class Minimap {
         );
     }
 
-
     private static Point worldToMinimap(final int regionX, final int regionY) {
 
-
         RSClient client = Main.client;
-
-     //   System.out.println(regionX + "," + regionY + "," + client.getMinimapRotation() + "," + client.getMinimapScale() + ","  + client.getViewRotation());
 
         final int angle = client.getMinimapRotation() + client.getMinimapScale() & 0x7FF;
         final int j = regionX * regionX + regionY * regionY;

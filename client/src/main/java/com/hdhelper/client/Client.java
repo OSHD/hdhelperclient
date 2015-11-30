@@ -3,7 +3,7 @@ package com.hdhelper.client;
 import com.hdhelper.agent.CNI;
 import com.hdhelper.agent.services.RSClient;
 
-public final class Game {
+public final class Client {
 
     private static final CNI cni;
 
@@ -13,7 +13,7 @@ public final class Game {
         cni = ClientNative.get();
     }
 
-    private Game() {
+    private Client() {
     }
 
     public static RSClient get() {

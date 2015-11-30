@@ -103,9 +103,8 @@ public class CurrentBoosts extends Plugin {
             if(change == 0) continue;
 
             String lvlColor = change > 0 ? "00FF00" : "FF0000";
-            char changeChar = change > 0 ? '+' : '-';
 
-            int minutesRemaining = change; // 1 level change takes 60 seconds, or 1 minute
+            int minutesRemaining = Math.abs(change); // 1 level change takes 60 seconds, or 1 minute
             int secondsRemaining = remaining;
 
             String timeText = "";
@@ -113,7 +112,7 @@ public class CurrentBoosts extends Plugin {
             if(secondsRemaining > 0) timeText += (secondsRemaining + "s");
 
             String boostText = "<u=" + lvlColor + "><col=" + lvlColor + ">" + curLevel + "</col></u>/" + realLevel
-                             + "(<col=" + lvlColor + ">" + changeChar + change + "</col>)"
+                             + "(<col=" + lvlColor + ">" + (change>0?'+':"") + change + "</col>)"
                              + " ETA:" + timeText;
 
             Boost boost = new Boost();
@@ -126,8 +125,8 @@ public class CurrentBoosts extends Plugin {
 
         if(boosts.isEmpty()) return;
 
-        int boostHeight = 25 + 2;
-        int height = font.getHeight() + boosts.size() * boostHeight + 4 + 4 + 4;
+        int boostHeight = 25 + 4;
+        int height = font.getHeight() + boosts.size() * boostHeight + 4 + 4;
         int width = 0;
         for(Boost boost : boosts) {
             int txtWidth = font.getStringWidth(boost.info);
@@ -135,7 +134,7 @@ public class CurrentBoosts extends Plugin {
             if(txtWidth > width) width = txtWidth;
         }
 
-        width += 25 + 4 + 4 + 4;
+        width += 25 + 4 + 4 + 4 + 2;
 
 
         g.fillRectangle(x, y, width, height, Color.BLACK.getRGB(), 128);
@@ -167,13 +166,14 @@ public class CurrentBoosts extends Plugin {
             img.f(x, y + ((boostHeight - 25) / 2)-1);
 
             int x0 = x;
-            x += (img.getWidth() + 4);
+            x += (25 + 6);
 
-            font.drawString(boost.info, x, y + boostHeight/2 + 4, Color.YELLOW.getRGB());
+            font.drawString(boost.info, x, y + 2 + font.getMaxAscent() + ( boostHeight - font.getHeight() ) / 2, Color.YELLOW.getRGB());
+
             if(index != (boosts.size()-1)) {
                 g.drawHorizontalLine(x0 + 2, y + boostHeight + 1, width - 10, Color.BLACK.getRGB());
             }
-            y += boostHeight + 4;
+            y += boostHeight;
             x = x0;
             index++;
         }

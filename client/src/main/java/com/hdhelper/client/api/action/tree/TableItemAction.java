@@ -7,7 +7,9 @@ import com.hdhelper.client.api.action.ActionTypes;
 public class TableItemAction extends AbstractTableAction {
 
     public TableItemAction(int opcode,
-                           int item_id, int item_index, int containerUID) {
+                           int item_id,
+                           int item_index,
+                           int containerUID) {
         super(opcode, item_id, item_index, containerUID);
     }
 
@@ -21,22 +23,12 @@ public class TableItemAction extends AbstractTableAction {
             && op <= ActionTypes.ITEM_ACTION_4;
     }
 
+    @Override
     public int getActionIndex() {
         return opcode - ActionTypes.ITEM_ACTION_0;
     }
 
-  /*  public Widget getContainer() {
-        final int parent = getParent();
-        final int child = getChild();
-        return Widget.get(parent, child);
-    }
-
-    public Item getItem() {
-        Widget container = getContainer();
-        if(container == null) return null;
-        return new WidgetItem(container,getItemIndex());
-    }
-*/
+    @Override
     public String toString() {
         final int parent = getParent();
         final int child = getChild();

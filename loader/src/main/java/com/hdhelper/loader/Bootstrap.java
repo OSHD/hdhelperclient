@@ -19,6 +19,8 @@ import java.util.zip.ZipFile;
 //Unify all the modules
 public class Bootstrap {
 
+    private static boolean useCaches = true;
+
     public static void main(String[] args) throws Exception {
 
      //   Policy.setPolicy(new BarrierPolicy());
@@ -75,8 +77,10 @@ public class Bootstrap {
 
         System.out.println("Injecting...");
 
+
         InjectorConfig config = new InjectorConfig();
         config.setOutputLoc(Environment.INJECTED);
+        config.setUseCaches(useCaches);
 
         Map<String,byte[]> injected = inject(client,config);
 
@@ -100,6 +104,7 @@ public class Bootstrap {
     //TODO We want to destroy any resources the injector used once its done.
     private static Map<String,byte[]> inject(JarFile client, InjectorConfig cfg) {
         try {
+            // Re-Inject:
             AbstractInjector injector = new Injector(cfg);
             Map<String,byte[]> injected = injector.inject(client);
             injector.destroy();
@@ -110,6 +115,9 @@ public class Bootstrap {
         }
 
     }
+
+
+
 
     static byte[] getLiveOSRSConfigBytes(int world) {
         try {

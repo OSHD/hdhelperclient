@@ -27,6 +27,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 
 import java.io.*;
+import java.nio.ByteBuffer;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +38,8 @@ import java.util.logging.Logger;
 
 
 public final class Injector extends AbstractInjector {
+
+    public static final int VERSION = 2;
 
     private static final Logger LOG = Logger.getLogger(Injector.class.getName());
 
@@ -49,15 +52,85 @@ public final class Injector extends AbstractInjector {
     @Override
     public Map<String,byte[]> inject(JarFile target) throws Exception {
         cfg.verify();
+
+        if(cfg.useCaches()) {
+            if(cfg.getOutputFile().exists()) {
+                JarFile injected = null;
+                try {
+                    injected = new JarFile(cfg.getOutputFile());
+                    if(canReuseInjected(injected)) {
+                        System.out.println("Loading caches...");
+                        return loadPreInjectedResources(injected);
+                    } else {
+                        System.out.println("Outdated/Invalid cache");
+                    }
+                } catch (Throwable ignored) {
+                    ignored.printStackTrace();
+                } finally {
+                    if(injected!=null) injected.close();
+                }
+            } else {
+                System.out.println("No caches");
+            }
+
+            System.out.println("Unable to use caches, re-injecting...");
+        }
+
         byte[] config = getConfig(target);
         Map<String,byte[]> classes = inject0(target);
         System.out.println("Verifying...");
         verifyBytecode(classes);
         System.out.println("Saving...");
         save(classes, config, cfg.getOutputFile());
-        classes.put("META-INF/config.ws",config); //Stash the config to be accessible by the class-loader
+        classes.put("META-INF/config.ws", config); //Stash the config to be accessible by the class-loader
         return classes;
     }
+
+    private static Map<String,byte[]> loadPreInjectedResources(JarFile jar) throws IOException {
+
+        Enumeration<JarEntry> jarEntries = jar.entries();
+
+        Map<String,byte[]> resources = new HashMap<String,byte[]>(jar.size());
+
+        byte[] buffer = new byte[1024];
+        int read;
+        ByteArrayOutputStream bais = new ByteArrayOutputStream();
+
+        while (jarEntries.hasMoreElements()) {
+
+            JarEntry entry = jarEntries.nextElement();
+            String entryName = entry.getName();
+
+            if(entryName.endsWith(".class")||
+                    entryName.equals("META-INF/config.ws")) {
+
+                InputStream in = jar.getInputStream(entry);
+
+                while ((read=in.read(buffer))!=-1) {
+                    bais.write(buffer,0,read);
+                }
+
+                byte[] data = bais.toByteArray();
+                resources.put(entryName.replace(".class",""), data);
+
+                bais.reset();
+                in.close();
+
+            }
+        }
+
+        jar.close();
+
+        return resources;
+
+    }
+
+    private static boolean canReuseInjected(JarFile client) {
+        int cur_version = Injector.VERSION;
+        int injected_version = AbstractInjector.getInjectorVersion(client);
+        return cur_version == injected_version;
+    }
+
 
     // Verify the bytecode by having the VM load the classes (and in term verify the class).
     // This assumed class-verification is not disabled within this virtual machine.
@@ -87,6 +160,12 @@ public final class Injector extends AbstractInjector {
             JarEntry cfg = new JarEntry("META-INF/config.ws");
             out.putNextEntry(cfg);
             out.write(config);
+            out.closeEntry();
+
+            // Write the version:
+            JarEntry ver = new JarEntry("META-INF/iv");
+            out.putNextEntry(ver);
+            out.write(ByteBuffer.allocate(4).putInt(VERSION).array());
             out.closeEntry();
 
         } finally {

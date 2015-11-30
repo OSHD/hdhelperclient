@@ -99,7 +99,11 @@ public class Debug extends BasicOverlay {
 
             RSClient client = Main.client;
 
-        /*    RSPlayer meee = client.getMyPlayer();
+
+
+         //   System.out.println(bv);
+
+  /*    RSPlayer meee = client.getMyPlayer();
 
             long a = System.nanoTime();
             for(RSPlayer p : client.getPlayers()) {

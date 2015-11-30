@@ -1,15 +1,15 @@
 package com.hdhelper.client.api;
 
-import com.hdhelper.client.Main;
+import com.hdhelper.client.Client;
 
 public class Game {
 
     public static boolean isLoggedIn() {
-        return Main.client.getConnectionState() == 30;
+        return Client.get().getConnectionState() == 30;
     }
 
     public static boolean isLoaded() {
-        return Main.client.getBootState() == 140;
+        return Client.get().getBootState() == 140;
     }
 
 }

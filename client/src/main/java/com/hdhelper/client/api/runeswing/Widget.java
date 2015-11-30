@@ -1,5 +1,8 @@
 package com.hdhelper.client.api.runeswing;
 
+import com.hdhelper.agent.services.RSWidget;
+import com.hdhelper.client.Client;
+
 public class Widget {
 
     /** All possible widget component types **/
@@ -55,5 +58,10 @@ public class Widget {
         return WUID & 0xffff;
     }
 
+
+    public static RSWidget get0(int parent, int child) {
+        RSWidget[][] all = Client.get().getWidgets();
+        return all[parent][child];
+    }
 
 }

@@ -19,7 +19,7 @@ public final class GEItemPrice {
     }
 
     public int getPrice() {
-        return parsePrice(price);
+        return parsePrice(price.replace(",",""));
     }
 
     public static int parsePrice(CharSequence price) {

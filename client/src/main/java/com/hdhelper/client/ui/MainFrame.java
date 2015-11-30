@@ -5,6 +5,7 @@ import com.hdhelper.agent.services.RSClient;
 import com.hdhelper.agent.services.RSWidget;
 import com.hdhelper.client.ClientNative;
 import com.hdhelper.client.Main;
+import com.hdhelper.client.api.action.ActionAdapter;
 
 import javax.swing.*;
 import java.applet.Applet;
@@ -41,16 +42,15 @@ public class MainFrame extends JFrame {
 
                 setVisible(true);
 
-              /*  Main.client.addActionListener(new ActionAdapter() {
+                Main.client.addActionListener(new ActionAdapter() {
                     @Override
-                    public void actionPerformed(Action act) {
-                        if(act instanceof ExamineItemAction) {
-                            System.out.println(ItemTable.getItemAt(ItemTable.INVENTORY,((ExamineItemAction)act).getItemIndex()));
-                        }
+                    public void actionPerformed(com.hdhelper.client.api.action.tree.Action act) {
+                        System.out.println(act);
 
                     }
+
                 });
-*/
+
             }
         });
     }

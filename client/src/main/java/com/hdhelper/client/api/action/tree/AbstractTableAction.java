@@ -1,6 +1,10 @@
 package com.hdhelper.client.api.action.tree;
 
 
+import com.hdhelper.agent.services.RSWidget;
+import com.hdhelper.client.api.DynamicTableItem;
+import com.hdhelper.client.api.StaticTableItem;
+import com.hdhelper.client.api.TableItem;
 import com.hdhelper.client.api.runeswing.Widget;
 
 // Named abstract since TableAction can not be named
@@ -41,18 +45,22 @@ public abstract class AbstractTableAction extends Action {
         return -1;
     }
 
-   /* public Widget getTable() {
+    public RSWidget getTable0() {
         final int parent = getParent();
         final int child  = getChild();
-        return Interfaces.get(parent, child);
+        return Widget.get0(parent, child);
     }
-*/
-   /* public Item getItem() {
-        Widget container = getTable();
-        if(container == null) return null;
-        return new WidgetItem(container,getItemIndex());
+
+   public TableItem getItem(boolean dynamic) {
+        RSWidget table = getTable0();
+        if(table == null) return null;
+        if(dynamic) {
+            return new DynamicTableItem(table,getItemIndex());
+        } else { //TODO we may want to check if the current item in the slot is the same as getItemId();
+            return new StaticTableItem(table,getItemIndex());
+        }
     }
-*/
+
 
     @Override
     public final boolean accepts(int opcode, int arg0, int arg1, int arg2) {
@@ -63,6 +71,6 @@ public abstract class AbstractTableAction extends Action {
     }
 
     public String toString() {
-        return "TableAction:[Address(uid=" + getTableUID() + ")=<" + getParent() + "#" + getChild() + "> ] Item(index=" + getItemIndex() + ")=" /*+ getItem()*/;
+        return "TableAction:[Address(uid=" + getTableUID() + ")=<" + getParent() + "#" + getChild() + "> ] Item(index=" + getItemIndex() + ")=" + getItemID();
     }
 }

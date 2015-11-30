@@ -26,8 +26,24 @@ public enum Skill {
     HUNTER,
     CONSTRUCTION;
 
+    String name;
+
+    Skill() {
+        String name0 = name();
+        this.name = name0.charAt(0) + name0.toLowerCase().substring(1);
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public int getId() {
         return ordinal();
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 
 }

@@ -33,6 +33,14 @@ public abstract class RTFont extends RTGraphics {
     final int maxDescent;
     final int baseLine;
 
+    public int getMaxAscent() {
+        return maxAscent;
+    }
+
+    public int getMaxDescent() {
+        return maxDescent;
+    }
+
     public RTFont(RTGlyphVector glyphs) {
         this.absWidth   = glyphs.absWidth;
         this.insetX     = glyphs.insetX;

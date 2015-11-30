@@ -59,8 +59,14 @@ public class GE {
     }
 
     private static GEItemDetail parse(Gson parser, String json) {
-        ReturnObject detail = parser.fromJson(json, ReturnObject.class);
-        return detail.item;
+        try {
+            if (json == null || json.isEmpty()) return null;
+            ReturnObject detail = parser.fromJson(json, ReturnObject.class);
+            if (detail == null) return null;
+            return detail.item;
+        } catch (Throwable e) {
+            return null;
+        }
     }
 
 }

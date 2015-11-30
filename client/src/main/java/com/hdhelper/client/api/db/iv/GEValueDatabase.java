@@ -10,14 +10,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class GEValueDatabase implements ItemValueDatabase {
 
-    private Map<Integer,GEItemValue> values
-            = new HashMap<Integer, GEItemValue>();
-    private GEUpdateThread updateThread;
+    private Map<Integer,GEItemValue> values = new HashMap<Integer, GEItemValue>();
+
+    ExecutorService executor;
+
     private final Object LOCK = new Object();
 
     protected GEValueDatabase() {
@@ -32,79 +33,79 @@ public class GEValueDatabase implements ItemValueDatabase {
             if(cache != null) return cache;
 
             GEItemValue value = new GEItemValue(id);
-            if(updateThread == null) {
-                initUpdateThread();
+            if(executor == null) {
+                initPool();
             }
-            updateThread.updateLater(value);
+
+            executor.submit(new GEUpdateWorker(value));
             values.put(id,value);
+
             return value;
 
         }
 
     }
 
-    public void initUpdateThread() {
-        updateThread = new GEUpdateThread();
-        updateThread.setName("GEUpdateThread");
-        updateThread.setPriority(Thread.NORM_PRIORITY + 1);
-        updateThread.setDaemon(true);
-        updateThread.start();
+    private void initPool() {
+        executor = Executors.newFixedThreadPool(1);
     }
 
 }
 
-class GEUpdateThread extends Thread  {
-
-    boolean doRun;
-    final BlockingDeque<GEItemValue> deque
-            = new LinkedBlockingDeque<GEItemValue>();
-
-    public GEUpdateThread() {
-        doRun = true;
-    }
+class GEUpdateWorker implements Runnable {
 
 
-    void updateLater(GEItemValue item) {
-        deque.add(item);
-    }
 
-    GEItemValue poll() throws InterruptedException {
-        return deque.take();
+    final GEItemValue item;
+
+    public GEUpdateWorker(GEItemValue item) {
+        this.item = item;
     }
 
     @Override
     public void run() {
-        while (doRun && !isInterrupted()) {
-            try {
-                GEItemValue next = poll();
-                doUpdate(next);
-            } catch (InterruptedException e) {
-                //Respect the interrupt
-                break;
-            }
-        }
+        doUpdate(item,0);
     }
 
-
-    private static void doUpdate(GEItemValue p) {
+    private static void doUpdate(GEItemValue p, int attempt) {
         try {
 
             String spec = GE.getItemDetailUrl(p.getId());
             String json = parsePage(spec);
 
             if(json == null) {
+
+                System.out.println("404:" + spec);
                 p.setState(ItemValue.STATE_ERROR);
-                return;
+
+            } else if(!json.isEmpty() && !json.equals("RETRY")) {
+
+                GEItemDetail detail = GE.parse(json);
+                // ^ TODO should we also cache the other data?
+
+                if(detail == null) {
+                    System.out.println("Bad JSON:'" + json + "'");
+                    p.setState(ItemValue.STATE_UPDATED);
+                    return;
+                }
+
+                int price = detail.getCurrentPrice().getPrice();
+
+                p.setValue(price);
+                p.setState(ItemValue.STATE_UPDATED);
+
+                System.out.println("Updated:" + p.getId() + "@" + price);
+
             }
 
-            GEItemDetail detail = GE.parse(json);
-            // ^ TODO should we also cache the other data?
-            int price = detail.getCurrentPrice().getPrice();
+            System.out.println("Try again(" + attempt + "):" + spec);
+            Thread.sleep(5500);
+            doUpdate(p,attempt+1);
 
-            p.setValue(price);
-            p.setState(ItemValue.STATE_UPDATED);
 
         } catch (Throwable ignored) {
+
+        //    System.out.println("EEK:");
 
             p.setState(ItemValue.STATE_ERROR);
 
@@ -118,8 +119,16 @@ class GEUpdateThread extends Thread  {
         InputStream in = null;
         try {
             URL url = new URL(db);
+
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            if(con.getResponseCode() != 200) return null;
+            con.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36");
+            con.setRequestProperty("Accept-Encoding","gzip, deflate, sdch");
+            con.setRequestProperty("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/web");
+
+            if(con.getResponseCode() == 404) return null;
+
+            if(con.getResponseCode() != 200) return "RETRY";
+
             in = url.openStream();
             byte[] buffer = new byte[1024];
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -128,17 +137,19 @@ class GEUpdateThread extends Thread  {
                 baos.write(buffer, 0, read);
             }
             byte[] data = baos.toByteArray();
+
+            if(data.length == 0) {
+                System.out.println(con.getErrorStream().read());
+            }
             return new String(data);
         } catch (Throwable ignored) {
-            ignored.printStackTrace();
         } finally {
             if(in != null) try {
                 in.close();
             } catch (IOException ignored) {
             }
         }
-        return null;
+        return "RETRY";
     }
-
 
 }
