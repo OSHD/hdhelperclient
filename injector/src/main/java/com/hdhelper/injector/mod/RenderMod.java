@@ -52,8 +52,8 @@ public class RenderMod extends InjectionModule {
         }
 
         //AIO method for drawing hitbar, hitsplats, overheadText
-        for(MethodNode mn : (List<MethodNode>) classes.get("cd").methods) {
-            if(mn.name.equals("ah")) {
+        for(MethodNode mn : (List<MethodNode>) classes.get("cj").methods) {
+            if(mn.name.equals("ao")) {
 
                 /**
                  * if(!{@link CNIAccess#getRenderSwitch()}#doRenderOverlays()) {

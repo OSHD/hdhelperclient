@@ -430,6 +430,7 @@ public class Debug extends BasicOverlay {
                 warrior.setColor(Color.GREEN);
 
                 warrior.drawString("FPS:" + client.getFps(), lol.x(), lol.y());
+                warrior.drawString("Cycle:" + client.getEngineCycle(), lol.x(), lol.y());
 
                 RSPlayer me = client.getMyPlayer();
                 if (me != null) {
