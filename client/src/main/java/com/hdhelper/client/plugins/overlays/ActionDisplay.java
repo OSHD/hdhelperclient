@@ -13,12 +13,14 @@ import java.awt.*;
 
 public class ActionDisplay extends Plugin {
 
+	private RTFontImpl font;
+
 	@Override
 	public void init() {
 		 font = new RTFontImpl(RTGlyphVector.getP12Full());
 	}
 
-	String getTopString() {
+	private String getTopString() {
 
 		RSClient engine = super.client;
 
@@ -51,7 +53,7 @@ public class ActionDisplay extends Plugin {
 	}
 	
 	
-	String acceptAction(String option, String action, Action act) {
+	private String acceptAction(String option, String action, Action act) {
 		
 		if(act.isCancel()) return null;
 		if(act.isWalkHere()) return null;
@@ -114,6 +116,8 @@ public class ActionDisplay extends Plugin {
 	public void render(RTGraphics g) {
 		
 		RSClient engine = super.client;
+
+		if(engine.isMenuOpen()) return;
 		
 		int x = HDCanvas.mouseX + 15;
 		int y = HDCanvas.mouseY;
@@ -124,32 +128,23 @@ public class ActionDisplay extends Plugin {
 		
 		int width  = font.getStringWidth(acceptableTopMostAction) + 2 + 2;
 		int height = font.getHeight() + 2 + 2;
-		
-		if(engine.isMenuOpen()) return;
-		
+
 		font.setGraphics(g);
-		
-		
-		//System.out.println(String.valueOf(x + action_font_width + 4));
-		
-	
+
 		if( (x + width) >= HDCanvas.width ) {
-				
-			g.fillRectangle(x - width - 18, y, width, height, Color.BLACK.getRGB(), 128);
+			int cursor_width = 18;
+			g.fillRectangle(x - width - cursor_width, y, width, height, Color.BLACK.getRGB(), 128);
 			font.drawString(
 					acceptableTopMostAction, 
-					x - width - 18 + 2,
+					x - width - cursor_width + 2,
 					y + 2 + (height - 7), Color.CYAN.getRGB());
 		} else {
 			g.fillRectangle(x, y, width, height, Color.BLACK.getRGB(), 128);
 			font.drawString(acceptableTopMostAction, x + 2, y + 2 + (height - 7), Color.CYAN.getRGB());
 		}
-		
-	
-		
-		
+
 	}
 	
-	private RTFontImpl font;
+
 
 }

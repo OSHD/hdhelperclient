@@ -23,7 +23,7 @@ public class XTEADumpMod extends InjectionModule {
                 for (AbstractInsnNode ain : mn.instructions.toArray()) {
                     if (ain.getOpcode() == INVOKEVIRTUAL) {
                         MethodInsnNode min = (MethodInsnNode) ain;
-                        if (min.owner.equals("fg") && min.name.equals("n") && min.desc.equals("(Ljava/lang/String;B)I")) {
+                        if (min.owner.equals("fb") && min.name.equals("r") && min.desc.equals("(Ljava/lang/String;B)I")) {
 
                             boolean hit = false;
 

@@ -15,7 +15,13 @@ import java.util.Arrays;
 //Remove this
 public class SuperDirtyHacks {
 
+    static int last_index = -1;
+
     public static void dump(int index) {
+
+        if(last_index == index) return;
+        last_index = index;
+
         RSClient client = Main.client;
         int[] key = client.getKeys()[index];
         int chunkId = client.getChunkIds()[index];
