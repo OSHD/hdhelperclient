@@ -17,7 +17,7 @@ import java.util.*;
 public class ActionDisplay extends Plugin {
 
     private RTFontImpl font;
-    private Map<Integer, SkillBoost> profiles;
+    private Map<Integer, VisibleTemporarySkillBoost> profiles;
     private boolean displayPotionBoosts = true;
 
     @Override
@@ -27,8 +27,8 @@ public class ActionDisplay extends Plugin {
     }
 
     private void initPotionProfiles() {
-        profiles = new HashMap<Integer, SkillBoost>();
-        for(SkillBoost profile : SkillBoost.values()) {
+        profiles = new HashMap<Integer, VisibleTemporarySkillBoost>();
+        for(VisibleTemporarySkillBoost profile : VisibleTemporarySkillBoost.values()) {
             for(int potionId : profile.potionIds) {
                 profiles.put(potionId,profile);
             }
@@ -67,7 +67,7 @@ public class ActionDisplay extends Plugin {
         return null;
     }
 
-    private SkillBoost getProfile() {
+    private VisibleTemporarySkillBoost getProfile() {
 
         if(!displayPotionBoosts) return null;
 
@@ -93,7 +93,7 @@ public class ActionDisplay extends Plugin {
 
                     int item_id = tia.getItemID();
 
-                    SkillBoost profile = profiles.get(item_id);
+                    VisibleTemporarySkillBoost profile = profiles.get(item_id);
 
                     if(profile != null) return profile;
 
@@ -112,42 +112,42 @@ public class ActionDisplay extends Plugin {
 
 
     //http://2007.runescape.wikia.com/wiki/Temporary_skill_boost
-    private enum SkillBoost { //TODO
+    private enum VisibleTemporarySkillBoost { //TODO
 
         AGILITY_POTION(new int[] {-1,-1,-1,-1},
-            SkillDelta.levelChange(Skill.AGILITY,3)
+            SkillBoost.levelBoost(Skill.AGILITY, 3)
         ),
 
         SUMMER_PIE(new int[] {-1,-1 }, // 2 bites
-                SkillDelta.levelChange(Skill.AGILITY,5)
+                SkillBoost.levelBoost(Skill.AGILITY, 5)
         ),
 
         ATTACK_POTION(new int[] {-1,-1,-1,-1},
-                SkillDelta.percentGain(Skill.ATTACK, 10, 3)
+                SkillBoost.percentBoost(Skill.ATTACK, 10, 3)
         ),
 
         SUPER_ATTACK(new int[] {-1,-1,-1,-1},
-                SkillDelta.percentGain(Skill.ATTACK, 15, 5)
+                SkillBoost.percentBoost(Skill.ATTACK, 15, 5)
         ),
 
         COMBAT_POTION(new int[] { 9745, 9743, 9741, 9739 }, // 1,2,3,4 Dose
-                SkillDelta.percentGain(Skill.ATTACK, 10, +3),
-                SkillDelta.percentGain(Skill.STRENGTH, 10, +3)
+                SkillBoost.percentBoost(Skill.ATTACK, 10, +3),
+                SkillBoost.percentBoost(Skill.STRENGTH, 10, +3)
         ),
 
         SARADOMIN_BREW(new int[] { 6691, 6689, 6687, 6685 },
-                SkillDelta.percentGain(Skill.DEFENCE,20,+2),
-                SkillDelta.percentGain(Skill.HITPOINTS,15,+2),
-                SkillDelta.percentGain(Skill.ATTACK,-10,0),
-                SkillDelta.percentGain(Skill.STRENGTH,-10,0),
-                SkillDelta.percentGain(Skill.MAGIC,-10,0),
-                SkillDelta.percentGain(Skill.RANGED,-10,0)
+                SkillBoost.percentBoost(Skill.DEFENCE, 20, +2),
+                SkillBoost.percentBoost(Skill.HITPOINTS, 15, +2),
+                SkillBoost.percentBoost(Skill.ATTACK, -10, 0),
+                SkillBoost.percentBoost(Skill.STRENGTH, -10, 0),
+                SkillBoost.percentBoost(Skill.MAGIC, -10, 0),
+                SkillBoost.percentBoost(Skill.RANGED, -10, 0)
         );
 
         final int[] potionIds;
-        final SkillDelta[] deltas;
+        final SkillBoost[] deltas;
 
-        SkillBoost(int[] potionIds, SkillDelta... deltas) {
+        VisibleTemporarySkillBoost(int[] potionIds, SkillBoost... deltas) {
             this.potionIds = potionIds;
             this.deltas   = deltas;
         }
@@ -156,7 +156,7 @@ public class ActionDisplay extends Plugin {
 
 
 
-    private final static class SkillDelta {
+    private final static class SkillBoost {
 
         final Skill skill;
         int change;
@@ -168,27 +168,27 @@ public class ActionDisplay extends Plugin {
         public static final int TYPE_PERCENT = 2;
         public static final int TYPE_RANDOM  = 3;
 
-        SkillDelta(Skill skill) {
+        SkillBoost(Skill skill) {
             this.skill = skill;
         }
 
-        static SkillDelta levelChange(Skill skill, int change) {
-            SkillDelta delta = new SkillDelta(skill);
+        static SkillBoost levelBoost(Skill skill, int change) {
+            SkillBoost delta = new SkillBoost(skill);
             delta.change = change;
             delta.type = TYPE_LEVEL;
             return delta;
         }
 
-        static SkillDelta percentGain(Skill skill, int percentage, int minChange) {
-            SkillDelta delta = new SkillDelta(skill);
+        static SkillBoost percentBoost(Skill skill, int percentage, int minChange) {
+            SkillBoost delta = new SkillBoost(skill);
             delta.change = percentage;
             delta.min = minChange;
             delta.type = TYPE_PERCENT;
             return delta;
         }
 
-        static SkillDelta randomGain(Skill skill, int min, int max) {
-            SkillDelta delta = new SkillDelta(skill);
+        static SkillBoost randomGain(Skill skill, int min, int max) {
+            SkillBoost delta = new SkillBoost(skill);
             delta.minGain = min;
             delta.maxGain = max;
             delta.type = TYPE_RANDOM;
@@ -270,7 +270,7 @@ public class ActionDisplay extends Plugin {
 
         String acceptableTopMostAction = getTopString();
 
-        SkillBoost profile = getProfile();
+        VisibleTemporarySkillBoost profile = getProfile();
 
         if (acceptableTopMostAction == null && profile == null) return; //Nothing interesting to show...
 
@@ -312,7 +312,7 @@ public class ActionDisplay extends Plugin {
 
     }
 
-    private void renderPotionDeltas(SkillBoost profile, int x, int y, int width, int row_height, RTGraphics g) {
+    private void renderPotionDeltas(VisibleTemporarySkillBoost profile, int x, int y, int width, int row_height, RTGraphics g) {
         RSClient client = super.client;
 
         int max_final_level_txt_width = 0;
@@ -327,7 +327,7 @@ public class ActionDisplay extends Plugin {
 
        java.util.List<ChangeEntry> entries = new ArrayList<ChangeEntry>(profile.deltas.length);
 
-        for(SkillDelta delta : profile.deltas) {
+        for(SkillBoost delta : profile.deltas) {
 
             Skill skill = delta.skill;
 
@@ -345,7 +345,7 @@ public class ActionDisplay extends Plugin {
 
             switch (delta.type) {
 
-                case SkillDelta.TYPE_LEVEL:  {
+                case SkillBoost.TYPE_LEVEL:  {
                     if(delta.change < 0) {
                         final_level = cur_level - delta.change;
                         change = delta.change;
@@ -360,7 +360,7 @@ public class ActionDisplay extends Plugin {
                     break;
                 }
 
-                case SkillDelta.TYPE_PERCENT: {
+                case SkillBoost.TYPE_PERCENT: {
 
                     final double lvlDelta = (delta.change / 100.0D) * real_level;
 
@@ -399,7 +399,7 @@ public class ActionDisplay extends Plugin {
                     break;
                 }
 
-                case SkillDelta.TYPE_RANDOM: {
+                case SkillBoost.TYPE_RANDOM: {
                     break;
                 }
 
@@ -419,7 +419,7 @@ public class ActionDisplay extends Plugin {
 
             String change_txt;
             String level_txt;
-            if(delta.type == SkillDelta.TYPE_RANDOM) {
+            if(delta.type == SkillBoost.TYPE_RANDOM) {
                 change_txt = "<col=" + textColor + ">" + (change>0?"+":"") + "[" + change + "," + max_change + "]" + "</col>";
                 level_txt = "[<u=" + lvlColor + ">" + final_level + "</u>,<u=" + lvlColor + ">" + max_final_level + "</u>]"  + (waist ? "*":"");
             } else {
