@@ -76,6 +76,8 @@ public final class Injector extends AbstractInjector {
             System.out.println("Unable to use caches, re-injecting...");
         }
 
+        // Re-inject:
+
         byte[] config = getConfig(target);
         Map<String,byte[]> classes = inject0(target);
         System.out.println("Verifying...");

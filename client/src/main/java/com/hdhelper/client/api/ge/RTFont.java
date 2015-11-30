@@ -33,14 +33,6 @@ public abstract class RTFont extends RTGraphics {
     final int maxDescent;
     final int baseLine;
 
-    public int getMaxAscent() {
-        return maxAscent;
-    }
-
-    public int getMaxDescent() {
-        return maxDescent;
-    }
-
     public RTFont(RTGlyphVector glyphs) {
         this.absWidth   = glyphs.absWidth;
         this.insetX     = glyphs.insetX;
@@ -86,7 +78,7 @@ public abstract class RTFont extends RTGraphics {
     }
 
     public void drawCenterString(String str, int x, int y, int color) {
-        drawCenterString(str,x,y,color,-1);
+        drawCenterString(str, x, y, color, -1);
     }
 
 
@@ -101,10 +93,19 @@ public abstract class RTFont extends RTGraphics {
     }
 
     public void drawLeftString(String str, int x, int y, int color) {
-        drawLeftString(str,x,y,color,-1);
+        drawLeftString(str, x, y, color, -1);
     }
 
 
+
+
+    public int getMaxAscent() {
+        return maxAscent;
+    }
+
+    public int getMaxDescent() {
+        return maxDescent;
+    }
 
     public static String embedTag(String var0) {
         int var1 = var0.length();
@@ -796,7 +797,7 @@ public abstract class RTFont extends RTGraphics {
         return var4;
     }
 
-    int charWidth(char var1) {
+    public int charWidth(char var1) {
         if (var1 == 160) {
             var1 = 32;
         }

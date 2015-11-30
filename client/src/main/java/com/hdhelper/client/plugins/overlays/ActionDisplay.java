@@ -11,10 +11,9 @@ import com.hdhelper.client.api.plugin.Plugin;
 import com.hdhelper.client.ui.HDCanvas;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-//AKA Mouseover Text
+//AKA Mouseover Text + Tempoary Boosts
 public class ActionDisplay extends Plugin {
 
     private RTFontImpl font;
@@ -113,11 +112,27 @@ public class ActionDisplay extends Plugin {
 
 
     //http://2007.runescape.wikia.com/wiki/Temporary_skill_boost
-    private enum SkillBoost {
+    private enum SkillBoost { //TODO
+
+        AGILITY_POTION(new int[] {-1,-1,-1,-1},
+            SkillDelta.levelChange(Skill.AGILITY,3)
+        ),
+
+        SUMMER_PIE(new int[] {-1,-1 }, // 2 bites
+                SkillDelta.levelChange(Skill.AGILITY,5)
+        ),
+
+        ATTACK_POTION(new int[] {-1,-1,-1,-1},
+                SkillDelta.percentGain(Skill.ATTACK, 10, 3)
+        ),
+
+        SUPER_ATTACK(new int[] {-1,-1,-1,-1},
+                SkillDelta.percentGain(Skill.ATTACK, 15, 5)
+        ),
 
         COMBAT_POTION(new int[] { 9745, 9743, 9741, 9739 }, // 1,2,3,4 Dose
-                SkillDelta.levelChange(Skill.ATTACK, +6),
-                SkillDelta.levelChange(Skill.STRENGTH, +6)
+                SkillDelta.percentGain(Skill.ATTACK, 10, +3),
+                SkillDelta.percentGain(Skill.STRENGTH, 10, +3)
         ),
 
         SARADOMIN_BREW(new int[] { 6691, 6689, 6687, 6685 },
@@ -270,41 +285,47 @@ public class ActionDisplay extends Plugin {
 
         font.setGraphics(g);
 
-        if ((x + width) >= HDCanvas.width) {
-            int cursor_width = 18;
+        int cursor_width  = 18;
+        int cursor_height = 0;
+
+        if(x + width >= HDCanvas.width) {
+            x -= (width+cursor_width);
+        }
+
+        if(y + height >= HDCanvas.height) {
+            y -= (height+cursor_height);
+        }
 
 
-            g.fillRectangle(x - width - cursor_width, y, width, height, Color.BLACK.getRGB(), 128);
-            font.drawString(
-                    acceptableTopMostAction,
-                    x - width - cursor_width + 2,
-                    y +  font.getMaxAscent() + ( row_height - font.getHeight() ) / 2, Color.CYAN.getRGB());
+        g.fillRectangle(x , y, width, height, Color.BLACK.getRGB(), 156);
 
-            if(profile != null) {
-                int x0 = x - width - cursor_width + 2;
-                int y0 = y + row_height;
-                renderPotionDeltas(profile,x0,y0,width,row_height, g);
-            }
+        font.drawString(
+                acceptableTopMostAction,
+                x + 2,
+                y + font.getMaxAscent() + (row_height - font.getHeight()) / 2, Color.CYAN.getRGB());
 
-        } else {
+        y += font.getHeight();
 
-            g.fillRectangle(x, y, width, height, Color.BLACK.getRGB(), 128);
-
-            font.drawString(acceptableTopMostAction,
-                    x + 2,
-                    y + font.getMaxAscent() + ( row_height - font.getHeight() ) / 2,
-                    Color.CYAN.getRGB()
-            );
-
-            if(profile != null) {
-                renderPotionDeltas(profile,x,y+row_height,width, row_height, g);
-            }
+        if(profile != null) {
+            renderPotionDeltas(profile, x+2,y+2,width,row_height, g);
         }
 
     }
 
     private void renderPotionDeltas(SkillBoost profile, int x, int y, int width, int row_height, RTGraphics g) {
         RSClient client = super.client;
+
+        int max_final_level_txt_width = 0;
+        boolean stared = false;
+
+        class ChangeEntry {
+            Skill skill;
+            String change;
+            String final_level_txt;
+            boolean stared;
+        }
+
+       java.util.List<ChangeEntry> entries = new ArrayList<ChangeEntry>(profile.deltas.length);
 
         for(SkillDelta delta : profile.deltas) {
 
@@ -341,30 +362,38 @@ public class ActionDisplay extends Plugin {
 
                 case SkillDelta.TYPE_PERCENT: {
 
-                    double lvlDelta = Math.abs( (delta.change / 100D) * real_level );
-                    int ceil  = (int) Math.ceil(lvlDelta);
-                    int floor = (int) Math.floor(lvlDelta);
+                    final double lvlDelta = (delta.change / 100.0D) * real_level;
 
-                    int level_change = delta.min;
-
-                    if(delta.change < 0) {
-                        level_change -= ceil;
+                    int level_change;
+                    if(delta.change >= 0) {
+                        level_change = delta.min + (int) Math.floor(lvlDelta);
                     } else {
-                        level_change += floor;
+                        level_change = delta.min + (int) Math.ceil(lvlDelta);
+                        if(level_change == 0) level_change = -1;
                     }
+
+                    /**
+                     * Gaining levels takes priority of what boost is better
+                     * The floor for level reduction is 0
+                     */
 
                     if(delta.change > 0) { // We're going to gain levels
                         assert delta.min >= 0; // We lost %level, I assume the min change is also negative
-                        final_level = real_level + Math.max(cur_change,level_change);
-                        change = Math.max(cur_change,level_change) - cur_change;
+
+                        if(cur_change > 0) change = Math.max(level_change-cur_change,0);
+                        else               change = level_change;
+
+                        final_level = cur_level + change;
                         any_change = change;
                         waist = cur_change >= change;
+
                     } else { // We're going to lose levels
                         assert delta.min <= 0; // We lost %level, I assume the min change is also negative
-                        final_level = cur_level + level_change;
-                        change = level_change; // The amount of levels that can decrease has no floor
-                        any_change = level_change;
-                        waist = false;
+
+                        final_level = Math.max(cur_level+level_change,0); //Can't take more levels then whats available (final_level floors at 0)
+                        change = final_level - cur_level;
+                        any_change = change;
+                        waist = -level_change > cur_level; //It's a waist in the context that it does not resuse as much as it could
                     }
 
                     break;
@@ -373,7 +402,11 @@ public class ActionDisplay extends Plugin {
                 case SkillDelta.TYPE_RANDOM: {
                     break;
                 }
-                default: return;
+
+                default: {
+                    return;
+                }
+
             }
 
 
@@ -394,18 +427,42 @@ public class ActionDisplay extends Plugin {
                 level_txt = "<u=" + lvlColor  + ">" + final_level + "</u>"  + (waist ? "*":"");
             }
 
+            if(waist) stared = true;
 
             String final_txt = change_txt + " " + level_txt;
 
+            ChangeEntry entry = new ChangeEntry();
+            entry.skill = skill;
+            entry.change = change_txt;
+            entry.final_level_txt = level_txt;
+            entry.stared = waist;
+
+            int lvl_txt_width = font.getStringWidth(level_txt);
+            if(lvl_txt_width > max_final_level_txt_width) {
+                max_final_level_txt_width = lvl_txt_width;
+            }
+
+            entries.add(entry);
+
+        }
+
+
+        int star_width = font.charWidth('*');
+
+        for(ChangeEntry e : entries) {
+
             final int y0 = y + font.getMaxAscent() + ( row_height - font.getHeight() ) / 2;
 
-            font.drawString(skill.getName(), x, y0, Color.GREEN.getRGB());
-
-            font.drawLeftString(final_txt, x + width - 2, y0, Color.YELLOW.getRGB());
+            font.drawString(e.skill.getName(), x, y0, Color.GREEN.getRGB());
+            font.drawLeftString(e.change, x + width - 4 - 8 - max_final_level_txt_width, y0, Color.YELLOW.getRGB());
+            font.drawLeftString(e.final_level_txt, x + width - 4 - (stared&&!e.stared?star_width:0) , y0, Color.YELLOW.getRGB());
 
             y += row_height;
 
         }
+
+
+
     }
 
 
