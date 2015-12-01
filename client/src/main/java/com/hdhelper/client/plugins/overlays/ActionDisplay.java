@@ -319,7 +319,7 @@ public class ActionDisplay extends Plugin {
         boolean stared = false;
 
         class ChangeEntry {
-            Skill skill;
+            String skillText;
             String change;
             String final_level_txt;
             boolean stared;
@@ -417,6 +417,7 @@ public class ActionDisplay extends Plugin {
             else                    textColor = "FF0000"; // change < 0  : We lose levels
 
 
+            String skill_txt = "<col=" + textColor + ">" + skill.getName() + "</col>";
             String change_txt;
             String level_txt;
             if(delta.type == SkillBoost.TYPE_RANDOM) {
@@ -429,10 +430,8 @@ public class ActionDisplay extends Plugin {
 
             if(waist) stared = true;
 
-            String final_txt = change_txt + " " + level_txt;
-
             ChangeEntry entry = new ChangeEntry();
-            entry.skill = skill;
+            entry.skillText = skill_txt;
             entry.change = change_txt;
             entry.final_level_txt = level_txt;
             entry.stared = waist;
@@ -453,7 +452,7 @@ public class ActionDisplay extends Plugin {
 
             final int y0 = y + font.getMaxAscent() + ( row_height - font.getHeight() ) / 2;
 
-            font.drawString(e.skill.getName(), x, y0, Color.GREEN.getRGB());
+            font.drawString(e.skillText, x, y0, Color.GREEN.getRGB());
             font.drawLeftString(e.change, x + width - 4 - 8 - max_final_level_txt_width, y0, Color.YELLOW.getRGB());
             font.drawLeftString(e.final_level_txt, x + width - 4 - (stared&&!e.stared?star_width:0) , y0, Color.YELLOW.getRGB());
 

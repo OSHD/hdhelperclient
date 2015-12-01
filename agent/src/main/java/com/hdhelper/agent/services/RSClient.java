@@ -78,6 +78,8 @@ public interface RSClient {
     String[] getMenuOptions();
     String[] getMenuActions();
 
+    int[] getConfig();
+
 
     void addMessageListener(MessageListener listener);
     void removeMessageListener(MessageListener listener);

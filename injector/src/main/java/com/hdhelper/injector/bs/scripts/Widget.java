@@ -21,6 +21,7 @@ public class Widget extends Node implements RSWidget {
     @BField int height;
     @BField int[] itemIds;
     @BField int[] itemQuantities;
+    @BField Object[] mouseHoverListener;
 
     @Override
     public int getId() {
@@ -85,5 +86,10 @@ public class Widget extends Node implements RSWidget {
     @Override
     public int[] getItemQuantities() {
         return itemQuantities;
+    }
+
+    @Override
+    public Object[] getMouseHoverListener() {
+        return mouseHoverListener;
     }
 }

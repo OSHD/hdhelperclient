@@ -61,6 +61,8 @@ public class Widget {
 
     public static RSWidget get0(int parent, int child) {
         RSWidget[][] all = Client.get().getWidgets();
+        if(all == null) return null;
+        if(all[parent] == null) return null;
         return all[parent][child];
     }
 

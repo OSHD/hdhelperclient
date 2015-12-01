@@ -72,7 +72,8 @@ public class HDCanvas extends com.hdhelper.agent.ClientCanvas {
             new ClientPerformance(),
             new Cooking(),
             new CurrentBoosts(),
-            new ActionDisplay()
+            new ActionDisplay(),
+            new AttackStyle()
     };
 
     void draw0(RTGraphics g) {

@@ -117,6 +117,8 @@ public class Client extends GameEngine implements RSClient {
     public static String[] menuNouns;
     @BField
     public static String[] menuActions;
+    @BField
+    public static int[] tempVars;
 
 
 
@@ -356,6 +358,10 @@ public class Client extends GameEngine implements RSClient {
         return menuActions;
     }
 
+    @Override
+    public int[] getConfig() {
+        return tempVars;
+    }
 
     // Methods //////////////////////////////////////////////////////////////////////
 

@@ -1,15 +1,19 @@
 package com.hdhelper.client.ui;
 
 import com.hdhelper.agent.CNI;
+import com.hdhelper.agent.event.VariableEvent;
+import com.hdhelper.agent.event.VariableListener;
 import com.hdhelper.agent.services.RSClient;
 import com.hdhelper.agent.services.RSWidget;
 import com.hdhelper.client.ClientNative;
 import com.hdhelper.client.Main;
+import com.hdhelper.client.api.Combat;
 import com.hdhelper.client.api.action.ActionAdapter;
 
 import javax.swing.*;
 import java.applet.Applet;
 import java.awt.*;
+import java.util.Arrays;
 
 public class MainFrame extends JFrame {
 
@@ -51,6 +55,14 @@ public class MainFrame extends JFrame {
 
                 });
 
+                Main.client.addVariableListener(new VariableListener() {
+                    @Override
+                    public void variableChanged(VariableEvent e) {
+                        System.out.println(e);
+
+                        System.out.println(Arrays.toString(Combat.getStyleSkills()));
+                    }
+                });
             }
         });
     }

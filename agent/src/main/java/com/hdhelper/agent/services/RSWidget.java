@@ -17,4 +17,6 @@ public interface RSWidget {
     int[] getItemIds();
     int[] getItemQuantities();
 
+    Object[] getMouseHoverListener();
+
 }
