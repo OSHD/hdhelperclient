@@ -39,7 +39,7 @@ import java.util.logging.Logger;
 
 public final class Injector extends AbstractInjector {
 
-    public static final int VERSION = 5;
+    public static final int VERSION = 100;
 
     private static final Logger LOG = Logger.getLogger(Injector.class.getName());
 

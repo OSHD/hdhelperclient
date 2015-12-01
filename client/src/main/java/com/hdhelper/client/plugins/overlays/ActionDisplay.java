@@ -299,11 +299,14 @@ public class ActionDisplay extends Plugin {
 
         g.fillRectangle(x , y, width, height, Color.BLACK.getRGB(), 156);
 
-        font.drawString(
-                acceptableTopMostAction,
-                x + 2,
-                y + font.getMaxAscent() + (row_height - font.getHeight()) / 2, Color.CYAN.getRGB());
+        if(acceptableTopMostAction != null) {
+        	 font.drawString(
+                     acceptableTopMostAction,
+                     x + 2,
+                     y + font.getMaxAscent() + (row_height - font.getHeight()) / 2, Color.CYAN.getRGB());
 
+        }
+       
         y += font.getHeight();
 
         if(profile != null) {

@@ -46,23 +46,7 @@ public class MainFrame extends JFrame {
 
                 setVisible(true);
 
-                Main.client.addActionListener(new ActionAdapter() {
-                    @Override
-                    public void actionPerformed(com.hdhelper.client.api.action.tree.Action act) {
-                        System.out.println(act);
-
-                    }
-
-                });
-
-                Main.client.addVariableListener(new VariableListener() {
-                    @Override
-                    public void variableChanged(VariableEvent e) {
-                        System.out.println(e);
-
-                        System.out.println(Arrays.toString(Combat.getStyleSkills()));
-                    }
-                });
+               
             }
         });
     }
