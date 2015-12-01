@@ -18,7 +18,9 @@ public class GMethod {
         this.owner = owner;
         this.name = name;
         this.desc = desc;
+        this.predicate = pred;
     }
+
     private String pubDesc = null;
     public String getPublicDesc(GPatch p) {
         if(pubDesc != null) return pubDesc;

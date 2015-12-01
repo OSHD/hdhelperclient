@@ -19,8 +19,7 @@ public class VarChangeMod extends InjectionModule {
 
     @Override
     public void inject() {
-
-
+    	
         final ArrayStoreSearcher.Entry E = new ArrayStoreSearcher.Entry("fj","s","[I");
 
         ArrayStoreSearcher ass = new ArrayStoreSearcher(E);

@@ -43,6 +43,9 @@ public class GPatch {
         client.fields.put("screenWidth",new GField( "client", "od", "I", -655618925  ));
 
         client.fields.put("engineCycle",new GField("client","u","I",2011978051));
+        client.methods.get("getRuneScript").predicate = 963669676;
+        client.methods.put("runScript",new GMethod("k","f","(Lf;I)V",0));
+        client.fields.put("varpbitTable",new GField("ao","s","Lgr;",null));
         // client.fields.put("floorLevel",new GField("ez","gn", "I",238600101));
         //   client.fields.get("regionBaseX").decoder =  -1234650781;
         //  client.fields.get("regionBaseY").decoder = -706637253;
@@ -81,7 +84,7 @@ public class GPatch {
 
         client.fields.put("canvas", new GField("v","qx",Type.getDescriptor(Canvas.class),null));
 
-        client.getMethod("getRuneScript").predicate = -849079302;
+      //  client.getMethod("getRuneScript").predicate = -849079302;
 /*
         //TODO hook
         GClass image = patch.getGClass("Sprite");

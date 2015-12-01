@@ -1,12 +1,12 @@
 package com.hdhelper.client.plugins.overlays;
 
-import com.hdhelper.agent.services.RSRuneScript;
 import com.hdhelper.client.api.Combat;
 import com.hdhelper.client.api.ge.RTFont;
 import com.hdhelper.client.api.ge.RTFontImpl;
 import com.hdhelper.client.api.ge.RTGlyphVector;
 import com.hdhelper.client.api.ge.RTGraphics;
 import com.hdhelper.client.api.plugin.Plugin;
+import com.hdhelper.client.ui.HDCanvas;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -18,14 +18,6 @@ public class AttackStyle extends Plugin {
     @Override
     public void init() {
         font = new RTFontImpl(RTGlyphVector.getB12Full());
-      /*
-        for(int s =0; s < 1000; s++) {
-            RSRuneScript script = client.getRuneScript(s);
-            if(script == null) continue;
-            for(int s = 0; s < script.getOpcodes().length; s++) {
-
-            }
-        }*/
     }
 
     @Override
@@ -45,8 +37,18 @@ public class AttackStyle extends Plugin {
             txt = Arrays.toString(skills);
         }
 
-        int x = 20;
-        int y = 100;
+
+        boolean training_defence;
+        for(String skill : skills) {
+            if(skill.equals("Shared") || skill.equals("Defence")) {
+                training_defence = true;
+                break;
+            }
+        }
+
+
+        int x = 375;
+        int y = HDCanvas.height - 180;
 
         int width  = font.getStringWidth(txt) + 4;
         int height = font.getHeight();

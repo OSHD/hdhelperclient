@@ -8,15 +8,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-/**
- * Created by Jamie on 11/24/2015.
- */
-
 //Remove this
 public class SuperDirtyHacks {
 
     static int last_index = -1;
-
     public static void dump(int index) {
 
         if(last_index == index) return;
@@ -50,6 +45,4 @@ public class SuperDirtyHacks {
             throw new Error(e);
         }
     }
-
-
 }
