@@ -19,6 +19,8 @@ public interface RSClient {
     RSNpcDefinition getNpcDef(int id);
     RSImage getItemImage(int id, int quantity, int borderThickness, int shadowColor, int num, boolean noted);
     RSRuneScript getRuneScript(int id);
+    RSVarpbit getVarpbit(int id);
+    void runScript(Object[] args);
 
     RSNodeTable getItemContainers();
 

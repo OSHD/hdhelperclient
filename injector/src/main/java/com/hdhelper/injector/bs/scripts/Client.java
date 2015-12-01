@@ -4,7 +4,6 @@ import com.bytescript.lang.BField;
 import com.bytescript.lang.BMethod;
 import com.bytescript.lang.ByteScript;
 import com.hdhelper.agent.*;
-import com.hdhelper.agent.RenderSwitch;
 import com.hdhelper.agent.bus.ActionBus;
 import com.hdhelper.agent.bus.MessageBus;
 import com.hdhelper.agent.bus.SkillBus;
@@ -119,6 +118,8 @@ public class Client extends GameEngine implements RSClient {
     public static String[] menuActions;
     @BField
     public static int[] tempVars;
+    @BField
+    public static NodeTable varpbitTable;
 
 
 
@@ -147,6 +148,10 @@ public class Client extends GameEngine implements RSClient {
     @BMethod(name = "getRuneScript")
     public static RuneScript getRuneScript0(int id) {
         return null;
+    }
+
+    @BMethod(name = "runScript")
+    public static void runScript0(ScriptEvent e) {
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -399,6 +404,18 @@ public class Client extends GameEngine implements RSClient {
         return getRuneScript0(id);
     }
 
+    @Piston
+    @Override
+    public RSVarpbit getVarpbit(int id) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void runScript(Object[] args) {
+        ScriptEvent e = new ScriptEvent();
+        e.args = args;
+        runScript0(e);
+    }
 
 
 

@@ -1,6 +1,7 @@
-package com.hdhelper.client.api.runeswing.runescript;
+package com.hdhelper.client.api.runeswing.runescript.decompiler;
 
 import com.hdhelper.agent.services.RSRuneScript;
+import com.hdhelper.client.api.runeswing.runescript.RSOpcodes;
 
 import java.lang.reflect.Field;
 import java.util.Collections;

@@ -7,6 +7,7 @@ import com.hdhelper.injector.bs.scripts.*;
 import com.hdhelper.injector.bs.scripts.cache.ItemDefinition;
 import com.hdhelper.injector.bs.scripts.cache.NpcDefinition;
 import com.hdhelper.injector.bs.scripts.cache.ObjectDefinition;
+import com.hdhelper.injector.bs.scripts.cache.Varpbit;
 import com.hdhelper.injector.bs.scripts.collection.Deque;
 import com.hdhelper.injector.bs.scripts.collection.DualNode;
 import com.hdhelper.injector.bs.scripts.collection.Node;
@@ -39,7 +40,7 @@ import java.util.logging.Logger;
 
 public final class Injector extends AbstractInjector {
 
-    public static final int VERSION = 5;
+    public static final int VERSION = 18;
 
     private static final Logger LOG = Logger.getLogger(Injector.class.getName());
 
@@ -253,6 +254,7 @@ public final class Injector extends AbstractInjector {
         compiler.inject(RuneScript.class, classes);
         compiler.inject(Message.class,classes);
         compiler.inject(Widget.class,classes);
+        compiler.inject(Varpbit.class,classes);
 
         compiler.inject(GPI.class, classes);
 
@@ -270,6 +272,19 @@ public final class Injector extends AbstractInjector {
        // new LandscapeMod(classes,cr).inject(classes,cr);
 
         EngineMod.inject(classes.get(cr.getGClass("GameEngine").getName()));
+
+/*
+
+        for(MethodNode mn : (List<MethodNode>) classes.get("as").methods) {
+            if(mn.name.equals("s") && Modifier.isStatic(mn.access)) {
+                InsnList stack = new InsnList();
+                stack.add(new VarInsnNode(Opcodes.ALOAD, 0));
+                stack.add(new FieldInsnNode(Opcodes.GETFIELD,"f","f", Type.getDescriptor(Object[].class)));
+                stack.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "com/hdhelper/client/SuperDirtyHacks","event","([Ljava/lang/Object;)V",false));
+                mn.instructions.insertBefore(mn.instructions.getFirst(), stack);
+            }
+        }
+*/
 
 /*
         for(InjectionModule mod : InjectionModule.getModules()) {

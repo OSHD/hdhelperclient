@@ -74,6 +74,8 @@ public class ResolverImpl implements BSResolver {
         GMethod method = clazz.getMethod(name, desc, resolver);
 
 
+
+
         methodCache.put(key, method);
 
         return method;
