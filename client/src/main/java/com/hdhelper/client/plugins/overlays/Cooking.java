@@ -58,20 +58,6 @@ public final class Cooking extends Plugin {
         }
     }
 
-    public static void main(String[] args) {
-
-        String msg = "You accidentally burn the shrimps.";
-
-        String foodName = "shrimps";
-        Pattern pattern = Pattern.compile("^You (successfully cook some|accidentally burn the) " + foodName + "\\.$");;
-        Matcher matcher = pattern.matcher(msg);
-        if(!matcher.matches()) return;
-        String result = matcher.group(1);
-
-        System.out.println(result);
-
-    }
-
     private class Profile {
 
         final String foodName;

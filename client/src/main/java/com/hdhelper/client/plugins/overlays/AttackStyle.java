@@ -38,7 +38,7 @@ public class AttackStyle extends Plugin {
         }
 
 
-        boolean training_defence;
+        boolean training_defence = false;
         for(String skill : skills) {
             if(skill.equals("Shared") || skill.equals("Defence")) {
                 training_defence = true;
@@ -46,7 +46,7 @@ public class AttackStyle extends Plugin {
             }
         }
 
-
+        //TODO get chatbox widget
         int x = 375;
         int y = HDCanvas.height - 180;
 
@@ -55,7 +55,7 @@ public class AttackStyle extends Plugin {
 
         font.setGraphics(g);
 
-        g.fillRectangle(x, y, width, height, Color.BLACK.getRGB(), 156);
+        g.fillRectangle(x, y, width, height, training_defence ? Color.RED.getRGB() : Color.BLACK.getRGB(), 156);
 
         font.drawString(
                 txt,
