@@ -35,7 +35,7 @@ public class Bootstrap {
 
         System.out.println("Start Bootstrap");
 
-
+// its building fine but not starting
 
         System.out.println("Loading game-client...");
 

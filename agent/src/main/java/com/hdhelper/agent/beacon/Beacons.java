@@ -1,4 +1,4 @@
-package com.hdhelper.agent.beacon;
+package com.hdhelper.agent.Beacon;
 
 import java.util.HashMap;
 import java.util.Map;

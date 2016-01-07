@@ -1,7 +1,7 @@
 package com.hdhelper.agent;
 
-import com.hdhelper.agent.beacon.Beacon;
-import com.hdhelper.agent.beacon.BeaconAccess;
+import com.hdhelper.agent.Beacon.Beacon;
+import com.hdhelper.agent.Beacon.BeaconAccess;
 import com.hdhelper.agent.bus.*;
 import com.hdhelper.agent.bus.access.*;
 import sun.misc.Unsafe;
